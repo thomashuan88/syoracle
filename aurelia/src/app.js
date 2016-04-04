@@ -1,3 +1,13 @@
+
+import $ from 'bootstrap'
+
 export class App {
-  message = 'Welcome to Aurelia!';
+  configureRouter(config, router) {
+    config.title = 'login';
+    config.map([
+      { route: 'login', name: 'Login', moduleId: './login', nav: true, title:'Login' }
+    ]);
+
+    this.router = router;
+  }
 }

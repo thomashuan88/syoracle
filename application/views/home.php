@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Aurelia</title>
-    <link rel="stylesheet" href="<?php echo $aurelia_base; ?>styles/styles.css">
+    <title>SYOracle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    var syoracle_info = <?php echo !empty($appinfo)?json_encode($appinfo):'{}'; ?>;
+    </script>
   </head>
 
   <body aurelia-app>

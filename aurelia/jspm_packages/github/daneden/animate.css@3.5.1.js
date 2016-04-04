@@ -1,0 +1,1 @@
+module.exports = require("github:daneden/animate.css@3.5.1/animate.css!");

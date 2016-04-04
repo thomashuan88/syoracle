@@ -24,6 +24,9 @@ class home extends CI_Controller {
 
 		$viewdata = array();
 		$viewdata['aurelia_base'] = base_url()."aurelia/";
+		$viewdata['appinfo'] = array(
+			"base_url" => base_url()
+		);
 
 		$this->load->view('home', $viewdata);
 	}
