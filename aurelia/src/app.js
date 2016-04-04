@@ -1,13 +1,19 @@
-
+import { Router } from "aurelia-router";
 import $ from 'bootstrap'
 
 export class App {
-  configureRouter(config, router) {
-    config.title = 'login';
-    config.map([
-      { route: 'login', name: 'Login', moduleId: './login', nav: true, title:'Login' }
-    ]);
+    static inject() { return [Router]; }
 
-    this.router = router;
-  }
+    constructor(router) {
+        this.router = router;
+        this.router.configure(config => {
+            config.title = "Syoracle";
+
+            config.map([
+                { route: ['', 'main'], name: 'main', moduleId: './main', nav: true, title: 'Main Page' },
+                { route: 'login', name: 'Login', moduleId: './login', nav: true, title: 'Login' }
+            ]);
+        });
+    }
+
 }

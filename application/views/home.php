@@ -12,6 +12,15 @@
     <script src="<?php echo $aurelia_base; ?>jspm_packages/system.js"></script>
     <script src="<?php echo $aurelia_base; ?>config.js"></script>
     <script>
+    System.config({
+        paths: {
+            "*": "aurelia/src/*",
+            "github:*": "aurelia/jspm_packages/github/*",
+            "npm:*": "aurelia/jspm_packages/npm/*"
+        }
+    });
+    </script>
+    <script>
       SystemJS.import('aurelia-bootstrapper');
     </script>
   </body>
