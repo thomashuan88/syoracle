@@ -70,27 +70,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'write';
 $query_builder = TRUE;
 
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+$db['write']['hostname'] = '192.168.10.10';
+$db['write']['username'] = 'homestead';
+$db['write']['password'] = 'secret';
+$db['write']['database'] = 'oracle';
+$db['write']['dbdriver'] = 'mysqli';
+$db['write']['dbprefix'] = '';
+$db['write']['pconnect'] = FALSE;
+$db['write']['db_debug'] = FALSE;
+$db['write']['cache_on'] = FALSE;
+$db['write']['cachedir'] = '';
+$db['write']['char_set'] = 'utf8';
+$db['write']['dbcollat'] = 'utf8_general_ci';
+$db['write']['port'] = 3306;
+$db['write']['save_queries'] = TRUE;
+
+$db['read']['hostname'] = '192.168.10.10';
+$db['read']['username'] = 'homestead';
+$db['read']['password'] = 'secret';
+$db['read']['database'] = 'oracle';
+$db['read']['dbdriver'] = 'mysqli';
+$db['read']['dbprefix'] = '';
+$db['read']['pconnect'] = FALSE;
+$db['read']['db_debug'] = FALSE;
+$db['read']['cache_on'] = FALSE;
+$db['read']['cachedir'] = '';
+$db['read']['char_set'] = 'utf8';
+$db['read']['dbcollat'] = 'utf8_general_ci';
+$db['read']['port'] = 3306; 
+$db['read']['save_queries'] = TRUE;

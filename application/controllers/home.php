@@ -30,4 +30,16 @@ class home extends CI_Controller {
 
 		$this->load->view('home', $viewdata);
 	}
+
+	public function testing() {
+		$this->load->model('admin_model');
+
+		$this->test2('admin_model', 'insert_admin');
+
+		print_r($this->config->item('hash_key'));
+	}
+
+	public function test2($model, $method) {
+		print_r($this->$model->$method()); exit;
+	}
 }
