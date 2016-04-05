@@ -18,6 +18,10 @@ class home extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct() {
+		parent::__construct();
+	}
+
 	public function index()
 	{
 		$this->load->helper('url');
@@ -34,12 +38,14 @@ class home extends CI_Controller {
 	public function testing() {
 		$this->load->model('admin_model');
 
+		// echo $this->router->method;
+
 		$this->test2('admin_model', 'insert_admin');
 
 		print_r($this->config->item('hash_key'));
 	}
 
 	public function test2($model, $method) {
-		print_r($this->$model->$method()); exit;
+		print_r($this->$model->$method()); 
 	}
 }
