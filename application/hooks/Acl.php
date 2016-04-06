@@ -23,6 +23,7 @@ class Acl {
     function auth()
     {
         // $this->config->set_item('jwt_token', 'item_value'); //set new item for jwt token after login post to login api !!
+        if (empty($this->url_model)) return;
         $user = $this->CI->config->item('jwt_token');
         if(empty($user)) {
             $user = new stdClass();
