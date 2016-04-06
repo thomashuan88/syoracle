@@ -44,7 +44,7 @@ class MY_Controller extends CI_Controller
         $result = array();
         foreach ($list as $key => $val) {
             if ($type=="js") {
-                $result[] = '<script type="text/javascript" src="'.$this->viewdata['include_path'].$val.'"></script>';
+                $result[] = '<script src="'.$this->viewdata['include_path'].$val.'"></script>';
             } else {
                 $result[] = '<link rel="stylesheet" type="text/css" href="'.$this->viewdata['include_path'].$val.'" />';
             }

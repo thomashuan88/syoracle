@@ -21,6 +21,7 @@
     <link href="<?php echo $this->include_path; ?>css/icheck/flat/green.css" rel="stylesheet">
     <link rel="<?php echo $this->include_path; ?>stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
     <link href="<?php echo $this->include_path; ?>css/floatexamples.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->include_path; ?>css/custom.css" rel="stylesheet" type="text/css" />
     <?php echo $more_css; ?>
 
     <script src="<?php echo $this->include_path; ?>js/jquery.min.js"></script>
@@ -38,7 +39,7 @@
 
 </head>
 
-<body>
+<body <?php echo !empty($body_attr)?$body_attr:''; ?>>
     <?php echo $content_main; ?>
 
     <script src="<?php echo $this->include_path; ?>js/bootstrap.min.js"></script>

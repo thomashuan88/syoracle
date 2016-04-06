@@ -9,7 +9,8 @@ class Layout {
  
     function render()
     {
-        // $this->config->set_item('jwt_token', 'item_value'); //set new item for jwt token after login post to login api !!
+        if (empty($this->CI->viewdata['viewpage'])) return;
+
         $this->CI->load->view('_layout_main', $this->CI->viewdata);
     }
 }

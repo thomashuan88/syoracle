@@ -25,8 +25,6 @@ class home extends MY_Controller {
 	public function index()
 	{
 		$more_js = array(
-			"js/gauge/gauge.min.js",
-			"js/gauge/gauge_demo.js",
 			"js/progressbar/bootstrap-progressbar.min.js",
 			"js/nicescroll/jquery.nicescroll.min.js",
 			"js/icheck/icheck.min.js",
@@ -40,7 +38,9 @@ class home extends MY_Controller {
 
 		$this->viewdata['more_css'] = '<link href="'.$this->include_path.'css/custom2.css" rel="stylesheet">';
 		$this->viewdata['more_js'] = $this->more_jscss_toString($more_js, 'js');
-		$this->viewdata['content_main'] = $this->load->view('main',$login_data, true);
+		$this->viewdata['body_attr'] = 'class="nav-md"';
+		$this->viewdata['viewpage'] = 'main';
+		$this->viewdata['content_main'] = $this->load->view($this->viewdata['viewpage'],$login_data, true);
 	}
 
 	public function login() {
@@ -49,9 +49,12 @@ class home extends MY_Controller {
 		$login_data['script'] = $this->recaptcha->getScriptTag();
 		$login_data['baseurl'] = base_url();
 
-		$this->viewdata['more_css'] = '<link href="'.$this->include_path.'css/custom.css" rel="stylesheet">';
+		$more_css = array('css/custom_login.css');
+
+		$this->viewdata['more_css'] = $this->more_jscss_toString($more_css, 'css');
 		$this->viewdata['more_js'] = '';
-		$this->viewdata['content_main'] = $this->load->view('login/login',$login_data, true);
+		$this->viewdata['viewpage'] = 'login/login';
+		$this->viewdata['content_main'] = $this->load->view($this->viewdata['viewpage'], $login_data, true);
 		
 	}
 
