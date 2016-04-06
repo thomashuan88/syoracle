@@ -56,9 +56,9 @@ $autoload['packages'] = array();
 | You can also supply an alternative library name to be assigned
 | in the controller:
 |
-|	$autoload['libraries'] = array('user_agent' => 'ua');
+|	$autoload['libraries'] = array('user_agent' => 'ua,
 */
-$autoload['libraries'] = array('database','predis');
+$autoload['libraries'] = array('database','predis','parser','session','recaptcha');
 
 /*
 | -------------------------------------------------------------------
@@ -103,7 +103,7 @@ $autoload['helper'] = array('url','cookie');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array('recaptcha');
 
 /*
 | -------------------------------------------------------------------

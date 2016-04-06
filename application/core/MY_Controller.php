@@ -7,6 +7,10 @@
 
 class MY_Controller extends CI_Controller
 {
+
+    public $include_path;
+    public $viewdata = array();
+
     function __construct(){
         parent::__construct();
         // header("Content-type:text/html;charset=utf-8");
@@ -31,6 +35,22 @@ class MY_Controller extends CI_Controller
         //     show_error('未获取到系统配置。/ The config not exist', 500 ,'系统配置不存在/No Config');
         // }
         $this->load->library('util');
+        $this->include_path = base_url('static/gentelella')."/";
+        $this->viewdata['include_path'] = base_url('static/gentelella')."/";
+        $this->viewdata['baseurl'] = base_url();
+    }
+
+    protected function more_jscss_toString($list=array(), $type='') {
+        $result = array();
+        foreach ($list as $key => $val) {
+            if ($type=="js") {
+                $result[] = '<script type="text/javascript" src="'.$this->viewdata['include_path'].$val.'"></script>';
+            } else {
+                $result[] = '<link rel="stylesheet" type="text/css" href="'.$this->viewdata['include_path'].$val.'" />';
+            }
+        }
+
+        return implode("", $result);
     }
 
 }

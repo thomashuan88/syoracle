@@ -21,4 +21,26 @@ class testing extends CI_Controller {
 
 		print_r($decoded);
     }
+    
+    public function test() {
+        echo base_url();exit;
+        $this->load->model('admin_model');
+
+        // echo $this->router->method;
+
+        $this->test2('admin_model', 'insert_admin');
+
+        print_r($this->config->item('hash_key'));
+    }
+
+    public function test2($model, $method) {
+        print_r($this->$model->$method()); 
+    }
+
+    public function testsession() {
+        $this->load->library('session');
+
+        $this->session->set_userdata(array("asasfd"=>"adsads"));
+        print_r($_SESSION);
+    }
 }

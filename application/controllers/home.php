@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class home extends CI_Controller {
+class home extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -24,28 +24,64 @@ class home extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->helper('url');
-
-		$viewdata = array();
-		$viewdata['aurelia_base'] = base_url()."aurelia/";
-		$viewdata['appinfo'] = array(
-			"base_url" => base_url()
+		$more_js = array(
+			"js/gauge/gauge.min.js",
+			"js/gauge/gauge_demo.js",
+			"js/progressbar/bootstrap-progressbar.min.js",
+			"js/nicescroll/jquery.nicescroll.min.js",
+			"js/icheck/icheck.min.js",
+			"js/moment/moment.min.js",
+			"js/datepicker/daterangepicker.js",
+			"js/chartjs/chart.min.js",
+			"js/custom.js"
 		);
 
-		$this->load->view('home', $viewdata);
+		$login_data['baseurl'] = base_url();
+
+		$this->viewdata['more_css'] = '<link href="'.$this->include_path.'css/custom2.css" rel="stylesheet">';
+		$this->viewdata['more_js'] = $this->more_jscss_toString($more_js, 'js');
+		$this->viewdata['content_main'] = $this->load->view('main',$login_data, true);
 	}
 
-	public function testing() {
-		$this->load->model('admin_model');
+	public function login() {
 
-		// echo $this->router->method;
+		$login_data['widget'] = $this->recaptcha->getWidget();
+		$login_data['script'] = $this->recaptcha->getScriptTag();
+		$login_data['baseurl'] = base_url();
 
-		$this->test2('admin_model', 'insert_admin');
-
-		print_r($this->config->item('hash_key'));
+		$this->viewdata['more_css'] = '<link href="'.$this->include_path.'css/custom.css" rel="stylesheet">';
+		$this->viewdata['more_js'] = '';
+		$this->viewdata['content_main'] = $this->load->view('login/login',$login_data, true);
+		
 	}
 
-	public function test2($model, $method) {
-		print_r($this->$model->$method()); 
+	public function loginPost() {
+
+		$error_msg = array();
+		$post = $this->input->post();
+
+
+        $recaptcha = $this->input->post('g-recaptcha-response');
+        if (!empty($recaptcha)) {
+            $response = $this->recaptcha->verifyResponse($recaptcha);
+            if (isset($response['success']) and $response['success'] === true) {
+                
+            } else {
+            	$error_msg[] = "Captcha Fail!";
+            }
+        }
+        if (!empty($error_msg)) {
+        	$this->session->set_userdata('login_error', $error_msg);
+        	redirect('login');
+        } else {
+        	$this->session->set_userdata("userid", 1);
+        	redirect('/');
+        }
+		
+		// validate input
+
+
+		// add user to session
 	}
+
 }
