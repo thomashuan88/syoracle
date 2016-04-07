@@ -18,8 +18,13 @@ class home extends MY_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	public $ip_rediskey = 'login_ipaddress_';
+
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('admin_model');
+		$this->load->model('ip_block_model');
 	}
 
 	public function index()
@@ -62,6 +67,25 @@ class home extends MY_Controller {
 
 		$error_msg = array();
 		$post = $this->input->post();
+		$user_ipaddress = $this->input->ip_address();
+
+		if ($user_ipaddress == '0.0.0.0') {
+			$this->error_backto_login(array("Your IP address is invalid!"));
+		}
+
+		// check ip block list
+		$ip_block_list = $this->ip_block_model->get_one(array(
+			"ip_address" => $user_ipaddress,
+			"status" => 1
+		));
+
+		if (!empty($ip_block_list)) {
+			$this->error_backto_login(array("Your IP address is blocked!"));
+		}
+
+		if (empty($post['username'] || empty($post['password']))) {
+			$this->error_backto_login(array("Username and Password cannot empty!"));
+		}
 
 
         $recaptcha = $this->input->post('g-recaptcha-response');
@@ -73,18 +97,82 @@ class home extends MY_Controller {
             	$error_msg[] = "Captcha Fail!";
             }
         }
-        if (!empty($error_msg)) {
-        	$this->session->set_userdata('login_error', $error_msg);
-        	redirect('login');
-        } else {
-        	$this->session->set_userdata("userid", 1);
-        	redirect('/');
+
+
+        $username = $this->admin_model->get_one(
+        	array(
+        		"username" => $post['username'], 
+        		"status" => 1,
+        		"login_count <" => 10
+        	)
+        );
+
+        if (empty($username)) {
+        	$ipcount = $this->predis->hashGet($this->ip_rediskey.$user_ipaddress, "count");
+        	$uname = $this->predis->hashGet($this->ip_rediskey.$user_ipaddress, "username");
+        	if ($ipcount >= 3) {
+        		// add to ip block list
+        		$this->ip_block_model->insert(array(
+        			"ip_address"=>$user_ipaddress, 
+        			"username" => $uname,
+        			"createtime" => time()
+        		));
+		    	$this->admin_model->update(
+		    		array("login_count"=> 0), 
+		    		array("username"=>$userinfo['username'])
+		    	);
+        		// remove this redis key
+        		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "count");
+        		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "username");
+        	} else {
+        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", $ipcount + 1);
+        	}
+        	$this->error_backto_login(array("User not exist!"));
         }
+        if ($username['login_count'] >= 10) {
+        	$this->error_backto_login(array("User Account is block! Please contact IT support!"));
+        }
+
+        $userinfo = $this->admin_model->get_one(
+        	array(
+        		"username" => $post['username'], 
+        		"password" => md5($post['password'].$this->hash_salt),
+        		"status" => 1,
+        		"login_count <" => 10
+        	)
+        );
+
+        if (empty($userinfo)) {
+        	$this->admin_model->update(
+        		array("login_count"=>$username['login_count'] + 1), 
+        		array("username"=>$username['username'])
+        	);
+        	if ($username['login_count'] == 9) {
+        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", 0);
+        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "username", $username['username']);
+        	}
+        	$this->error_backto_login(array("Wrong Password!"));
+        }
+
+
+    	$this->admin_model->update(
+    		array("login_count"=> 0), 
+    		array("username"=>$userinfo['username'])
+    	);
+
+    	$this->session->set_userdata('userinfo', $userinfo);
 		
-		// validate input
+    	redirect("/");
 
-
-		// add user to session
 	}
 
+	public function logout() {
+		$this->session->unset_userdata('userinfo');
+		redirect('login');
+	}
+
+	protected function error_backto_login($errmsg=array()) {
+    	$this->session->set_userdata('login_error', $errmsg);
+    	redirect('login');
+	}
 }

@@ -7,6 +7,19 @@
         <section class="login_content">
           <form method="post" action="<?php echo $baseurl; ?>home/loginPost">
             <h1>Login Form</h1>
+            <?php $error_msg = $this->session->userdata('login_error'); ?>
+            <?php if (!empty($error_msg)): ?>
+
+                <?php foreach($error_msg as $val): ?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <?php echo $val; ?>
+                </div>
+                <?php endforeach; ?>
+                <?php $this->session->unset_userdata('login_error'); ?>
+            <?php endif; ?>
+
             <div>
               <input type="text" class="form-control" placeholder="Username" name="username" required="" />
             </div>

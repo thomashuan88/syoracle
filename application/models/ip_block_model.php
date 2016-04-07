@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class admin_model extends MY_Model {
+class ip_block_model extends MY_Model {
     
-    public $table_name = 'admin'; 
+    public $table_name = 'ip_block'; 
 
     public function __construct()
     {

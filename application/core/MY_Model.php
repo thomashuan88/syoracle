@@ -30,6 +30,15 @@ class MY_Model extends CI_Model {
         return !empty($result[0])?$result[0]:false;
     }
 
+    public function update($data=array(), $cond=array()) {
+        $this->db_write->where($cond);
+        return $this->db_write->update($this->table_name, $data);
+    }
+
+    public function insert($data=array()) {
+        return $this->db_write->insert($this->table_name, $data);
+    }
+
     public function insert_admin() {
         $data = array(
             "username" => "admin",

@@ -34,10 +34,13 @@ class MY_Controller extends CI_Controller
         // }else{
         //     show_error('未获取到系统配置。/ The config not exist', 500 ,'系统配置不存在/No Config');
         // }
+        $this->from_mycontroller = 'yes'; // prevent testing controller block by acl hook
         $this->load->library('util');
-        $this->include_path = base_url('static/gentelella')."/";
+        $this->include_path = base_url('static/gentelella')."/"; // tamplate folder
         $this->viewdata['include_path'] = base_url('static/gentelella')."/";
         $this->viewdata['baseurl'] = base_url();
+
+        $this->hash_salt = $this->config->item('hash_salt');
     }
 
     protected function more_jscss_toString($list=array(), $type='') {

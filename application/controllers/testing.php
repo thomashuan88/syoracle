@@ -23,6 +23,9 @@ class testing extends CI_Controller {
     }
     
     public function test() {
+        $this->predis->hashDel('login_ipaddress_192.168.10.1', "count");
+        $this->predis->hashDel('login_ipaddress_192.168.10.1', "username");
+
         echo base_url();exit;
         $this->load->model('admin_model');
 
