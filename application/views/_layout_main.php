@@ -40,8 +40,11 @@
 </head>
 
 <body <?php echo !empty($body_attr)?$body_attr:''; ?>>
+    <div style="display:none;">
+        <div id="appinfo" baseurl="<?php echo $this->base_url; ?>"></div>
+        <img src="<?php echo $this->include_path; ?>images/loading.gif" id="oracle_loading" style="width: 100px;height: 100px;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" />
+    </div>
     <?php echo $content_main; ?>
-
     <script src="<?php echo $this->include_path; ?>js/bootstrap.min.js"></script>
     <?php echo $more_js; ?>
 </body>

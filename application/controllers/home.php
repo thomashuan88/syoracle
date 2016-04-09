@@ -30,13 +30,12 @@ class home extends MY_Controller {
 	public function index()
 	{
 		$more_js = array(
+            "js/require.js",
 			"js/progressbar/bootstrap-progressbar.min.js",
 			"js/nicescroll/jquery.nicescroll.min.js",
-			"js/icheck/icheck.min.js",
-			"js/moment/moment.min.js",
-			"js/datepicker/daterangepicker.js",
-			"js/chartjs/chart.min.js",
-			"js/custom.js"
+            "js/icheck/icheck.min.js",
+			"js/custom.js",
+            "js/oracle_app.js"
 		);
 
 		$login_data['baseurl'] = base_url();
@@ -69,6 +68,16 @@ class home extends MY_Controller {
 		$post = $this->input->post();
 		$user_ipaddress = $this->input->ip_address();
 
+        $recaptcha = $this->input->post('g-recaptcha-response');
+        if (!empty($recaptcha)) {
+            $response = $this->recaptcha->verifyResponse($recaptcha);
+            if (isset($response['success']) and $response['success'] === true) {
+                
+            } else {
+                $this->error_backto_login(array("Captcha Fail!"));
+            }
+        }
+
 		if ($user_ipaddress == '0.0.0.0') {
 			$this->error_backto_login(array("Your IP address is invalid!"));
 		}
@@ -87,23 +96,10 @@ class home extends MY_Controller {
 			$this->error_backto_login(array("Username and Password cannot empty!"));
 		}
 
-
-        $recaptcha = $this->input->post('g-recaptcha-response');
-        if (!empty($recaptcha)) {
-            $response = $this->recaptcha->verifyResponse($recaptcha);
-            if (isset($response['success']) and $response['success'] === true) {
-                
-            } else {
-            	$error_msg[] = "Captcha Fail!";
-            }
-        }
-
-
         $username = $this->admin_model->get_one(
         	array(
         		"username" => $post['username'], 
-        		"status" => 1,
-        		"login_count <" => 10
+        		"status" => 1
         	)
         );
 
@@ -125,12 +121,15 @@ class home extends MY_Controller {
         		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "count");
         		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "username");
         	} else {
-        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", $ipcount + 1);
+                if ($uname != $post['username'] && !empty($uname)) {
+                    $this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", $ipcount + 1);
+                }
         	}
-        	$this->error_backto_login(array("User not exist!"));
+        	$this->error_backto_login(array("Invalid Username!"));
         }
+
         if ($username['login_count'] >= 10) {
-        	$this->error_backto_login(array("User Account is block! Please contact IT support!"));
+        	$this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
         }
 
         $userinfo = $this->admin_model->get_one(
@@ -151,14 +150,18 @@ class home extends MY_Controller {
         		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", 0);
         		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "username", $username['username']);
         	}
-        	$this->error_backto_login(array("Wrong Password!"));
+        	$this->error_backto_login(array("Invalid Password!"));
         }
 
-
     	$this->admin_model->update(
-    		array("login_count"=> 0), 
+    		array(
+                "login_count"=> 0, 
+                "last_logintime"=>time()
+            ), 
     		array("username"=>$userinfo['username'])
     	);
+        $this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "count");
+        $this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "username");
 
     	$this->session->set_userdata('userinfo', $userinfo);
 		

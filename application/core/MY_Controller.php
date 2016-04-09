@@ -39,6 +39,7 @@ class MY_Controller extends CI_Controller
         $this->include_path = base_url('static/gentelella')."/"; // tamplate folder
         $this->viewdata['include_path'] = base_url('static/gentelella')."/";
         $this->viewdata['baseurl'] = base_url();
+        $this->base_url = base_url();
 
         $this->hash_salt = $this->config->item('hash_salt');
     }
