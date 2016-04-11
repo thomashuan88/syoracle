@@ -18,6 +18,7 @@ class MY_Model extends CI_Model {
     {
 
         $query = $this->db_read->get_where($this->table_name, $cond, $limit, $offset);
+        // echo $this->db_read->last_query();
         $result = array();
         $result = $query->result_array();
         return !empty($result)?$result:false;
@@ -37,6 +38,10 @@ class MY_Model extends CI_Model {
 
     public function insert($data=array()) {
         return $this->db_write->insert($this->table_name, $data);
+    }
+
+    public function del($cond=array()) {
+        return $this->db_write->delete($this->table_name, $cond);
     }
 
     public function insert_admin() {

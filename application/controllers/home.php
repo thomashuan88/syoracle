@@ -20,11 +20,15 @@ class home extends MY_Controller {
 	 */
 
 	public $ip_rediskey = 'login_ipaddress_';
+    public $user_ipaddress;
+    public $login_start_time;
+    public $userblock_time;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('admin_model');
-		$this->load->model('ip_block_model');
+        $this->load->model('ip_block_model');
+		$this->load->model('badlogin_model');
 	}
 
 	public function index()
@@ -62,11 +66,25 @@ class home extends MY_Controller {
 		
 	}
 
+    public function logout() {
+        $this->session->unset_userdata('userinfo');
+        redirect('login');
+    }
+
 	public function loginPost() {
 
 		$error_msg = array();
 		$post = $this->input->post();
-		$user_ipaddress = $this->input->ip_address();
+		$this->user_ipaddress = $this->input->ip_address();
+
+        $this->login_start_time = $this->session->userdata('login_start_time');
+        if (empty($this->login_start_time)) {
+            $this->login_start_time = time();
+            $this->session->set_userdata('login_start_time', $this->login_start_time);
+        }
+
+        $this->userblock_time = $this->session->userdata('userblock_time');
+
 
         $recaptcha = $this->input->post('g-recaptcha-response');
         if (!empty($recaptcha)) {
@@ -78,13 +96,14 @@ class home extends MY_Controller {
             }
         }
 
-		if ($user_ipaddress == '0.0.0.0') {
+		if ($this->user_ipaddress == '0.0.0.0') {
 			$this->error_backto_login(array("Your IP address is invalid!"));
 		}
 
+
 		// check ip block list
 		$ip_block_list = $this->ip_block_model->get_one(array(
-			"ip_address" => $user_ipaddress,
+			"ip_address" => $this->user_ipaddress,
 			"status" => 1
 		));
 
@@ -104,32 +123,26 @@ class home extends MY_Controller {
         );
 
         if (empty($username)) {
-        	$ipcount = $this->predis->hashGet($this->ip_rediskey.$user_ipaddress, "count");
-        	$uname = $this->predis->hashGet($this->ip_rediskey.$user_ipaddress, "username");
-        	if ($ipcount >= 3) {
-        		// add to ip block list
-        		$this->ip_block_model->insert(array(
-        			"ip_address"=>$user_ipaddress, 
-        			"username" => $uname,
-        			"createtime" => time()
-        		));
-		    	$this->admin_model->update(
-		    		array("login_count"=> 0), 
-		    		array("username"=>$userinfo['username'])
-		    	);
-        		// remove this redis key
-        		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "count");
-        		$this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "username");
-        	} else {
-                if ($uname != $post['username'] && !empty($uname)) {
-                    $this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", $ipcount + 1);
-                }
-        	}
-        	$this->error_backto_login(array("Invalid Username!"));
+            $this->badlogin_model->insert(array(
+                "ip_address"=>$this->user_ipaddress, 
+                "login_name" => $post['username'],
+                "username_exist" => '2',
+                "createtime" => time()
+            ));
+            $this->check_ip_login();
+            $this->error_backto_login(array("Invalid Username!"));
+        } else {
+            $this->badlogin_model->insert(array(
+                "ip_address"=>$this->user_ipaddress, 
+                "login_name" => $post['username'],
+                "username_exist" => '1',
+                "createtime" => time()
+            ));
         }
 
         if ($username['login_count'] >= 10) {
-        	$this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
+            $this->check_ip_login();
+            $this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
         }
 
         $userinfo = $this->admin_model->get_one(
@@ -147,35 +160,81 @@ class home extends MY_Controller {
         		array("username"=>$username['username'])
         	);
         	if ($username['login_count'] == 9) {
-        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "count", 0);
-        		$this->predis->hashSet($this->ip_rediskey.$user_ipaddress, "username", $username['username']);
+                $this->session->set_userdata('userblock_time', time());
         	}
+            $this->check_ip_login();
         	$this->error_backto_login(array("Invalid Password!"));
         }
+        
+        $this->check_ip_login();
+        $this->login_success($userinfo);
 
-    	$this->admin_model->update(
-    		array(
+	}
+
+
+
+    protected function login_success($userinfo=array()) {
+        $this->admin_model->update(
+            array(
                 "login_count"=> 0, 
                 "last_logintime"=>time()
             ), 
-    		array("username"=>$userinfo['username'])
-    	);
-        $this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "count");
-        $this->predis->hashDel($this->ip_rediskey.$user_ipaddress, "username");
+            array("username"=>$userinfo['username'])
+        );
 
-    	$this->session->set_userdata('userinfo', $userinfo);
-		
-    	redirect("/");
+        // del badlogin where createtime >= login_start_time
 
-	}
-
-	public function logout() {
-		$this->session->unset_userdata('userinfo');
-		redirect('login');
-	}
+        $this->badlogin_model->del(array(
+            "ip_address" => $this->user_ipaddress,
+            "createtime >=" => $this->login_start_time
+        ));
+        
+        $this->session->unset_userdata('userblock_time');
+        $this->session->unset_userdata('login_start_time');
+        $this->session->set_userdata('userinfo', $userinfo);
+        
+        redirect("/");
+    }
 
 	protected function error_backto_login($errmsg=array()) {
     	$this->session->set_userdata('login_error', $errmsg);
     	redirect('login');
 	}
+
+    protected function check_ip_login() {
+        $badlogin_data = $this->badlogin_model->get_all(array(
+            "ip_address" => $this->user_ipaddress,
+            "createtime >=" => $this->login_start_time
+        ));
+        // echo '<pre>'; print_r($badlogin_data);exit;
+        $wrong_username_pwd_count = 0;
+        $after_acct_block_count = 0;
+
+        foreach ($badlogin_data as $key=>$val) {
+            if ($val['username_exist'] == 2) {
+                $wrong_username_pwd_count ++;
+
+            }
+            if (!empty($this->userblock_time) && $val['createtime'] >= $this->userblock_time) {
+                $after_acct_block_count ++;
+            }
+        }
+
+        $block_already = false;
+        if ($wrong_username_pwd_count > 9) {
+            $this->ip_block_model->insert(array(
+                "ip_address"=>$this->user_ipaddress, 
+                "createtime" => time()
+            ));
+
+            $block_already = true;
+        }
+
+        if ($after_acct_block_count > 2 && !$block_already) {
+            $this->ip_block_model->insert(array(
+                "ip_address"=>$this->user_ipaddress, 
+                "createtime" => time()
+            ));
+        }
+    }
 }
