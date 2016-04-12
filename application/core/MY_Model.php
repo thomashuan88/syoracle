@@ -44,15 +44,5 @@ class MY_Model extends CI_Model {
         return $this->db_write->delete($this->table_name, $cond);
     }
 
-    public function insert_admin() {
-        $data = array(
-            "username" => "admin",
-            "password" => md5("123qwe".$this->config->item("hash_salt")),
-            "salt" => $this->config->item("hash_salt"),
-            "email" => "thomashuan88@gmail.com",
-            "createtime" => time()
-        );
 
-        return $this->db_write->insert($this->table_name, $data);
-    }
 }

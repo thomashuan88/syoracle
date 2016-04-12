@@ -41,8 +41,25 @@
 
 <body <?php echo !empty($body_attr)?$body_attr:''; ?>>
     <div style="display:none;">
-        <div id="appinfo" baseurl="<?php echo $this->base_url; ?>"></div>
-        <img src="<?php echo $this->include_path; ?>images/loading.gif" id="oracle_loading" style="width: 100px;height: 100px;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" />
+        <div id="appinfo" baseurl="<?php echo $this->base_url; ?>" include-path="<?php echo $this->include_path; ?>"></div>
+        <img src="<?php echo $this->include_path; ?>images/loading.gif" id="oracle_loading" style="width: 100px;height: 100px;z-index:1005;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" />
+
+        <div class="modal fade" id="oracleModal_message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <?php echo $content_main; ?>
     <script src="<?php echo $this->include_path; ?>js/bootstrap.min.js"></script>

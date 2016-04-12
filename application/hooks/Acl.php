@@ -24,6 +24,8 @@ class Acl {
 
         $this->url_model = $this->CI->uri->segment(1);
         $this->url_method = $this->CI->uri->segment(2);
+
+        $this->page_type = !empty($this->CI->page_type)?$this->CI->page_type:'';
     }
  
     function auth()
@@ -41,7 +43,7 @@ class Acl {
 
         $userinfo = $this->CI->session->userdata("userinfo");
         if (empty($userinfo)) {
-            redirect('login');
+            if ($this->page_type != 'ajax') redirect('login');
         } else {
             return;
         }
@@ -61,13 +63,21 @@ class Acl {
             if(in_array($this->url_model, array_keys($controllers))){
                 
                 if(!in_array($this->url_method, $controllers[$this->url_model])){
-                   $this->CI->util->_echoJson($this->err_msg);
+                   $this->err_output($this->err_msg);
                 }
             }else{
-                $this->CI->util->_echoJson($this->err_msg);
+                $this->err_output($this->err_msg);
             }
         }
         else
-            $this->CI->util->_echoJson($this->err_msg);
+            $this->err_output($this->err_msg);
+    }
+
+    public function err_output($err_msg=array()) {
+        if ( $this->page_type == 'ajax' ) {
+            $this->CI->util->_echoJson($err_msg);
+        } else {
+            echo $err_msg; exit;
+        }
     }
 }

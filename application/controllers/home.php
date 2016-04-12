@@ -28,11 +28,13 @@ class home extends MY_Controller {
 		parent::__construct();
 		$this->load->model('admin_model');
         $this->load->model('ip_block_model');
-		$this->load->model('badlogin_model');
+        $this->load->model('badlogin_model');
+		$this->load->model('loginlog_model');
 	}
 
 	public function index()
 	{
+
 		$more_js = array(
             "js/require.js",
 			"js/progressbar/bootstrap-progressbar.min.js",
@@ -193,6 +195,21 @@ class home extends MY_Controller {
         $this->session->unset_userdata('login_start_time');
         $this->session->set_userdata('userinfo', $userinfo);
         
+        $this->loginlog_model->insert(
+            array(
+                'admin_id' => $userinfo['id'],
+                'admin_name' => $userinfo['username'],
+                'sessionid' => $this->session->session_id,  //注意，这里是最新生成的sessionId
+                'page' => 'login',
+                'action' => 'index',
+                'ip' => $this->input->ip_address(),     //IP
+                'user_agent' => $this->input->user_agent(),  //浏览器信息
+                'remark' => $this->input->get_request_header('Referer', TRUE),
+                'log_type' => 'login',
+                'time' => time()
+            )
+        );
+
         redirect("/");
     }
 
