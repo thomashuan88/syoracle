@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class loginlog_model extends MY_Model {
+class log_model extends MY_Model {
     
-    public $table_name = 'loginlog'; 
+    public $table_name = 'log'; 
 
     public function __construct()
     {

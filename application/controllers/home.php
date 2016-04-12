@@ -21,15 +21,13 @@ class home extends MY_Controller {
 
 	public $ip_rediskey = 'login_ipaddress_';
     public $user_ipaddress;
-    public $login_start_time;
-    public $userblock_time;
+
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('admin_model');
-        $this->load->model('ip_block_model');
         $this->load->model('badlogin_model');
-		$this->load->model('loginlog_model');
+		$this->load->model('log_model');
 	}
 
 	public function index()
@@ -79,15 +77,6 @@ class home extends MY_Controller {
 		$post = $this->input->post();
 		$this->user_ipaddress = $this->input->ip_address();
 
-        $this->login_start_time = $this->session->userdata('login_start_time');
-        if (empty($this->login_start_time)) {
-            $this->login_start_time = time();
-            $this->session->set_userdata('login_start_time', $this->login_start_time);
-        }
-
-        $this->userblock_time = $this->session->userdata('userblock_time');
-
-
         $recaptcha = $this->input->post('g-recaptcha-response');
         if (!empty($recaptcha)) {
             $response = $this->recaptcha->verifyResponse($recaptcha);
@@ -104,14 +93,11 @@ class home extends MY_Controller {
 
 
 		// check ip block list
-		$ip_block_list = $this->ip_block_model->get_one(array(
-			"ip_address" => $this->user_ipaddress,
-			"status" => 1
+		$badlogin_list = $this->badlogin_model->get_all(array(
+			"ip_address" => $this->user_ipaddress
 		));
 
-		if (!empty($ip_block_list)) {
-			$this->error_backto_login(array("Your IP address is blocked!"));
-		}
+        $this->check_ip_is_block($badlogin_list);
 
 		if (empty($post['username'] || empty($post['password']))) {
 			$this->error_backto_login(array("Username and Password cannot empty!"));
@@ -131,7 +117,6 @@ class home extends MY_Controller {
                 "username_exist" => '2',
                 "createtime" => time()
             ));
-            $this->check_ip_login();
             $this->error_backto_login(array("Invalid Username!"));
         } else {
             $this->badlogin_model->insert(array(
@@ -143,7 +128,6 @@ class home extends MY_Controller {
         }
 
         if ($username['login_count'] >= 10) {
-            $this->check_ip_login();
             $this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
         }
 
@@ -161,19 +145,35 @@ class home extends MY_Controller {
         		array("login_count"=>$username['login_count'] + 1), 
         		array("username"=>$username['username'])
         	);
-        	if ($username['login_count'] == 9) {
-                $this->session->set_userdata('userblock_time', time());
-        	}
-            $this->check_ip_login();
+
         	$this->error_backto_login(array("Invalid Password!"));
         }
         
-        $this->check_ip_login();
         $this->login_success($userinfo);
 
 	}
 
+    protected function check_ip_is_block($list=array()) {
+        $exist = 0;
+        $no_exist = 0;
+        $bigger_ten = 0;
 
+        foreach ($list as $val) {
+            if ($val['username_exist'] == 1) {
+                $exist++;
+            }
+            if ($val['username_exist'] == 2) {
+                $no_exist++;
+            } 
+            if ($exist >= 10) {
+                $bigger_ten++;
+            }
+        }
+
+        if ($no_exist >= 10 || $bigger_ten >= 3) {
+            $this->error_backto_login(array("Your IP address is blocked!"));
+        }
+    }
 
     protected function login_success($userinfo=array()) {
         $this->admin_model->update(
@@ -187,18 +187,15 @@ class home extends MY_Controller {
         // del badlogin where createtime >= login_start_time
 
         $this->badlogin_model->del(array(
-            "ip_address" => $this->user_ipaddress,
-            "createtime >=" => $this->login_start_time
+            "ip_address" => $this->user_ipaddress
         ));
         
-        $this->session->unset_userdata('userblock_time');
-        $this->session->unset_userdata('login_start_time');
         $this->session->set_userdata('userinfo', $userinfo);
         
-        $this->loginlog_model->insert(
+        $this->log_model->insert(
             array(
-                'admin_id' => $userinfo['id'],
-                'admin_name' => $userinfo['username'],
+                'userid' => $userinfo['id'],
+                'username' => $userinfo['username'],
                 'sessionid' => $this->session->session_id,  //注意，这里是最新生成的sessionId
                 'page' => 'login',
                 'action' => 'index',
@@ -218,40 +215,4 @@ class home extends MY_Controller {
     	redirect('login');
 	}
 
-    protected function check_ip_login() {
-        $badlogin_data = $this->badlogin_model->get_all(array(
-            "ip_address" => $this->user_ipaddress,
-            "createtime >=" => $this->login_start_time
-        ));
-        // echo '<pre>'; print_r($badlogin_data);exit;
-        $wrong_username_pwd_count = 0;
-        $after_acct_block_count = 0;
-
-        foreach ($badlogin_data as $key=>$val) {
-            if ($val['username_exist'] == 2) {
-                $wrong_username_pwd_count ++;
-
-            }
-            if (!empty($this->userblock_time) && $val['createtime'] >= $this->userblock_time) {
-                $after_acct_block_count ++;
-            }
-        }
-
-        $block_already = false;
-        if ($wrong_username_pwd_count > 9) {
-            $this->ip_block_model->insert(array(
-                "ip_address"=>$this->user_ipaddress, 
-                "createtime" => time()
-            ));
-
-            $block_already = true;
-        }
-
-        if ($after_acct_block_count > 2 && !$block_already) {
-            $this->ip_block_model->insert(array(
-                "ip_address"=>$this->user_ipaddress, 
-                "createtime" => time()
-            ));
-        }
-    }
 }
