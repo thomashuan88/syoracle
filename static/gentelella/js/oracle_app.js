@@ -68,7 +68,6 @@ $(function() {
     });
 
     // ------------------------------------------------------------------------------------
-
     
     oracle_app.oracleModal_message.on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
@@ -82,8 +81,6 @@ $(function() {
             window.location = oracle_app.baseurl + 'login';
         });
     })
-
-
 
     // ------------------------------------------------------------------------------------
 
@@ -109,7 +106,7 @@ $(function() {
                 $("<link/>", {
                    rel: "stylesheet",
                    type: "text/css",
-                   href: loadcss[x]
+                   href: oracle_app.include_path + loadcss[x]
                 }).appendTo("head");
             }
             return oracle_app.load_content;
