@@ -368,7 +368,7 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'redis';
-$config['sess_save_path'] = 'tcp://192.168.10.10:6379';
+$config['sess_save_path'] = 'tcp://10.105.1.18:6379';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
 $config['sess_match_ip'] = FALSE;
