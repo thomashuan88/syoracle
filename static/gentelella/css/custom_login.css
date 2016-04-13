@@ -1,0 +1,19 @@
+body {
+    background:#F7F7F7;
+}
+
+.login_content form input[type="submit"] {
+    float: none;
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+.login_content .login_recap {
+    padding-left: 25px;
+}
+
+.login_content form input[name=username], .login_content form input[name=password], .login_content form div.alert-danger {
+    width: 302px;
+    margin-left: 25px;
+}
+
