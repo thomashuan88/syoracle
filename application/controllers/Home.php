@@ -34,7 +34,6 @@ class Home extends MY_Controller {
 	{
 
 		$more_js = array(
-            "js/require.js",
 			"js/progressbar/bootstrap-progressbar.min.js",
 			"js/nicescroll/jquery.nicescroll.min.js",
             "js/icheck/icheck.min.js",

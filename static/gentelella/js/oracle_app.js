@@ -13,9 +13,21 @@ oracle_app.company = {
         loadscripts:[
             "jqgrid/js/i18n/grid.locale-en.js",
             "jqgrid/js/jquery.jqGrid.min.js",
+            "oracle_app/js/company/view.js"
         ],
         loadcss: [
             "jqgrid/css/ui.jqgrid-bootstrap.css"
+        ],
+        colmodel: [
+            { label: 'Company Id', name: 'id', key: true, width: '5%' },
+            { label: 'Company Name', name: 'companyname', width: '10%' },
+            { label: 'Description', name: 'description', width: '20%' },
+            { label: 'Prefix', name: 'prefix', width: '5%' },
+            { label: 'Job URL', name: 'joburl', width: '20%' },
+            { label: 'Created Time', name: 'createtime', width: '10%' },
+            { label: 'Created By', name: 'createby', width: '5%' },
+            { label: 'Created Time', name: 'createtime', width: '10%' },
+            { label: 'Created By', name: 'createby', width: '5%' }
         ]
 
     } 
@@ -32,7 +44,7 @@ oracle_app.return_json_err = function(str) {
 };
 
 oracle_app.nav_content = $('#nav_content');
-oracle_app.oracleModal_message = $('#oracleModal_message');
+oracle_app.oracleModal_message = $('#oracleModal_message').remove();
 
 
 $(function() {
@@ -115,6 +127,7 @@ $(function() {
             var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
             if (res === false) {
                 oracle_app.nav_content.html(oracle_app.load_content.responseText);
+                oracle_app[controller[0]][controller[1]].scripts();
             } else {
                 if (res.status == 'error') {
                     // show model then jump to login
@@ -125,11 +138,34 @@ $(function() {
 
         return false;
     });
+
+    $(window).bind('resize', function() {
+
+        // Get width of parent container
+        var container = $('#jqGrid_container');
+        if (container.length) {
+            var width = container.width();
+            if (width == null || width < 1){
+                // For IE, revert to offsetWidth if necessary
+                width = container.outerWidth();
+            }
+
+            width = width - 2; // Fudge factor to prevent horizontal scrollbars
+            if (width > 0 &&
+                // Only resize if new width exceeds a minimal threshold
+                // Fixes IE issue with in-place resizing when mousing-over frame bars
+                Math.abs(width - $('#jqGrid').width()) > 5)
+            {
+                $('#jqGrid').setGridWidth(width);
+            }            
+        }
+
+    });  
 });
 
 $.getMultiScripts = function(arr, path) {
     var _arr = $.map(arr, function(scr) {
-        return $.getScript( (path||"") + scr );
+        return $.ajax({ url: (path||"") + scr, dataType: "script" });
     });
 
     _arr.push(getReady());

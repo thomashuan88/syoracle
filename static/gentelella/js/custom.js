@@ -45,7 +45,17 @@ $(function () {
                 $('#sidebar-menu li.active-sm').addClass('active').removeClass('active-sm');
             }
         }
+        $(window).trigger('resize');
+        var footer = $('footer');
+        if (footer.css('margin-left') == '70px') {
+            footer.css({ "margin-left": "230px", "width":"calc(100% - 230px)" });
+        } else {
+            footer.css({ "margin-left": "70px", "width":"calc(100% - 70px)" });
+
+        }
+
     });
+
 });
 
 

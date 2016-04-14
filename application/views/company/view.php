@@ -25,9 +25,12 @@
                 DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
             </p>
         </div>
+        <div style="padding-top:40px;padding-bottom: 6px;" id="jqGrid_container">
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>            
+        </div>
         <!-- table -->
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
+
     </div>
 </div>
 </div>
