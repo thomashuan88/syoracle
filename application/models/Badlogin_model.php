@@ -3,6 +3,7 @@
 class Badlogin_model extends MY_Model {
     
     public $table_name = 'badlogin'; 
+    public $fields = '`id`, `ip_address`, `login_name`, `username_exist`, `createtime`';
 
     public function __construct()
     {

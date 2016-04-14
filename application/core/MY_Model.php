@@ -44,5 +44,5 @@ class MY_Model extends CI_Model {
         return $this->db_write->delete($this->table_name, $cond);
     }
 
-
+    
 }

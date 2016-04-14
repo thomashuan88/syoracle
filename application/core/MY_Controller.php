@@ -3,7 +3,8 @@
 /**
  * 扩展 Controller 类
  */
-
+// This can be removed if you use __autoload() in config.php OR use Modular Extensions
+require APPPATH . '/libraries/REST_Controller.php';
 
 class MY_Controller extends CI_Controller
 {
@@ -57,6 +58,23 @@ class MY_Controller extends CI_Controller
         return implode("", $result);
     }
 
+}
+
+class MY_REST_Controller extends REST_Controller {
+    
+    function __construct() {
+        parent::__construct();
+        $this->from_mycontroller = 'yes';
+        $this->page_type = 'ajax';
+    }
+
+    protected function bad_request($msg='Bad Request!') {
+        $res = [
+            "status" => "error",
+            "message" => $msg
+        ];
+        $this->response($res, REST_Controller::HTTP_CREATED);
+    }
 }
 
 /* End of file MY_Controller.php */

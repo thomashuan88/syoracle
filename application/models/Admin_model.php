@@ -3,6 +3,7 @@
 class Admin_model extends MY_Model {
     
     public $table_name = 'admin'; 
+    public $fields = '`id`, `userid`, `username`, `password`, `email`, `usergroup`, `usergroup_name`, `login_count`, `last_logintime`, `status`, `updatetime`, `updateby`';
 
     public function __construct()
     {
@@ -23,3 +24,4 @@ class Admin_model extends MY_Model {
     }
 
 }
+

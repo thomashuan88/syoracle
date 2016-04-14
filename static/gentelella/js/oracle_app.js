@@ -78,6 +78,15 @@ $(function() {
     $(document).ajaxStop(function() {
         oracle_app.removeloading();
     });
+    $(document).ajaxSuccess(function(evt, jqXHR, settings) {
+        var res = oracle_app.return_json_err(jqXHR.responseText);
+        if (res !== false) {
+            if (res.status == 'error') {
+                // show model then jump to login
+                oracle_app.oracleModal_message.modal('show');
+            }
+        }
+    });
 
     // ------------------------------------------------------------------------------------
     

@@ -43,7 +43,11 @@ class Acl {
 
         $userinfo = $this->CI->session->userdata("userinfo");
         if (empty($userinfo)) {
-            if ($this->page_type != 'ajax') redirect('login');
+            if ($this->page_type == 'ajax') {
+                 $this->err_output($this->err_msg);
+            } else {
+                redirect('login');
+            }
         } else {
             return;
         }
