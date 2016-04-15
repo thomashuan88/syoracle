@@ -49,6 +49,7 @@ class Acl {
                 redirect('login');
             }
         } else {
+            $this->CI->userinfo = $userinfo;
             return;
         }
 

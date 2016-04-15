@@ -52,6 +52,11 @@ $(function() {
     var appinfo = $('#appinfo');
     oracle_app.baseurl = appinfo.attr("baseurl");
     oracle_app.include_path = appinfo.attr("include-path");
+    oracle_app.userinfo = {
+        username: appinfo.attr('username')
+    }
+
+    $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
     oracle_app.showloading = function() {
         oracle_app.coverlayer = $('<div id="coverlayer"></div>');

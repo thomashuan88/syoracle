@@ -47,7 +47,7 @@ class Company extends MY_REST_Controller {
         $result = [
             'records' => $data['records'] ,// total records
             'page' => $get['page'],
-            'total' => round($data['records'] / $get['rows'], 0, PHP_ROUND_HALF_DOWN) + (($data['records'] % $get['rows'] > 0)?1:0),
+            'total' => floor($data['records'] / $get['rows']) + (($data['records'] % $get['rows'] > 0)?1:0),
             'rows' => empty($data['data'])?array():$data['data']
         ];
 

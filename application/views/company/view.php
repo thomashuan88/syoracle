@@ -2,7 +2,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>Default Example <small>Users</small></h2>
+            <h2>Company List</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li><a href="#"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -22,7 +22,7 @@
         </div>
         <div class="x_content">
             <p class="text-muted font-13 m-b-30">
-                DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
+                
             </p>
         </div>
         <div style="padding-top:40px;padding-bottom: 6px;" id="jqGrid_container">

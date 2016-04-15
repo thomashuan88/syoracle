@@ -13,7 +13,7 @@
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <h2>John Doe</h2>
+                        <h2><span class="oracle_app_userinfo_username"></span></h2>
                     </div>
                 </div>
                 <!-- /menu prile quick info -->
@@ -73,7 +73,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="">John Doe
+                                <span class="oracle_app_userinfo_username"></span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">

@@ -10,10 +10,10 @@
             colModel: oracle_app.company.view.colmodel,
             autowidth: true,
             viewrecords: true,
-            rowNum:10,
-            rowList:[10,20,30],
+            rowNum:15,
+            rowList:[15,25,35],
             sortname: 'createtime', 
-            height: 250,
+            height: 500,
             width: '100%',
             pager: "#jqGridPager"
         });

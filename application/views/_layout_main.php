@@ -41,7 +41,7 @@
 
 <body <?php echo !empty($body_attr)?$body_attr:''; ?>>
     <div style="display:none;">
-        <div id="appinfo" baseurl="<?php echo $this->base_url; ?>" include-path="<?php echo $this->include_path; ?>"></div>
+        <div id="appinfo" username="<?php echo $this->userinfo['username']; ?>" baseurl="<?php echo $this->base_url; ?>" include-path="<?php echo $this->include_path; ?>"></div>
         <img src="<?php echo $this->include_path; ?>images/loading.gif" id="oracle_loading" style="width: 100px;height: 100px;z-index:1005;position: absolute;top:0;bottom: 0;left: 0;right: 0;margin: auto;" />
 
         <div class="modal fade" id="oracleModal_message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
