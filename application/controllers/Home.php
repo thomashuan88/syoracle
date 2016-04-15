@@ -25,9 +25,9 @@ class Home extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('admin_model');
-        $this->load->model('badlogin_model');
-		$this->load->model('log_model');
+		$this->load->model('Admin_model');
+        $this->load->model('Badlogin_model');
+		$this->load->model('Log_model');
 	}
 
 	public function index()
@@ -92,7 +92,7 @@ class Home extends MY_Controller {
 
 
 		// check ip block list
-		$badlogin_list = $this->badlogin_model->get_all(array(
+		$badlogin_list = $this->Badlogin_model->get_all(array(
 			"ip_address" => $this->user_ipaddress
 		));
 
@@ -102,7 +102,7 @@ class Home extends MY_Controller {
 			$this->error_backto_login(array("Username and Password cannot empty!"));
 		}
 
-        $username = $this->admin_model->get_one(
+        $username = $this->Admin_model->get_one(
         	array(
         		"username" => $post['username'], 
         		"status" => 1
@@ -110,7 +110,7 @@ class Home extends MY_Controller {
         );
 
         if (empty($username)) {
-            $this->badlogin_model->insert(array(
+            $this->Badlogin_model->insert(array(
                 "ip_address"=>$this->user_ipaddress, 
                 "login_name" => $post['username'],
                 "username_exist" => '2',
@@ -118,7 +118,7 @@ class Home extends MY_Controller {
             ));
             $this->error_backto_login(array("Invalid Username!"));
         } else {
-            $this->badlogin_model->insert(array(
+            $this->Badlogin_model->insert(array(
                 "ip_address"=>$this->user_ipaddress, 
                 "login_name" => $post['username'],
                 "username_exist" => '1',
@@ -126,25 +126,15 @@ class Home extends MY_Controller {
             ));
         }
 
-        if ($username['login_count'] >= 10) {
-            $this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
-        }
-
-        $userinfo = $this->admin_model->get_one(
+        $userinfo = $this->Admin_model->get_one(
         	array(
         		"username" => $post['username'], 
         		"password" => md5($post['password'].$this->hash_salt),
-        		"status" => 1,
-        		"login_count <" => 10
+        		"status" => 1
         	)
         );
 
         if (empty($userinfo)) {
-        	$this->admin_model->update(
-        		array("login_count"=>$username['login_count'] + 1), 
-        		array("username"=>$username['username'])
-        	);
-
         	$this->error_backto_login(array("Invalid Password!"));
         }
         
@@ -172,26 +162,23 @@ class Home extends MY_Controller {
         if ($no_exist >= 10 || $bigger_ten >= 3) {
             $this->error_backto_login(array("Your IP address is blocked!"));
         }
+        if ($exist >= 10) {
+            $this->error_backto_login(array("User Account is inactive! Please contact IT support!"));
+        }
+
     }
 
     protected function login_success($userinfo=array()) {
-        $this->admin_model->update(
-            array(
-                "login_count"=> 0, 
-                "last_logintime"=>time()
-            ), 
-            array("username"=>$userinfo['username'])
-        );
 
         // del badlogin where createtime >= login_start_time
 
-        $this->badlogin_model->del(array(
+        $this->Badlogin_model->del(array(
             "ip_address" => $this->user_ipaddress
         ));
         
         $this->session->set_userdata('userinfo', $userinfo);
         
-        $this->log_model->insert(
+        $this->Log_model->insert(
             array(
                 'userid' => $userinfo['id'],
                 'username' => $userinfo['username'],

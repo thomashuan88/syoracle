@@ -5412,7 +5412,7 @@ ul.project_files li a i {
     margin-right: 5px;
 }
 
-.loading {
+.ajax_loading {
     display: none;
     position: absolute;
     top: 0;

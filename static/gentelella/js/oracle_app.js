@@ -79,7 +79,7 @@ $(function() {
 
     $(document).ajaxStart(function() {
         oracle_app.showloading();
-    })
+    });
     $(document).ajaxStop(function() {
         oracle_app.removeloading();
     });
@@ -106,7 +106,7 @@ $(function() {
         modal.find("button:contains('Close')").click(function(){
             window.location = oracle_app.baseurl + 'login';
         });
-    })
+    });
 
     // ------------------------------------------------------------------------------------
 
