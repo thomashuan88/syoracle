@@ -11,10 +11,10 @@ class Company_model extends MY_Model {
         parent::__construct();
     }
 
-    public function get_company_list($cond=array(), $start_row=0, $rows=20) {
-
+    public function get_company_list($start_row=0, $rows=20, $order=array(), $cond=array()) {
 
         $this->db_read->select($this->fields);
+        if (!empty($order[0])) $this->db_read->order_by($order[0], $order[1]);
         $query = $this->db_read->get_where($this->table_name, $cond, $rows, $start_row);
 
         $result = array();

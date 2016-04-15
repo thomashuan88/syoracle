@@ -43,7 +43,7 @@ class Company extends MY_REST_Controller {
 
         $startRow = ($get['page'] - 1) * (empty($get['rows'])?20:$get['rows']);
 
-        $data = $this->Company_model->get_company_list(array(), $startRow, $get['rows']);
+        $data = $this->Company_model->get_company_list($startRow, $get['rows'], array($get['sidx'], $get['sord']));
         $result = [
             'records' => $data['records'] ,// total records
             'page' => $get['page'],
