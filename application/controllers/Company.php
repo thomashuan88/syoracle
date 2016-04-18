@@ -53,4 +53,9 @@ class Company extends MY_Controller {
 
         $this->load->view('company/view', $view_data);
     }
+
+    public function add() {
+        $view_data = array();
+        $this->load->view('company/add', $view_data);
+    }
 }

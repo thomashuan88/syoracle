@@ -8,30 +8,7 @@ function getReady() {
 
 var oracle_app = {};
 
-oracle_app.company = { 
-    view:{ 
-        loadscripts:[
-            "jqgrid/js/i18n/grid.locale-en.js",
-            "jqgrid/js/jquery.jqGrid.min.js",
-            "oracle_app/js/company/view.js"
-        ],
-        loadcss: [
-            "jqgrid/css/ui.jqgrid-bootstrap.css"
-        ],
-        colmodel: [
-            { label: 'Company Id', name: 'id', key: true, width: '5%' },
-            { label: 'Company Name', name: 'companyname', width: '10%' },
-            { label: 'Description', name: 'description', width: '20%' },
-            { label: 'Prefix', name: 'prefix', width: '5%' },
-            { label: 'Job URL', name: 'joburl', width: '20%' },
-            { label: 'Created Time', name: 'createtime', width: '10%' },
-            { label: 'Created By', name: 'createby', width: '5%' },
-            { label: 'Created Time', name: 'createtime', width: '10%' },
-            { label: 'Created By', name: 'createby', width: '5%' }
-        ]
 
-    } 
-};
 
 oracle_app.return_json_err = function(str) {
     var json;
@@ -43,11 +20,13 @@ oracle_app.return_json_err = function(str) {
     return json;
 };
 
-oracle_app.nav_content = $('#nav_content');
-oracle_app.oracleModal_message = $('#oracleModal_message').remove();
+
 
 
 $(function() {
+    oracle_app.nav_content = $('#nav_content');
+    oracle_app.oracleModal_message = $('#oracleModal_message').remove();
+    oracle_app.login_img = $('#oracle_loading').remove();
 
     var appinfo = $('#appinfo');
     oracle_app.baseurl = appinfo.attr("baseurl");
@@ -55,6 +34,75 @@ $(function() {
     oracle_app.userinfo = {
         username: appinfo.attr('username')
     }
+
+    oracle_app.company = { 
+        view:{ 
+            loadscripts:[
+                "jqwidgets/jqxcore.js",
+                "jqwidgets/jqxbuttons.js",
+                "jqwidgets/jqxscrollbar.js",
+                "jqwidgets/jqxmenu.js",
+                "jqwidgets/jqxcheckbox.js",
+                "jqwidgets/jqxlistbox.js",
+                "jqwidgets/jqxdropdownlist.js",
+                "jqwidgets/jqxgrid.js",
+                "jqwidgets/jqxgrid.sort.js",
+                "jqwidgets/jqxgrid.pager.js",
+                "jqwidgets/jqxgrid.selection.js",
+                "jqwidgets/jqxdata.js",
+                "oracle_app/js/company/view.js"
+            ],
+            loadcss: [
+                "jqwidgets/styles/jqx.base.css",
+                "jqwidgets/styles/jqx.classic.css"
+            ],
+            colmodel: [
+                { text: 'Company Id', datafield: 'id', width: '5%' },
+                { text: 'Company Name', datafield: 'companyname', width: '15%' },
+                { text: 'Description', datafield: 'description', width: '20%' },
+                { text: 'Prefix', datafield: 'prefix', width: '5%' },
+                { text: 'Job URL', datafield: 'joburl', width: '20%' },
+                { text: 'Created Time', datafield: 'createtime', width: '10%' },
+                { text: 'Created By', datafield: 'createby', width: '5%' },
+                { text: 'Created Time', datafield: 'updatetime', width: '10%' },
+                { text: 'Created By', datafield: 'updateby', width: '5%' },
+                { text: 'Status', datafield: 'status', width: '5%' }
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+
+        },
+        add: {
+            loadscripts: [
+                "js/tags/jquery.tagsinput.min.js",
+                "js/switchery/switchery.min.js",
+                "js/moment/moment.min.js",
+                "js/datepicker/daterangepicker.js",
+                "js/editor/bootstrap-wysiwyg.js",
+                "js/editor/external/jquery.hotkeys.js",
+                "js/editor/external/google-code-prettify/prettify.js",
+                "js/select/select2.full.js",
+                "js/parsley/parsley.min.js",
+                "js/textarea/autosize.min.js",
+                "js/autocomplete/jquery.autocomplete.js",
+                "oracle_app/js/company/add.js"
+            ],
+            loadcss: [
+                "css/editor/external/google-code-prettify/prettify.css",
+                "css/editor/index.css",
+                "css/select/select2.min.css",
+                "css/switchery/switchery.min.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr"
+            ]
+        }
+    };
 
     $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
@@ -69,7 +117,7 @@ $(function() {
             'width': '100%',
             'height': '100%'
         });
-        oracle_app.coverlayer.append($('#oracle_loading'));
+        oracle_app.coverlayer.append(oracle_app.login_img);
         oracle_app.coverlayer.appendTo('body');
     };
 
@@ -117,11 +165,13 @@ $(function() {
 
         window.location = oracle_app.baseurl + '#/' + href;
 
-        console.log(oracle_app.baseurl + href);
-
         oracle_app.load_content = $.ajax({ url: oracle_app.baseurl + href });
 
         var controller = href.split("/");
+
+        for (var x in oracle_app[controller[0]][controller[1]].el_remove) {
+            $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
+        }
 
         $.getMultiScripts(
             oracle_app[controller[0]][controller[1]].loadscripts, 
@@ -138,43 +188,23 @@ $(function() {
             return oracle_app.load_content;
         })
         .done(function(x) {
-            var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
-            if (res === false) {
-                oracle_app.nav_content.html(oracle_app.load_content.responseText);
-                oracle_app[controller[0]][controller[1]].scripts();
-            } else {
-                if (res.status == 'error') {
-                    // show model then jump to login
-                    oracle_app.oracleModal_message.modal('show');
+            setTimeout(function(){
+                var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
+                if (res === false) {
+                    oracle_app.nav_content.html(oracle_app.load_content.responseText);
+                    oracle_app[controller[0]][controller[1]].scripts();
+                } else {
+                    if (res.status == 'error') {
+                        // show model then jump to login
+                        oracle_app.oracleModal_message.modal('show');
+                    }
                 }
-            }
+            });
         });
 
         return false;
     });
 
-    $(window).bind('resize', function() {
-
-        // Get width of parent container
-        var container = $('#jqGrid_container');
-        if (container.length) {
-            var width = container.width();
-            if (width == null || width < 1){
-                // For IE, revert to offsetWidth if necessary
-                width = container.outerWidth();
-            }
-
-            width = width - 2; // Fudge factor to prevent horizontal scrollbars
-            if (width > 0 &&
-                // Only resize if new width exceeds a minimal threshold
-                // Fixes IE issue with in-place resizing when mousing-over frame bars
-                Math.abs(width - $('#jqGrid').width()) > 5)
-            {
-                $('#jqGrid').setGridWidth(width);
-            }            
-        }
-
-    });  
 });
 
 $.getMultiScripts = function(arr, path) {

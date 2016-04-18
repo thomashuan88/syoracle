@@ -112,14 +112,14 @@ $('.collapse-link').click(function () {
 });
 /** ******  /collapse panel  *********************** **/
 /** ******  iswitch  *********************** **/
-if ($("input.flat")[0]) {
-    $(document).ready(function () {
-        $('input.flat').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
-    });
-}
+// if ($("input.flat")[0]) {
+//     $(document).ready(function () {
+//         $('input.flat').iCheck({
+//             checkboxClass: 'icheckbox_flat-green',
+//             radioClass: 'iradio_flat-green'
+//         });
+//     });
+// }
 /** ******  /iswitch  *********************** **/
 /** ******  star rating  *********************** **/
 // Starrr plugin (https://github.com/dobtco/starrr)

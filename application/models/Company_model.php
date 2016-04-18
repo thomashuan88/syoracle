@@ -18,6 +18,7 @@ class Company_model extends MY_Model {
         $query = $this->db_read->get_where($this->table_name, $cond, $rows, $start_row);
 
         $result = array();
+        // echo $this->db_read->last_query();exit;
         $result = $query->result_array();
 
         return array(

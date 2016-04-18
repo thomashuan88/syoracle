@@ -37,22 +37,25 @@ class Company extends MY_REST_Controller {
         // $this->some_model->update_user( ... );
         $get = $this->input->get();
 
-        if (empty($get['page']) || empty($get['rows'])) {
+        if (!isset($get['pagenum']) || !isset($get['pagesize'])) {
             $this->bad_request();
         }
 
-        $startRow = ($get['page'] - 1) * (empty($get['rows'])?20:$get['rows']);
+        $startRow = ($get['pagenum']) * (empty($get['pagesize'])?20:$get['pagesize']);
 
-        $data = $this->Company_model->get_company_list($startRow, $get['rows'], array($get['sidx'], $get['sord']));
-        $result = [
-            'records' => $data['records'] ,// total records
-            'page' => $get['page'],
-            'total' => floor($data['records'] / $get['rows']) + (($data['records'] % $get['rows'] > 0)?1:0),
-            'rows' => empty($data['data'])?array():$data['data']
-        ];
+        $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']));
+        $result = [[
+            'TotalRows' => $data['records'] ,// total records
+            'Rows' => empty($data['data'])?array():$data['data']
+        ]];
 
         $this->response($result, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
+    public function add_post() {
+        $post = $this->input->post();
+
+    
+    }
 
 }
