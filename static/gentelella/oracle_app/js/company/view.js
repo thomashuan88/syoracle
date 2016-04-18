@@ -59,6 +59,7 @@ oracle_app.company.view.scripts = function() {
         pageable: true,
         sortable: true,
         virtualmode: true,
+        autoshowloadelement:false,
         rendergridrows: function() {
             return dataadapter.records;
         },

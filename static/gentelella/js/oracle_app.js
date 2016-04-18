@@ -8,8 +8,6 @@ function getReady() {
 
 var oracle_app = {};
 
-
-
 oracle_app.return_json_err = function(str) {
     var json;
     try {
@@ -19,8 +17,6 @@ oracle_app.return_json_err = function(str) {
     }
     return json;
 };
-
-
 
 
 $(function() {
@@ -199,7 +195,7 @@ $(function() {
                         oracle_app.oracleModal_message.modal('show');
                     }
                 }
-            });
+            },1);
         });
 
         return false;
