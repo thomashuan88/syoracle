@@ -8,18 +8,21 @@
           <form method="post" action="<?php echo $baseurl; ?>home/loginPost" id="loginform">
             <h1><img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 50%;margin-right: -36px;margin-left: -43px;margin-top: -10px;" /> Oracle</h1>
             <?php $error_msg = $this->session->userdata('login_error'); ?>
+            <div id="login_error_msg">
             <?php if (!empty($error_msg)): ?>
-
+                
                 <?php foreach($error_msg as $val): ?>
                 <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                 </button>
                 <?php echo $val; ?>
                 </div>
-                <?php endforeach; ?>
+                <?php endforeach; ?>                    
+                
+
                 <?php $this->session->unset_userdata('login_error'); ?>
             <?php endif; ?>
-
+            </div>
             <div>
               <input type="text" class="form-control" placeholder="Username" name="username" required="" />
             </div>
@@ -76,21 +79,14 @@ var onloadCallback = function() {
       'theme' : 'light'
     });
 };
-oracle_login.oracleModal_message = $('#oracleModal_message').remove();
-oracle_login.oracleModal_message.on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.modal-title').text('Warning!');
-    modal.find('.modal-body').html('- You have to enter reCAPTCHA!');
 
-});
 $(function() {
     $('#loginform').on("submit", function() {
         if (!oracle_login.recap) {
-            oracle_login.oracleModal_message.modal('show');
+            // oracle_login.oracleModal_message.modal('show');
+            $('#login_error_msg').html('<div class="alert alert-danger alert-dismissible fade in" role="alert">'+
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>'+
+                    '</button>You have to enter reCAPTCHA!</div>');
             return false;
         }
     });
