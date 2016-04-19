@@ -6,7 +6,7 @@
       <div id="login" class="animate form">
         <section class="login_content">
           <form method="post" action="<?php echo $baseurl; ?>home/loginPost" id="loginform">
-            <h1><img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 50%;margin-right: -36px;margin-left: -43px;margin-top: -10px;" /> Oracle</h1>
+            <h1><img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 50%;margin-right: -36px;margin-left: -43px;margin-top: -10px;" /> <span style="color:#F0C493;">Oracle</span></h1>
             <?php $error_msg = $this->session->userdata('login_error'); ?>
             <div id="login_error_msg">
             <?php if (!empty($error_msg)): ?>
