@@ -23,7 +23,7 @@
             </div>
             <div class="x_content">
                 <br />
-                <form id="oracle_app_company_add_form" data-parsley-validate class="form-horizontal form-label-left">
+                <form id="oracle_app_company_add_form" data-parsley-validate="" class="form-horizontal form-label-left">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companyname">Company Name <span class="required">*</span>
                         </label>

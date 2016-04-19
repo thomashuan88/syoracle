@@ -20,9 +20,9 @@
             <!--             
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>   -->    
-            <div id="jqxWidget">
-                <div id="jqxgrid"></div>
-            </div>      
+
+            <div id="jqxgrid"></div>
+  
         </div>
         <!-- table -->
 

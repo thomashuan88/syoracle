@@ -22,6 +22,7 @@ oracle_app.return_json_err = function(str) {
 $(function() {
     oracle_app.nav_content = $('#nav_content');
     oracle_app.oracleModal_message = $('#oracleModal_message').remove();
+    oracle_app.oracleModal_comfirm = $('#oracleModal_comfirm').remove();
     oracle_app.login_img = $('#oracle_loading').remove();
 
     var appinfo = $('#appinfo');
@@ -33,7 +34,8 @@ $(function() {
 
     oracle_app.company = { 
         view:{ 
-            loadscripts:[
+            cache_nav_content: {},
+            loadmodules:[
                 "jqwidgets/jqxcore.js",
                 "jqwidgets/jqxbuttons.js",
                 "jqwidgets/jqxscrollbar.js",
@@ -45,7 +47,9 @@ $(function() {
                 "jqwidgets/jqxgrid.sort.js",
                 "jqwidgets/jqxgrid.pager.js",
                 "jqwidgets/jqxgrid.selection.js",
-                "jqwidgets/jqxdata.js",
+                "jqwidgets/jqxdata.js"
+            ],
+            loadscripts: [
                 "oracle_app/js/company/view.js"
             ],
             loadcss: [
@@ -73,7 +77,8 @@ $(function() {
 
         },
         add: {
-            loadscripts: [
+            cache_nav_content: {},
+            loadmodules: [
                 "js/tags/jquery.tagsinput.min.js",
                 "js/switchery/switchery.min.js",
                 "js/moment/moment.min.js",
@@ -84,7 +89,10 @@ $(function() {
                 "js/select/select2.full.js",
                 "js/parsley/parsley.min.js",
                 "js/textarea/autosize.min.js",
-                "js/autocomplete/jquery.autocomplete.js",
+                "js/autocomplete/jquery.autocomplete.js"
+                
+            ],
+            loadscripts: [
                 "oracle_app/js/company/add.js"
             ],
             loadcss: [
@@ -95,7 +103,9 @@ $(function() {
             ],
             el_remove: [
                 "#ascrail2000",
-                "#ascrail2000-hr"
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
             ]
         }
     };
@@ -151,6 +161,18 @@ $(function() {
             window.location = oracle_app.baseurl + 'login';
         });
     });
+    oracle_app.oracleModal_comfirm.on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('Warning!');
+        modal.find('.modal-body').html('Confirm to save this information?');
+        modal.find("button:contains('Close')").click(function(){
+            modal.modal('close');
+        });
+    });
 
     // ------------------------------------------------------------------------------------
 
@@ -161,41 +183,61 @@ $(function() {
 
         window.location = oracle_app.baseurl + '#/' + href;
 
-        oracle_app.load_content = $.ajax({ url: oracle_app.baseurl + href });
-
         var controller = href.split("/");
 
         for (var x in oracle_app[controller[0]][controller[1]].el_remove) {
             $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
         }
 
-        $.getMultiScripts(
-            oracle_app[controller[0]][controller[1]].loadscripts, 
-            oracle_app.include_path
-        ).then(function() {
-            var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
-            for (var x in loadcss) {
-                $("<link/>", {
-                   rel: "stylesheet",
-                   type: "text/css",
-                   href: oracle_app.include_path + loadcss[x]
-                }).appendTo("head");
-            }
-            return oracle_app.load_content;
-        })
-        .done(function(x) {
-            setTimeout(function(){
+        if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
+            $('#nav_content').html('');
+            oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
+            oracle_app[controller[0]][controller[1]].scripts();
+            return false;
+        }
+
+        var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
+        for (var x in loadcss) {
+            $("<link/>", {
+               rel: "stylesheet",
+               type: "text/css",
+               href: oracle_app.include_path + loadcss[x]
+            }).appendTo("head");
+        }
+
+        var ajax_load_arr = [];
+
+        // ajax_load_arr.push(getReady());
+        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
+        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadmodules, oracle_app.include_path, 'script', 'cache');
+
+        oracle_app.load_content = $.ajax({ url:oracle_app.baseurl + href , dataType: 'html' });
+        ajax_load_arr.push(oracle_app.load_content);
+
+        
+
+        // console.log(ajax_load_arr);
+
+        $.when.apply($, ajax_load_arr).done(function(x) {
+            // setTimeout(function(){
+                // $.ajax({ url: oracle_app.include_path + 'js/flot/date.js', dataType: "script" });
+            oracle_app.load_content.success(function(){
                 var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
                 if (res === false) {
                     oracle_app.nav_content.html(oracle_app.load_content.responseText);
                     oracle_app[controller[0]][controller[1]].scripts();
+                    setTimeout(function() {
+                        oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
+                    }, 300);
                 } else {
-                    if (res.status == 'error') {
+                    if (res.status == 'error') { 
                         // show model then jump to login
                         oracle_app.oracleModal_message.modal('show');
                     }
                 }
-            },1);
+            });
+
+            // },3);
         });
 
         return false;
@@ -211,4 +253,13 @@ $.getMultiScripts = function(arr, path) {
     _arr.push(getReady());
 
     return $.when.apply($, _arr);
+};
+
+$.load_ajax_arr = function(arr_first, arr_second, path, type, cache) {
+    var _arr = []
+    for(var x in arr_second) {
+        _arr.push($.ajax({ url: (path||"") + arr_second[x], dataType: type, cache:((cache=='cache')?true:false) }));
+        // console.log(_arr[x]);
+    }
+    return $.merge(arr_first, _arr);
 };

@@ -38,7 +38,14 @@ oracle_app.company.add.scripts = function() {
         hljs.initHighlightingOnLoad();
     } catch (err) {}
 
+    oracle_app_company_add_form.parsley();
+
     oracle_app_company_add_form.submit(function() {
+        var ok = $('.parsley-error').length === 0;
+        if (ok) {
+            oracle_app.oracleModal_comfirm.modal('show');
+            return false;
+        }        
         var post_data = {
             companyname: $(this).find('input[name=companyname]').val(),
             description: $(this).find('textarea[name=description]').val(),
@@ -47,6 +54,7 @@ oracle_app.company.add.scripts = function() {
             status: $(this).find('input[name=status]').val()
         };
         console.log(post_data);
+
         return false;
     });
 

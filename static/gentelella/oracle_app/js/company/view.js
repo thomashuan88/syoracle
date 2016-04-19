@@ -50,7 +50,7 @@ oracle_app.company.view.scripts = function() {
     };
     var dataadapter = new $.jqx.dataAdapter(source);
 
-    thiscontent.find("#jqxgrid").jqxGrid({
+    $("#jqxgrid", thiscontent).jqxGrid({
         source: dataadapter,
         theme : 'classic',
         width: '100%',
