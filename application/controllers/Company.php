@@ -36,7 +36,19 @@ class Company extends MY_Controller {
             "js/nicescroll/jquery.nicescroll.min.js",
             "js/icheck/icheck.min.js",
             "js/custom.js",
-            "js/oracle_app.js"
+            "js/oracle_app.js",
+            "jqwidgets/jqxcore.js",
+            "jqwidgets/jqxbuttons.js",
+            "jqwidgets/jqxscrollbar.js",
+            "jqwidgets/jqxmenu.js",
+            "jqwidgets/jqxcheckbox.js",
+            "jqwidgets/jqxlistbox.js",
+            "jqwidgets/jqxdropdownlist.js",
+            "jqwidgets/jqxgrid.js",
+            "jqwidgets/jqxgrid.sort.js",
+            "jqwidgets/jqxgrid.pager.js",
+            "jqwidgets/jqxgrid.selection.js",
+            "jqwidgets/jqxdata.js"
         );
 
         $login_data['baseurl'] = base_url();
