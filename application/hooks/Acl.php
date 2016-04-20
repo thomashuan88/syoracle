@@ -6,6 +6,7 @@ class Acl {
     private $CI;
     private $err_msg = array(
         "status" => "error",
+        "type" => "",
         "msg" => "Unauthorized Access!"
     );
 
@@ -44,7 +45,8 @@ class Acl {
         $userinfo = $this->CI->session->userdata("userinfo");
         if (empty($userinfo)) {
             if ($this->page_type == 'ajax') {
-                 $this->err_output($this->err_msg);
+                $this->err_msg['type'] = 'session_expire';
+                $this->err_output($this->err_msg);
             } else {
                 redirect('login');
             }

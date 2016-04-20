@@ -44,6 +44,10 @@ class Company extends MY_REST_Controller {
         $startRow = ($get['pagenum']) * (empty($get['pagesize'])?20:$get['pagesize']);
 
         $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']));
+
+
+        $data['data'] = $this->format_records($data['data']);
+
         $result = [[
             'TotalRows' => $data['records'] ,// total records
             'Rows' => empty($data['data'])?array():$data['data']
@@ -52,10 +56,57 @@ class Company extends MY_REST_Controller {
         $this->response($result, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
+    private function format_records($records=array()) {
+        $result = array();
+        foreach ($records as $key => $val) {
+            $val['status'] = ($val['status'] == '1')?'active':'inactive'; 
+            $val['createtime'] = date('Y-m-d h:i:s', $val['createtime']);
+            $val['updatetime'] = date('Y-m-d h:i:s', $val['updatetime']);
+            $result[$key] = $val;
+        }
+        return $result;
+    }
+
     public function add_post() {
         $post = $this->input->post();
 
-    
+        if (empty($post)) {
+            $this->response(["error"=>"Unauthorized Access"], 404);
+        }
+
+        $data = [
+            "companyname" => $post['companyname'],
+            "description" => $post['description'],
+            "prefix" => $post['prefix'],
+            "joburl" => $post['joburl'],
+            "createtime" => time(),
+            "createby" => $this->userinfo['username'],
+            "status" => $post['status']
+        ];
+            
+        $result = $this->Company_model->insert($data);
+        if ($result) {
+            $this->response(["status"=>"success"], 200);
+        } else {
+            $this->response(["status"=>"error", "sql"=>$this->Company_model->db_write->last_query()], 200);
+        }
+    }
+
+    public function companyname_get() {
+        $companyname = $this->input->get("companyname", true);
+
+        if (empty($companyname)) {
+             $this->response(["error"=>"Unauthorized Access"], 404);
+        }
+        $data = $this->Company_model->get_one(array("companyname"=>$companyname));
+        if (!empty($data)) {
+            $this->response(["error"=>"Company Name Already Exist"], 404);
+        }
+        if ($data['status'] == 2) {
+            $this->response(["error"=>"Company Name Inactive"], 404);
+        }
+
+        $this->response([], 200);
     }
 
 }

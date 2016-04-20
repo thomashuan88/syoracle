@@ -34,6 +34,7 @@ class Home extends MY_Controller {
 	{
 
 		$more_js = array(
+            "sweetalert/dist/sweetalert.min.js",
 			"js/progressbar/bootstrap-progressbar.min.js",
 			"js/nicescroll/jquery.nicescroll.min.js",
             "js/icheck/icheck.min.js",
@@ -50,12 +51,27 @@ class Home extends MY_Controller {
             "jqwidgets/jqxgrid.sort.js",
             "jqwidgets/jqxgrid.pager.js",
             "jqwidgets/jqxgrid.selection.js",
-            "jqwidgets/jqxdata.js"
+            "jqwidgets/jqxdata.js",
+            "js/tags/jquery.tagsinput.min.js",
+            "js/switchery/switchery.min.js",
+            "js/moment/moment.min.js",
+            "js/datepicker/daterangepicker.js",
+            "js/editor/bootstrap-wysiwyg.js",
+            "js/editor/external/jquery.hotkeys.js",
+            "js/editor/external/google-code-prettify/prettify.js",
+            "js/select/select2.full.js",
+            "js/parsley/parsley.min.js",
+            "js/textarea/autosize.min.js",
+            "js/autocomplete/jquery.autocomplete.js"
 		);
+        $more_css = array(
+            "css/custom2.css",
+            "sweetalert/dist/sweetalert.css"
+        );
 
 		$login_data['baseurl'] = base_url();
 
-		$this->viewdata['more_css'] = '<link href="'.$this->include_path.'css/custom2.css" rel="stylesheet">';
+		$this->viewdata['more_css'] = $this->more_jscss_toString($more_css, 'css');
 		$this->viewdata['more_js'] = $this->more_jscss_toString($more_js, 'js');
 		$this->viewdata['body_attr'] = 'class="nav-md"';
 		$this->viewdata['viewpage'] = 'main';

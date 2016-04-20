@@ -22,7 +22,7 @@ oracle_app.return_json_err = function(str) {
 $(function() {
     oracle_app.nav_content = $('#nav_content');
     oracle_app.oracleModal_message = $('#oracleModal_message').remove();
-    oracle_app.oracleModal_comfirm = $('#oracleModal_comfirm').remove();
+
     oracle_app.login_img = $('#oracle_loading').remove();
 
     var appinfo = $('#appinfo');
@@ -45,18 +45,6 @@ $(function() {
                 "jqwidgets/styles/jqx.base.css",
                 "jqwidgets/styles/jqx.classic.css"
             ],
-            colmodel: [
-                { text: 'Company Id', datafield: 'id', width: '5%' },
-                { text: 'Company Name', datafield: 'companyname', width: '15%' },
-                { text: 'Description', datafield: 'description', width: '20%' },
-                { text: 'Prefix', datafield: 'prefix', width: '5%' },
-                { text: 'Job URL', datafield: 'joburl', width: '20%' },
-                { text: 'Created Time', datafield: 'createtime', width: '10%' },
-                { text: 'Created By', datafield: 'createby', width: '5%' },
-                { text: 'Created Time', datafield: 'updatetime', width: '10%' },
-                { text: 'Created By', datafield: 'updateby', width: '5%' },
-                { text: 'Status', datafield: 'status', width: '5%' }
-            ],
             el_remove: [
                 "#ascrail2000",
                 "#ascrail2000-hr",
@@ -68,17 +56,7 @@ $(function() {
         add: {
             cache_nav_content: {},
             loadmodules: [
-                "js/tags/jquery.tagsinput.min.js",
-                "js/switchery/switchery.min.js",
-                "js/moment/moment.min.js",
-                "js/datepicker/daterangepicker.js",
-                "js/editor/bootstrap-wysiwyg.js",
-                "js/editor/external/jquery.hotkeys.js",
-                "js/editor/external/google-code-prettify/prettify.js",
-                "js/select/select2.full.js",
-                "js/parsley/parsley.min.js",
-                "js/textarea/autosize.min.js",
-                "js/autocomplete/jquery.autocomplete.js"
+
                 
             ],
             loadscripts: [
@@ -129,7 +107,7 @@ $(function() {
     $(document).ajaxSuccess(function(evt, jqXHR, settings) {
         var res = oracle_app.return_json_err(jqXHR.responseText);
         if (res !== false) {
-            if (res.status == 'error') {
+            if (res.status == 'error' && res.type == 'session_expire') {
                 // show model then jump to login
                 oracle_app.oracleModal_message.modal('show');
             }
@@ -150,86 +128,79 @@ $(function() {
             window.location = oracle_app.baseurl + 'login';
         });
     });
-    oracle_app.oracleModal_comfirm.on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Warning!');
-        modal.find('.modal-body').html('Confirm to save this information?');
-        modal.find("button:contains('Close')").click(function(){
-            modal.modal('close');
-        });
-    });
+
 
     // ------------------------------------------------------------------------------------
 
-    oracle_app.nav_link = function() {
-        return function() {
-            var href = $(this).attr('xhref');
-            $(this).parent().siblings().removeClass('current-page');
-            $(this).parent().addClass('current-page');
+    oracle_app.nav_row_edit_link = function(obj) {
+        console.log(obj);
 
-            window.location = oracle_app.baseurl + '#/' + href;
-
-            var controller = href.split("/");
-
-            for (var x in oracle_app[controller[0]][controller[1]].el_remove) {
-                $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
-            }
-
-            if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
-                $('#nav_content').html('');
-                oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
-                oracle_app[controller[0]][controller[1]].scripts();
-                return false;
-            }
-
-            var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
-            for (var x in loadcss) {
-                $("<link/>", {
-                   rel: "stylesheet",
-                   type: "text/css",
-                   href: oracle_app.include_path + loadcss[x]
-                }).appendTo("head");
-            }
-
-            var ajax_load_arr = [];
-
-            // ajax_load_arr.push(getReady());
-            ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
-            ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadmodules, oracle_app.include_path, 'script', 'cache');
-
-            oracle_app.load_content = $.ajax({ url:oracle_app.baseurl + href , dataType: 'html' });
-            ajax_load_arr.push(oracle_app.load_content);
-
-            $.when.apply($, ajax_load_arr).done(function(x) {
-                oracle_app.load_content.success(function(){
-                    var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
-                    if (res === false) {
-                        oracle_app.nav_content.html(oracle_app.load_content.responseText);
-                        
-                        setTimeout(function() {
-                            oracle_app[controller[0]][controller[1]].scripts();
-                            oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
-                        });
-                    } else {
-                        if (res.status == 'error') { 
-                            // show model then jump to login
-                            oracle_app.oracleModal_message.modal('show');
-                        }
-                    }
-                });
-            });
-
-            return false;
-        };
-
+        var controller = obj.path.split("/");
     };
 
-    $(document).on("click", "a.orcle_ajaxload", oracle_app.nav_link());
-    $(document).on("click", "#oracle_app_company_view_edit_btn", oracle_app.nav_link());
+    oracle_app.nav_link = function(obj) { 
+        var href = $(obj).attr('xhref');
+        $(obj).parent().siblings().removeClass('current-page');
+        $(obj).parent().addClass('current-page');
+
+        window.location = oracle_app.baseurl + '#/' + href;
+
+        var controller = href.split("/");
+
+        for (var x in oracle_app[controller[0]][controller[1]].el_remove) {
+            $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
+        }
+
+        if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
+            $('#nav_content').html('');
+            oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
+            oracle_app[controller[0]][controller[1]].scripts();
+            return false;
+        }
+
+        var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
+        for (var x in loadcss) {
+            $("<link/>", {
+               rel: "stylesheet",
+               type: "text/css",
+               href: oracle_app.include_path + loadcss[x]
+            }).appendTo("head");
+        }
+
+        var ajax_load_arr = [];
+
+        // ajax_load_arr.push(getReady());
+        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
+        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadmodules, oracle_app.include_path, 'script', 'cache');
+
+        oracle_app.load_content = $.ajax({ url:oracle_app.baseurl + href , dataType: 'html' });
+        ajax_load_arr.push(oracle_app.load_content);
+
+        $.when.apply($, ajax_load_arr).done(function(x) {
+            oracle_app.load_content.success(function(){
+                var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
+                if (res === false) {
+                    oracle_app.nav_content.html(oracle_app.load_content.responseText);
+                    
+                        oracle_app[controller[0]][controller[1]].scripts();
+                        oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
+                } else {
+                    if (res.status == 'error') { 
+                        // show model then jump to login
+                        oracle_app.oracleModal_message.modal('show');
+                    }
+                }
+            });
+        });
+
+        return false;
+    };
+
+    $("a.orcle_ajaxload").click(function(){
+        oracle_app.nav_link(this);
+        return false;
+    });
+    
 });
 
 $.getMultiScripts = function(arr, path) {

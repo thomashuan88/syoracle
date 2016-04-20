@@ -32,12 +32,22 @@ class MY_Model extends CI_Model {
     }
 
     public function update($data=array(), $cond=array()) {
+        $this->db_write->trans_start();
+        
         $this->db_write->where($cond);
-        return $this->db_write->update($this->table_name, $data);
+        $this->db_write->update($this->table_name, $data);
+
+        $this->db_write->trans_complete();
+
+        if ($this->db_write->trans_status() === FALSE) {
+            return false;
+        }
+        return true;
     }
 
     public function insert($data=array()) {
-        return $this->db_write->insert($this->table_name, $data);
+        $this->db_write->insert($this->table_name, $data);
+        return ($this->db_write->affected_rows() != 1) ? false : true;
     }
 
     public function del($cond=array()) {

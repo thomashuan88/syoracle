@@ -21,7 +21,7 @@
             <table id="jqGrid"></table>
             <div id="jqGridPager"></div>   -->    
 
-            <div id="jqxgrid"></div>
+            <div id="oracle_app_company_view_jqxgrid"></div>
   
         </div>
         <!-- table -->
