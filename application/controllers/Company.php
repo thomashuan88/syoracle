@@ -29,7 +29,7 @@ class Company extends MY_Controller {
     }
 
     public function index() {
-
+         $this->load->view('pagenofound');
     }
 
     public function view() {
