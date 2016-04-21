@@ -23,12 +23,13 @@
             </div>
             <div class="x_content">
                 <br />
-                <form id="oracle_app_<?php echo $path; ?>_form" data-parsley-validate="" class="form-horizontal form-label-left">
+                <form id="oracle_app_<?php echo $path; ?>_form" class="form-horizontal form-label-left">
+                    <input type="hidden" name="id" />
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companyname">Company Name <span class="required">*</span>
                         </label>
                         <div class="col-md-5 col-sm-6 col-xs-12">
-                            <input type="text" id="companyname" name="companyname" data-parsley-remote data-parsley-remote-message="Invalid Company Name" data-parsley-type="alphanum" data-parsley-remote-validator="unique_companyname" data-parsley-trigger="focusout" class="form-control col-md-7 col-xs-12" required="required">
+                            <input type="text" id="companyname" name="companyname" required="required" data-parsley-remote data-parsley-type="alphanum" data-parsley-remote-validator="unique_companyname" data-parsley-remote-message="" data-parsley-trigger="change" class="form-control col-md-7 col-xs-12" >
                         </div>
                     </div>
                     <div class="form-group">

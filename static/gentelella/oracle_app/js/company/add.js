@@ -1,64 +1,48 @@
 oracle_app.company.add.scripts = function() {
+    
+    var oracle_app_company_add_form = $('#oracle_app_company_add_form');
 
-    $('input.flat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
-    $('input[name=status]').on('ifChecked', function(event){
-        $(this).val('active');
-    });
-    $('input[name=status]').on('ifUnchecked', function(event){
-        $(this).val('inactive');
-    });
-
-    window.Parsley.addAsyncValidator('unique_companyname', function(xhr) {
+    oracle_app_company_add_form.find('#companyname').parsley().addAsyncValidator('unique_companyname', function(xhr) {
         // console.log(xhr); // jQuery Object[ input[name="q"] ]
         // console.log(this.$element); // jQuery Object[ input[name="q"] ]
-        var companyname = $(this.$element).parsley();
-        window.ParsleyUI.removeError(companyname,'errorCompanyname');
-        window.ParsleyUI.removeError(companyname,'remote');
+        // var companyname = $(this.$element).parsley();
+        
+        window.ParsleyUI.removeError(this,'errorCompanyname');
 
         if(xhr.status == '200') {
             return 200;
         }
         if(xhr.status == '404') {
             response = $.parseJSON(xhr.responseText);
-            window.ParsleyUI.addError(companyname,'errorCompanyname',response.error);        
+            window.ParsleyUI.addError(this,'errorCompanyname',response.error);        
         }
 
-        // return false;
     }, oracle_app.baseurl + 'api/company/companyname');
     
-    var add_company_comfirm = false;
-    var oracle_app_company_add_form = $('#oracle_app_company_add_form');
+
+    oracle_app_company_add_form.find('input.flat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+    oracle_app_company_add_form.find('input[name=status]').on('ifChecked', function(event){
+        $(this).val('active');
+    });
+    oracle_app_company_add_form.find('input[name=status]').on('ifUnchecked', function(event){
+        $(this).val('inactive');
+    });
+
     oracle_app_company_add_form.parsley();
-
-    var validateFront = function() {
-        if (true === oracle_app_company_add_form.parsley().isValid()) {
-            $('.bs-callout-info').removeClass('hidden');
-            $('.bs-callout-warning').addClass('hidden');
-        } else {
-            $('.bs-callout-info').addClass('hidden');
-            $('.bs-callout-warning').removeClass('hidden');
-        }
-    };
-
-    $.listen('parsley:field:validate', function() {
-        validateFront();
+    oracle_app_company_add_form.on('field:validated', function() {
+        window.ParsleyUI.removeError(this,'remote');
     });
 
 
-    oracle_app_company_add_form.find('.btn').on('click', function() {
-        oracle_app_company_add_form.parsley().validate();
-        validateFront();
-    });
+    // oracle_app_company_add_form.find('.btn').on('click', function() {
+    //     oracle_app_company_add_form.parsley().validate();
+    // });
 
-
-    try {
-        hljs.initHighlightingOnLoad();
-    } catch (err) {}
-
-    
+   
+    var add_company_comfirm = false;
 
     oracle_app_company_add_form.submit(function() {
         var ok = $('.parsley-error').length === 0;

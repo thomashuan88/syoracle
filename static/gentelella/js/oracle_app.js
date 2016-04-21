@@ -152,12 +152,12 @@ $(function() {
             $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
         }
 
-        if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
-            $('#nav_content').html('');
-            oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
-            oracle_app[controller[0]][controller[1]].scripts();
-            return false;
-        }
+        // if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
+        //     $('#nav_content').html('');
+        //     oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
+        //     oracle_app[controller[0]][controller[1]].scripts();
+        //     return false;
+        // }
 
         var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
         for (var x in loadcss) {

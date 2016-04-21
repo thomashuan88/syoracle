@@ -67,6 +67,28 @@ class Company extends MY_REST_Controller {
         return $result;
     }
 
+    public function update_post() {
+        $post = $this->input->post();
+        if (empty($post)) {
+            $this->response(["error"=>"Unauthorized Access"], 404);
+        }
+        $data = [
+            "companyname" => $post['companyname'],
+            "description" => $post['description'],
+            "prefix" => $post['prefix'],
+            "joburl" => $post['joburl'],
+            "updatetime" => time(),
+            "updateby" => $this->userinfo['username'],
+            "status" => ($post['status'] == 'active')?'1':'2'
+        ];        
+        $result = $this->Company_model->update($data, array("id"=>$post['id']));
+        if ($result) {
+            $this->response(["status"=>"success"], 200);
+        } else {
+            $this->response(["status"=>"error", "sql"=>$this->Company_model->db_write->last_query()], 200);
+        }
+    }
+
     public function add_post() {
         $post = $this->input->post();
 
@@ -81,7 +103,7 @@ class Company extends MY_REST_Controller {
             "joburl" => $post['joburl'],
             "createtime" => time(),
             "createby" => $this->userinfo['username'],
-            "status" => $post['status']
+            "status" => ($post['status'] == 'active')?'1':'2'
         ];
             
         $result = $this->Company_model->insert($data);
@@ -94,16 +116,24 @@ class Company extends MY_REST_Controller {
 
     public function companyname_get() {
         $companyname = $this->input->get("companyname", true);
+        $currentid = $this->input->get("currentid", true);
 
         if (empty($companyname)) {
              $this->response(["error"=>"Unauthorized Access"], 404);
         }
         $data = $this->Company_model->get_one(array("companyname"=>$companyname));
-        if (!empty($data)) {
-            $this->response(["error"=>"Company Name Already Exist"], 404);
-        }
-        if ($data['status'] == 2) {
-            $this->response(["error"=>"Company Name Inactive"], 404);
+        if (!empty($currentid)) {
+            if (!empty($data) && $data['id'] != $currentid) {
+                $this->response(["error"=>"Company Name Already Exist"], 404);
+            } 
+            if ($data['status'] == 2 && $data['id'] != $currentid) {
+                $this->response(["error"=>"Company Name Inactive"], 404);
+            }                           
+        } else {
+            if (!empty($data)) {
+                $this->response(["error"=>"Company Name Already Exist"], 404);
+            }  
+                    
         }
 
         $this->response([], 200);
