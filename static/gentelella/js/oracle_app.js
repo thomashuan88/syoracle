@@ -35,9 +35,6 @@ $(function() {
     oracle_app.company = { 
         view:{ 
             cache_nav_content: {},
-            loadmodules:[
-
-            ],
             loadscripts: [
                 "oracle_app/js/company/view.js"
             ],
@@ -55,12 +52,26 @@ $(function() {
         },
         add: {
             cache_nav_content: {},
-            loadmodules: [
-
-                
-            ],
             loadscripts: [
                 "oracle_app/js/company/add.js"
+            ],
+            loadcss: [
+                "css/editor/external/google-code-prettify/prettify.css",
+                "css/editor/index.css",
+                "css/select/select2.min.css",
+                "css/switchery/switchery.min.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+        },
+        edit: {
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/company/edit.js"
             ],
             loadcss: [
                 "css/editor/external/google-code-prettify/prettify.css",
@@ -132,17 +143,7 @@ $(function() {
 
     // ------------------------------------------------------------------------------------
 
-    oracle_app.nav_row_edit_link = function(obj) {
-        console.log(obj);
-
-        var controller = obj.path.split("/");
-    };
-
-    oracle_app.nav_link = function(obj) { 
-        var href = $(obj).attr('xhref');
-        $(obj).parent().siblings().removeClass('current-page');
-        $(obj).parent().addClass('current-page');
-
+    oracle_app.load_module_content = function(href) {
         window.location = oracle_app.baseurl + '#/' + href;
 
         var controller = href.split("/");
@@ -171,27 +172,72 @@ $(function() {
 
         // ajax_load_arr.push(getReady());
         ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
-        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadmodules, oracle_app.include_path, 'script', 'cache');
 
         oracle_app.load_content = $.ajax({ url:oracle_app.baseurl + href , dataType: 'html' });
         ajax_load_arr.push(oracle_app.load_content);
+        // console.log(ajax_load_arr);
+        
+        var interval_id = setInterval(function() {
+            var allitem = 0;
+            var okitem = 0;                 
+            for (var x in ajax_load_arr) {
+                if (ajax_load_arr[x].statusText == 'OK') {
+                    okitem++;
+                }
+                allitem++;
+            }
+            if (allitem === okitem) {
+                clearInterval(interval_id);
 
-        $.when.apply($, ajax_load_arr).done(function(x) {
-            oracle_app.load_content.success(function(){
                 var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
+
                 if (res === false) {
-                    oracle_app.nav_content.html(oracle_app.load_content.responseText);
+
+                    $('#nav_content').html(oracle_app.load_content.responseText);
                     
-                        oracle_app[controller[0]][controller[1]].scripts();
-                        oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
+                    oracle_app[controller[0]][controller[1]].scripts();
+                    oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
                 } else {
                     if (res.status == 'error') { 
                         // show model then jump to login
                         oracle_app.oracleModal_message.modal('show');
                     }
                 }
-            });
-        });
+            }
+        }, 100);
+        // $.when.apply($, ajax_load_arr).done(function(x) {
+
+        //     oracle_app.load_content.success(function(){
+        //         var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
+
+        //         if (res === false) {
+
+        //             $('#nav_content').html(oracle_app.load_content.responseText);
+                    
+        //             oracle_app[controller[0]][controller[1]].scripts();
+        //             oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
+        //         } else {
+        //             if (res.status == 'error') { 
+        //                 // show model then jump to login
+        //                 oracle_app.oracleModal_message.modal('show');
+        //             }
+        //         }
+        //     });
+        // });
+    }
+
+    oracle_app.nav_row_edit_link = function(obj) {
+        var controller = obj.path.split("/");
+        oracle_app[controller[0]][controller[1]].row_data = obj.row_data;
+        oracle_app.load_module_content(obj.path);
+    };
+
+    oracle_app.nav_link = function(obj) { 
+        var href = $(obj).attr('xhref');
+        $(obj).parent().siblings().removeClass('current-page');
+        $(obj).parent().addClass('current-page');
+
+        oracle_app.load_module_content(href);
 
         return false;
     };

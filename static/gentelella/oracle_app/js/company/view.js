@@ -114,7 +114,7 @@ oracle_app.company.view.scripts = function() {
                 swal("You haven't select a row", "", "error");
             } else {
                 oracle_app.company.view.row_edit = selectedRowData;
-                oracle_app.nav_content_link({
+                oracle_app.nav_row_edit_link({
                     path: "company/edit",
                     row_data: selectedRowData
                 });

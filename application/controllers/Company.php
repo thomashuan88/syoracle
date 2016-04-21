@@ -67,7 +67,18 @@ class Company extends MY_Controller {
     }
 
     public function add() {
-        $view_data = array();
+        $view_data = array(
+            "path" => "company_add",
+            "title" => "Add Company"
+        );
+        $this->load->view('company/add', $view_data);
+    }
+
+    public function edit() {
+        $view_data = array(
+            "path" => "company_edit",
+            "title" => "Edit Company"
+        );
         $this->load->view('company/add', $view_data);
     }
 }

@@ -173,7 +173,6 @@ class Home extends MY_Controller {
     protected function check_ip_is_block($list=array()) {
         $exist = 0;
         $no_exist = 0;
-        $bigger_ten = 0;
 
         foreach ($list as $val) {
             if ($val['username_exist'] == 1) {
@@ -182,12 +181,9 @@ class Home extends MY_Controller {
             if ($val['username_exist'] == 2) {
                 $no_exist++;
             } 
-            if ($exist >= 10) {
-                $bigger_ten++;
-            }
         }
 
-        if ($no_exist >= 10 || $bigger_ten >= 3) {
+        if (($no_exist + $exist) >= 10) {
             $this->error_backto_login(array("Your IP address is blocked!"));
         }
         if ($exist >= 10) {

@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row"  id="oracle_app_<?php echo $path; ?>_html">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Add Company</h2>
+                <h2><?php echo $title; ?></h2>
                     <!--                 
                     <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -23,7 +23,7 @@
             </div>
             <div class="x_content">
                 <br />
-                <form id="oracle_app_company_add_form" postto="<?php echo $this->base_url; ?>api/company/add" data-parsley-validate="" class="form-horizontal form-label-left">
+                <form id="oracle_app_<?php echo $path; ?>_form" data-parsley-validate="" class="form-horizontal form-label-left">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companyname">Company Name <span class="required">*</span>
                         </label>
