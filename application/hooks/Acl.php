@@ -44,7 +44,7 @@ class Acl {
 
         $userinfo = $this->CI->session->userdata("userinfo");
         if (empty($userinfo)) {
-            if ($this->page_type == 'ajax') {
+            if ($this->page_type == 'ajax' && !empty($this->url_method)) {
                 $this->err_msg['type'] = 'session_expire';
                 $this->err_output($this->err_msg);
             } else {
