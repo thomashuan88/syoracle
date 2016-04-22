@@ -41,6 +41,12 @@ class Company_model extends MY_Model {
         );
     }
 
+    public function get_prefix() {
+        $this->db_read->group_by("prefix");
+        $this->db_read->select('prefix');
+        return $this->get_all();
+    }
+
     // 
 
 }

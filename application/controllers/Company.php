@@ -40,8 +40,7 @@ class Company extends MY_Controller {
             $view_data['company_list_search'] = $company_list_search;
         }
 
-        $this->Company_model->table_name = "view_prefix_list";
-        $prefix_data = $this->Company_model->get_all();
+        $prefix_data = $this->Company_model->get_prefix();
         $prefixlist = '';
         foreach ($prefix_data as $val) {
             if (!empty($company_list_search['search_prefix'])) {
