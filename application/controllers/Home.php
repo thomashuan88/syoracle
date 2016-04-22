@@ -66,7 +66,8 @@ class Home extends MY_Controller {
 		);
         $more_css = array(
             "css/custom2.css",
-            "sweetalert/dist/sweetalert.css"
+            "sweetalert/dist/sweetalert.css",
+            "js/datepicker/daterangepicker.css"
         );
 
 		$login_data['baseurl'] = base_url();

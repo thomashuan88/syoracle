@@ -68,7 +68,7 @@ oracle_app.company.add.scripts = function() {
             description: $(this).find('textarea[name=description]').val(),
             prefix: $(this).find('input[name=prefix]').val(),
             joburl: $(this).find('input[name=joburl]').val(),
-            status: ($(this).find('input[name=status]').val() == 'active')?'1':'2'
+            status: $(this).find('input[name=status]').val()
         };
 
         $.post(oracle_app.baseurl + 'api/company/add', post_data, function(data){

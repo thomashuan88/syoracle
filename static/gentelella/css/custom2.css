@@ -9,3 +9,24 @@ footer {
     margin-left: 230px;
     width: calc(100% - 230px);
 }
+
+.list_search_form .list_label_first {
+    padding: 8px;
+    float: left;
+}
+
+.list_search_form .list_inputbox {
+    float: left;
+}
+
+.list_search_form .list_label {
+    padding: 8px;
+    float: left;
+}
+.list_search_form .search_btn {
+    float: right;
+}
+.list_search_form .group_box {
+    width: 350px;
+    float: left;
+}

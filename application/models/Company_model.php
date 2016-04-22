@@ -15,15 +15,29 @@ class Company_model extends MY_Model {
 
         $this->db_read->select($this->fields);
         if (!empty($order[0])) $this->db_read->order_by($order[0], $order[1]);
-        $query = $this->db_read->get_where($this->table_name, $cond, $rows, $start_row);
+
+        if (!empty($cond['where'])) {
+            $this->do_where($cond['where']);
+        }
+        if (!empty($cond['like'])) {
+            $this->do_like($cond['like']);
+        }
+        $query = $this->db_read->get($this->table_name, $rows, $start_row);
 
         $result = array();
         // echo $this->db_read->last_query();exit;
         $result = $query->result_array();
 
+        if (!empty($cond['where'])) {
+            $this->do_where($cond['where']);
+        }
+        if (!empty($cond['like'])) {
+            $this->do_like($cond['like']);
+        }        
+
         return array(
             "data" => !empty($result)?$result:array(),
-            "records" => $this->db_read->from($this->table_name)->where($cond)->count_all_results()
+            "records" => $this->db_read->from($this->table_name)->count_all_results()
         );
     }
 

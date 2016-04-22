@@ -54,5 +54,16 @@ class MY_Model extends CI_Model {
         return $this->db_write->delete($this->table_name, $cond);
     }
 
+    public function do_like($like=array()) {
+        foreach($like as $key => $val) {
+            $this->db_read->like($key, $val);
+        }
+    }
+
+    public function do_where($where=array()) {
+        foreach($where as $key => $val) {
+            $this->db_read->where($key, $val);
+        }
+    }
     
 }

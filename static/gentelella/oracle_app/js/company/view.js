@@ -2,6 +2,19 @@
 oracle_app.company.view.scripts = function() {
 
     var thiscontent = $('#oracle_app_company_view_html');
+
+    thiscontent.find('input[name=createtime]').daterangepicker({
+        locale: {
+          format: 'YYYY-MM-DD'
+        }
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    }).on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+    }).on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
     var source = {
         datatype: "json",
         datafields: [{
@@ -37,6 +50,7 @@ oracle_app.company.view.scripts = function() {
         }],
         url: oracle_app.baseurl + 'api/company/list',
         root: 'Rows',
+        data:{},
         beforeprocessing: function(data) {
             source.totalrecords = data[0].TotalRows;
         },
@@ -60,8 +74,7 @@ oracle_app.company.view.scripts = function() {
         }
         return defaultHtml;
     };
-
-    var dataadapter = new $.jqx.dataAdapter(source);
+    
     var colmodel = [
         { text: 'Company Id', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
         { text: 'Company Name', datafield: 'companyname', width: '15%', cellsrenderer: cellsrenderer },
@@ -74,8 +87,10 @@ oracle_app.company.view.scripts = function() {
         { text: 'Update By', datafield: 'updateby', width: '5%', cellsrenderer: cellsrenderer },
         { text: 'Status', datafield: 'status', width: '5%', cellsrenderer: cellsrenderer }
     ];
-
-    $("#oracle_app_company_view_jqxgrid", thiscontent).jqxGrid({
+    
+    var jqxgrid = $("#oracle_app_company_view_jqxgrid", thiscontent);
+    var dataadapter = new $.jqx.dataAdapter(source);
+    jqxgrid.jqxGrid({
         source: dataadapter,
         theme : 'classic',
         width: '100%',
@@ -85,18 +100,19 @@ oracle_app.company.view.scripts = function() {
         sortable: true,
         virtualmode: true,
         autoshowloadelement:false,
+        pagermode: 'simple',
         rendergridrows: function() {
             return dataadapter.records;
         },
         columns: colmodel
     });
 
-    $("#oracle_app_company_view_jqxgrid", thiscontent).on('rowclick', function (event) {
-        var index = $("#oracle_app_company_view_jqxgrid", thiscontent).jqxGrid('getselectedrowindex');
+    jqxgrid.on('rowclick', function (event) {
+        var index = jqxgrid.jqxGrid('getselectedrowindex');
         var clickedIndex = event.args.rowindex;
         if (clickedIndex == index) {
             setTimeout(function () {
-                $("#oracle_app_company_view_jqxgrid", thiscontent).jqxGrid('clearselection');
+                jqxgrid.jqxGrid('clearselection');
             }, 10);
         }
     });
@@ -106,10 +122,10 @@ oracle_app.company.view.scripts = function() {
         return false;
     });
     thiscontent.find('#oracle_app_company_view_edit_btn').click(function(){
-        var getselectedrowindexes = $('#oracle_app_company_view_jqxgrid', thiscontent).jqxGrid('getselectedrowindexes');
+        var getselectedrowindexes = jqxgrid.jqxGrid('getselectedrowindexes');
         if (getselectedrowindexes.length > 0)
         {
-            var selectedRowData = $('#oracle_app_company_view_jqxgrid', thiscontent).jqxGrid('getrowdata', getselectedrowindexes[0]);
+            var selectedRowData = jqxgrid.jqxGrid('getrowdata', getselectedrowindexes[0]);
             if (!selectedRowData) {
                 swal("You haven't select a row", "", "error");
             } else {
@@ -126,6 +142,24 @@ oracle_app.company.view.scripts = function() {
         return false;
 
     });
+
+    var searchform = thiscontent.find('form.list_search_form');
+
+    searchform.submit(function() {
+
+        dataadapter = new $.jqx.dataAdapter(source, {
+            formatData: function(data) {
+                data.search_companyname = searchform.find('input[name=companyname]').val();
+                data.search_createtime = searchform.find('input[name=createtime]').val();
+                data.search_prefix = searchform.find('select[name=prefix]').val();
+                return data;
+            }
+        });
+        jqxgrid.jqxGrid({
+            source: dataadapter
+        });
+        return false;
+    })
 
 };
 

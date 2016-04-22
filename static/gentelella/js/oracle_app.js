@@ -90,6 +90,20 @@ $(function() {
 
     $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
+    
+    //     $(".side-menu a[xhref='" + window.location.hash.replace(/^#\//,'') + "']").trigger('click');      
+    // }
+
+    if (window.location.hash != "") {
+        $(window).trigger('hashchange');
+    }
+    $(window).on('hashchange', function() {
+        var href = window.location.hash.replace(/^#\//,'');
+        if (!$("a.orcle_ajaxload[xhref='" + href + "']").parent('.current-page').length) {
+            $(".side-menu a[xhref='" + href + "']").trigger('click');
+        }
+    });
+
     oracle_app.showloading = function() {
         oracle_app.coverlayer = $('<div id="coverlayer"></div>');
         oracle_app.coverlayer.css({
@@ -120,31 +134,22 @@ $(function() {
         if (res !== false) {
             if (res.status == 'error' && res.type == 'session_expire') {
                 // show model then jump to login
-                oracle_app.oracleModal_message.modal('show');
+                swal({
+                  title: "Warning!",
+                  text: "You Session is expired, please login again.",
+                  type: "warning",
+                  showCancelButton: false,
+                  closeOnConfirm: false
+                },
+                function(){
+                    window.location.hash = "";
+                    window.location = oracle_app.baseurl + 'login';
+                });
             }
         }
     });
 
-    // ------------------------------------------------------------------------------------
-    
-    oracle_app.oracleModal_message.on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Warning!');
-        modal.find('.modal-body').html('- You Session is expired, please login again.');
-        modal.find("button:contains('Close')").click(function(){
-            window.location = oracle_app.baseurl + 'login';
-        });
-    });
-
-
-    // ------------------------------------------------------------------------------------
-
     oracle_app.load_module_content = function(href) {
-        window.location = oracle_app.baseurl + '#/' + href;
 
         var controller = href.split("/");
 
@@ -194,13 +199,23 @@ $(function() {
                 if (res === false) {
 
                     $('#nav_content').html(oracle_app.load_content.responseText);
-                    
+                    window.location = oracle_app.baseurl + '#/' + href;
                     oracle_app[controller[0]][controller[1]].scripts();
                     oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
                 } else {
                     if (res.status == 'error') { 
                         // show model then jump to login
-                        oracle_app.oracleModal_message.modal('show');
+                        swal({
+                          title: "Warning!",
+                          text: "You Session is expired, please login again.",
+                          type: "warning",
+                          showCancelButton: false,
+                          closeOnConfirm: false
+                        },
+                        function(){
+                            window.location.hash = "";
+                            window.location = oracle_app.baseurl + 'login';
+                        });
                     }
                 }
             }

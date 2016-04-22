@@ -41,9 +41,11 @@ class Company extends MY_REST_Controller {
             $this->bad_request();
         }
 
+        $search_cond = $this->list_search();
+
         $startRow = ($get['pagenum']) * (empty($get['pagesize'])?20:$get['pagesize']);
 
-        $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']));
+        $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']), $search_cond);
 
 
         $data['data'] = $this->format_records($data['data']);
@@ -56,12 +58,36 @@ class Company extends MY_REST_Controller {
         $this->response($result, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
+    private function list_search() {
+        $search_items = array(
+            "search_companyname" => $this->input->get("search_companyname", true),
+            "search_createtime" => $this->input->get("search_createtime", true),
+            "search_prefix" => $this->input->get("search_prefix", true)
+        );
+        $this->session->set_userdata("company_list_search", $search_items);
+
+        $cond = array( "where"=>array(), "like"=>array());
+        if (!empty($search_items['search_companyname'])) $cond['like']['companyname'] = $search_items['search_companyname'];
+        if (!empty($search_items['search_createtime'])) {
+            $createtime = explode(" - ", $search_items['search_createtime']);
+            $sdate = strtotime($createtime[0].' 00:00:00');
+            $edate = strtotime($createtime[1].' 23:59:59');
+            $cond['where'] = array(
+                "createtime >=" => $sdate,
+                "createtime <=" => $edate
+            );
+        }
+        if (!empty($search_items['search_prefix'])) $cond['where']['prefix'] = $search_items['search_prefix'];
+
+        return $cond;
+    }
+
     private function format_records($records=array()) {
         $result = array();
         foreach ($records as $key => $val) {
             $val['status'] = ($val['status'] == '1')?'active':'inactive'; 
-            $val['createtime'] = date('Y-m-d h:i:s', $val['createtime']);
-            $val['updatetime'] = date('Y-m-d h:i:s', $val['updatetime']);
+            $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s', $val['createtime']):'';
+            $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s', $val['updatetime']):'';
             $result[$key] = $val;
         }
         return $result;

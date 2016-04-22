@@ -24,7 +24,7 @@ class Company extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->page_type = 'ajax';
-        // $this->load->model('company');
+        $this->load->model('Company_model');
 
     }
 
@@ -33,7 +33,26 @@ class Company extends MY_Controller {
     }
 
     public function view() {
+        
         $view_data = array();
+        $company_list_search = $this->session->userdata("company_list_search");
+        if (!empty($company_list_search)) {
+            $view_data['company_list_search'] = $company_list_search;
+        }
+
+        $this->Company_model->table_name = "view_prefix_list";
+        $prefix_data = $this->Company_model->get_all();
+        $prefixlist = '';
+        foreach ($prefix_data as $val) {
+            if (!empty($company_list_search['search_prefix'])) {
+                $prefixlist .= '<option selected>'.$val['prefix'].'</option>';
+            } else {
+                $prefixlist .= '<option>'.$val['prefix'].'</option>';
+            }
+            
+        }
+
+        $view_data['prefixlist'] = $prefixlist;
 
         $this->load->view('company/view', $view_data);
     }
