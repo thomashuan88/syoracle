@@ -6,11 +6,8 @@ oracle_app.company.view.scripts = function() {
     thiscontent.find('input[name=createtime]').daterangepicker({
         locale: {
           format: 'YYYY-MM-DD'
-        }
-    }, function(start, end, label) {
-        console.log(start.toISOString(), end.toISOString(), label);
-    }).on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+        },
+        "opens": "left"
     }).on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
