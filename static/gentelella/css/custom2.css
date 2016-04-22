@@ -16,7 +16,7 @@ footer {
 }
 
 .list_search_form .list_inputbox {
-    float: left;
+
 }
 
 .list_search_form .list_label {
@@ -27,7 +27,7 @@ footer {
     float: right;
 }
 .list_search_form .group_box {
-    width: 350px;
+    width: 380px;
     float: left;
 }
 .profile_info {
