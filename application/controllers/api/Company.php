@@ -45,6 +45,10 @@ class Company extends MY_REST_Controller {
 
         $startRow = ($get['pagenum']) * (empty($get['pagesize'])?20:$get['pagesize']);
 
+        if (!empty($search_cond['where']) || !empty($search_cond['like'])) {
+            $startRow = 0;
+        }
+
         $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']), $search_cond);
 
 
