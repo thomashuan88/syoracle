@@ -30,3 +30,13 @@ footer {
     width: 350px;
     float: left;
 }
+.profile_info {
+    position: relative;
+    width:80%; 
+    padding:0;
+    margin: 20px;
+
+}
+#sidebar-menu {
+    margin-top: 10px;
+}

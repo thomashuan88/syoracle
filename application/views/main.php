@@ -3,26 +3,25 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Oracle Admin</span></a>
+                    <a href="/" class="site_title"><img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 80%;margin-right: -55px;margin-left: -50px;margin-top: 5px;" /> <span style="color:#F0C493;">Oracle</span></a>
                 </div>
                 <div class="clearfix"></div>
                 <!-- menu prile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img">
+                        <!-- <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img"> -->
                     </div>
                     <div class="profile_info">
-                        <span>Welcome,</span>
+                        <span style="float:left">Welcome,</span>
                         <h2><span class="oracle_app_userinfo_username"></span></h2>
                     </div>
                 </div>
                 <!-- /menu prile quick info -->
-                <br />
+                <br /><br /><br />
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
-                        <h3>General</h3>
-                        <ul class="nav side-menu">
+                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> Company Management <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="company/view" class="orcle_ajaxload">View Company</a>
