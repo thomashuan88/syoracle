@@ -4,9 +4,9 @@
         <div class="x_title">
             <h2>Company List</h2>
             <ul class="nav navbar-right panel_toolbox">
-                <li><a href="#" id="oracle_app_company_view_add_btn"><i class="fa fa-plus-square"></i> Add</a>
+                <li class="current-page"><a href="#" id="oracle_app_company_view_add_btn"><i class="fa fa-plus-square"></i> Add</a>
                 </li>
-                <li><a href="#" xhref="company/edit" id="oracle_app_company_view_edit_btn"><i class="fa fa-edit"></i> Edit</a>
+                <li class="current-page"><a href="#" xhref="company/edit" id="oracle_app_company_view_edit_btn"><i class="fa fa-edit"></i> Edit</a>
                 </li>
             </ul>
             <div class="clearfix"></div>
