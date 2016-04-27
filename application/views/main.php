@@ -3,7 +3,9 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="/" class="site_title"><img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 80%;margin-right: -55px;margin-left: -50px;margin-top: 5px;" /> <span style="color:#F0C493;">Oracle</span></a>
+                    <a href="/" class="site_title">
+                    <img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 80%;margin-right: -55px;margin-left: -50px;margin-top: 5px;" />
+                     <span style="color:#F0C493;">Oracle</span></a>
                 </div>
                 <div class="clearfix"></div>
                 <!-- menu prile quick info -->
@@ -22,6 +24,14 @@
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
                          <ul class="nav side-menu">
+                            <li><a><i class="fa fa-gears"></i> Admin <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu" style="display: none">
+                                    <li><a href="#" xhref="user/view" class="orcle_ajaxload">View User</a>
+                                    </li>
+                                    <li><a href="#" xhref="user/add" class="orcle_ajaxload">Add User</a>
+                                    </li>
+                                </ul>
+                            </li>           
                             <li><a><i class="fa fa-home"></i> Company Management <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="company/view" class="orcle_ajaxload">View Company</a>

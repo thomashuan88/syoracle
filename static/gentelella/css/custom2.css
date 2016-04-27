@@ -40,3 +40,10 @@ footer {
 #sidebar-menu {
     margin-top: 10px;
 }
+
+body.nav-sm .navbar.nav_title a img {
+    margin-left: -20px !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    width: 147% !important;
+}
