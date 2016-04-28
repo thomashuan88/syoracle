@@ -47,3 +47,6 @@ body.nav-sm .navbar.nav_title a img {
     margin-top: 0 !important;
     width: 147% !important;
 }
+.jqx-position-relative {
+    z-index: 1;
+}
