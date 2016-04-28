@@ -52,6 +52,7 @@ oracle_app.company.edit.scripts = function() {
             description: $(this).find('textarea[name=description]').val(),
             prefix: $(this).find('input[name=prefix]').val(),
             joburl: $(this).find('input[name=joburl]').val(),
+            secure_key: $(this).find('input[name=secure_key]').val(),
             status: $(this).find('input[name=status]').val()
         };
         // check same or not

@@ -47,6 +47,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="secure_key" class="control-label col-md-3 col-sm-3 col-xs-12">Secure Key <span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                            <input id="secure_key" class="form-control col-md-1 col-xs-12" data-parsley-trigger="focusout" required="required" type="text" name="secure_key">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="joburl">Job URL <span class="required">*</span>
                         </label>
                         <div class="col-md-5 col-sm-6 col-xs-12">

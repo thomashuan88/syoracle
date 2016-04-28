@@ -107,6 +107,7 @@ class Company extends MY_REST_Controller {
             "description" => $post['description'],
             "prefix" => $post['prefix'],
             "joburl" => $post['joburl'],
+            "secure_key" => $post['secure_key'],
             "updatetime" => time(),
             "updateby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
