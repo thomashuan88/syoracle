@@ -1,10 +1,6 @@
 {
     "require": {
         "firebase/php-jwt": "^3.0",
-		"phpunit/phpunit": "3.7.*",
-		"mockery/mockery": ">=0.7.2"        
-    },
-	"autoload": {
-		"classmap": [ "core", "tests/support/models" ]
-	}
+        "guzzlehttp/guzzle": "^6.2"
+    }
 }

@@ -107,6 +107,25 @@ $(function() {
 
         }
     };
+    oracle_app.monitor = {
+        head_beat:{ 
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/monitor/head_beat.js"
+            ],
+            loadcss: [
+                "jqwidgets/styles/jqx.base.css",
+                "jqwidgets/styles/jqx.classic.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+
+        }
+    };
 
     $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
