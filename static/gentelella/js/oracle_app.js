@@ -240,6 +240,7 @@ $(function() {
                     $('#nav_content').html(oracle_app.load_content.responseText);
                     window.location = oracle_app.baseurl + '#/' + href;
                     oracle_app[controller[0]][controller[1]].scripts();
+                    
                     oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
                 } else {
                     if (res.status == 'error') { 
