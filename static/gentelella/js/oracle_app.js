@@ -124,8 +124,26 @@ $(function() {
                 "#menuWrappergridmenujqxgrid"
             ]
 
+        },
+        database: { 
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/monitor/database.js"
+            ],
+            loadcss: [
+                "jqwidgets/styles/jqx.base.css",
+                "jqwidgets/styles/jqx.classic.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+
         }
     };
+
 
     $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
@@ -196,12 +214,6 @@ $(function() {
             $(oracle_app[controller[0]][controller[1]].el_remove[x]).remove();
         }
 
-        // if (oracle_app[controller[0]][controller[1]].cache_nav_content.length) {
-        //     $('#nav_content').html('');
-        //     oracle_app[controller[0]][controller[1]].cache_nav_content.appendTo('#nav_content');
-        //     oracle_app[controller[0]][controller[1]].scripts();
-        //     return false;
-        // }
 
         var loadcss = oracle_app[controller[0]][controller[1]].loadcss;
         for (var x in loadcss) {
@@ -260,25 +272,7 @@ $(function() {
                 }
             }
         }, 100);
-        // $.when.apply($, ajax_load_arr).done(function(x) {
 
-        //     oracle_app.load_content.success(function(){
-        //         var res = oracle_app.return_json_err(oracle_app.load_content.responseText);
-
-        //         if (res === false) {
-
-        //             $('#nav_content').html(oracle_app.load_content.responseText);
-                    
-        //             oracle_app[controller[0]][controller[1]].scripts();
-        //             oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
-        //         } else {
-        //             if (res.status == 'error') { 
-        //                 // show model then jump to login
-        //                 oracle_app.oracleModal_message.modal('show');
-        //             }
-        //         }
-        //     });
-        // });
     }
 
     oracle_app.nav_row_edit_link = function(obj) {

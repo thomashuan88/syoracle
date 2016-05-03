@@ -34,6 +34,73 @@ class Monitor extends MY_REST_Controller {
         $this->load->model('Company_model');
     }
 
+    public function database_struct_get($cid=0) {
+        $this->database_url = "/oracle/dbstructure";
+        $this->database_token = array(
+            "iss" => "Heartbeat",
+            "aud" => "syoracle",
+            "iat" => time()
+        );
+        $error = array(
+            "status" => "error"
+        );
+
+        if (empty($cid)) {
+            $error['msg'] = "Unauthorized Usage!";
+            $this->response($error, 200);
+        }    
+        $client = new Client();
+
+        $data = $this->Company_model->get_one(array("id"=>$cid));
+
+        if (empty($data)) {
+            $error['msg'] = "Unauthorized Usage!";
+            $this->response($error, 200);            
+        }
+
+
+        $token = JWT::encode($this->database_token, $data['secure_key']);
+
+        $response = $client->get($data['joburl'].$this->database_url, ["headers"=>["Authorization"=>$token]]);
+
+        $result = json_decode($response->getBody(), true);  
+
+        echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">';
+        foreach ($result as $key => $val) {
+            $in = '';
+            if ($key == 0) {
+                $in = ' in';
+            }
+            echo '<div class="panel">
+                    <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
+                        <h4 class="panel-title">'.$val['tableName'].'</h4>
+                    </a>
+                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Type</th>
+                                        <th>Collation</th>
+                                        <th>Null</th>
+                                        <th>Key</th>
+                                        <th>Default</th>
+                                        <th>Extra</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                ';
+            $tr = '';
+            foreach ($val['tableFields'] as $k2 => $v2) {
+                $tr .= '<tr><td>'.$v2['Field'].'</td><td>'.$v2['Type'].'</td><td>'.$v2['Collation'].'</td><td>'.$v2['Null'].'</td><td>'.$v2['Key'].'</td><td>'.$v2['Default'].'</td><td>'.$v2['Extra'].'</td><td>'.$v2['Comment'].'</td></tr>';
+            }
+
+            echo $tr.'</tbody></table></div></div></div>';
+        }
+        echo '</div>';
+    }
 
     public function head_beat_refresh_get($cid=0)
     {
