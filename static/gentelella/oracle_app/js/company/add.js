@@ -74,16 +74,17 @@ oracle_app.company.add.scripts = function() {
 
         $.post(oracle_app.baseurl + 'api/company/add', post_data, function(data){
             if (data.status == 'success') {
-                swal({
-                    title: "Saved Success",
-                    text: "Company data saved.",
-                    type: "success",
-                    showCancelButton: false,
-                    closeOnConfirm: true
-                },
-                function() {
-                    $(".side-menu a[xhref='company/view']").trigger('click');
-                });
+                $(".side-menu a[xhref='company/view']").trigger('click');
+                // swal({
+                //     title: "Saved Success",
+                //     text: "Company data saved.",
+                //     type: "success",
+                //     showCancelButton: false,
+                //     closeOnConfirm: true
+                // },
+                // function() {
+                //     $(".side-menu a[xhref='company/view']").trigger('click');
+                // });
                 
             } else {
                 swal("Saved Fail", "Company data saved fail.", "error");

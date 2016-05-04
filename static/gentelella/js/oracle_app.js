@@ -17,6 +17,30 @@ oracle_app.return_json_err = function(str) {
     }
     return json;
 };
+oracle_app.filesadded = "";
+oracle_app.loadjscssfile = function(filename, filetype) {
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script');
+        fileref.setAttribute("type","text/javascript");
+        fileref.setAttribute("src", filename);
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename);
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref);
+}
+
+oracle_app.checkloadjscssfile = function(filename, filetype){
+    console.log(filename);
+    if (oracle_app.filesadded.indexOf("["+filename+"]")==-1){
+        oracle_app.loadjscssfile(filename, filetype);
+        oracle_app.filesadded+="["+filename+"]"; //List of files added in the form "[filename1],[filename2],etc"
+    }
+}
 
 
 $(function() {
@@ -227,16 +251,22 @@ $(function() {
         var ajax_load_arr = [];
 
         // ajax_load_arr.push(getReady());
-        ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
+        // ajax_load_arr = $.load_ajax_arr(ajax_load_arr, oracle_app[controller[0]][controller[1]].loadscripts, oracle_app.include_path, 'script', 'nocache');
+
+        var loadscripts = oracle_app[controller[0]][controller[1]].loadscripts;
+
+        for (var x in loadscripts) {
+            oracle_app.checkloadjscssfile(oracle_app.include_path + loadscripts[x], 'js');
+        }
 
         oracle_app.load_content = $.ajax({ url:oracle_app.baseurl + href , dataType: 'html' });
         ajax_load_arr.push(oracle_app.load_content);
         // console.log(ajax_load_arr);
-        
+        var allitem = 0;
+        var okitem = 0;          
         var interval_id = setInterval(function() {
-            var allitem = 0;
-            var okitem = 0;                 
-            for (var x in ajax_load_arr) {
+           
+            for (var x in ajax_load_arr) { 
                 if (ajax_load_arr[x].statusText == 'OK') {
                     okitem++;
                 }
@@ -251,9 +281,15 @@ $(function() {
 
                     $('#nav_content').html(oracle_app.load_content.responseText);
                     window.location = oracle_app.baseurl + '#/' + href;
-                    oracle_app[controller[0]][controller[1]].scripts();
+                    var scriptloaded = setInterval(function(){
+                        if ($.isFunction(oracle_app[controller[0]][controller[1]].scripts)) {
+                            oracle_app[controller[0]][controller[1]].scripts();
+                            clearInterval(scriptloaded);
+                        } 
+                    },100);
                     
                     oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
+                   
                 } else {
                     if (res.status == 'error') { 
                         // show model then jump to login
@@ -271,6 +307,8 @@ $(function() {
                     }
                 }
             }
+            allitem = 0;
+            okitem = 0;              
         }, 100);
 
     }

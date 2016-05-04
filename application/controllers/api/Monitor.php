@@ -37,7 +37,7 @@ class Monitor extends MY_REST_Controller {
     public function database_struct_get($cid=0) {
         $this->database_url = "/oracle/dbstructure";
         $this->database_token = array(
-            "iss" => "Heartbeat",
+            "iss" => "Database",
             "aud" => "syoracle",
             "iat" => time()
         );
@@ -63,7 +63,12 @@ class Monitor extends MY_REST_Controller {
 
         $response = $client->get($data['joburl'].$this->database_url, ["headers"=>["Authorization"=>$token]]);
 
-        $result = json_decode($response->getBody(), true);  
+        $result = json_decode($response->getBody(), true);
+
+        if (empty($result)) {
+            $error['msg'] = "Wrong URL";
+            $this->response($error, 400);  
+        }  
 
         echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">';
         foreach ($result as $key => $val) {

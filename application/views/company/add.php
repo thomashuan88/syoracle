@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label for="prefix" class="control-label col-md-3 col-sm-3 col-xs-12">Prefix <span class="required">*</span></label>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <input id="prefix" class="form-control col-md-1 col-xs-12" data-parsley-trigger="focusout" required="required" type="text" name="prefix">
+                            <input id="prefix" class="form-control col-md-1 col-xs-12" data-parsley-trigger="focusout" required="required" data-parsley-maxlength="5" type="text" name="prefix">
                         </div>
                     </div>
                     <div class="form-group">

@@ -87,16 +87,17 @@ oracle_app.company.edit.scripts = function() {
 
         $.post(oracle_app.baseurl + 'api/company/update', post_data, function(data){
             if (data.status == 'success') {
-                swal({
-                    title: "Update Success",
-                    text: "Company data updated.",
-                    type: "success",
-                    showCancelButton: false,
-                    closeOnConfirm: true
-                },
-                function() {
-                    $(".side-menu a[xhref='company/view']").trigger('click');
-                });
+                $(".side-menu a[xhref='company/view']").trigger('click');
+                // swal({
+                //     title: "Update Success",
+                //     text: "Company data updated.",
+                //     type: "success",
+                //     showCancelButton: false,
+                //     closeOnConfirm: true
+                // },
+                // function() {
+                //     $(".side-menu a[xhref='company/view']").trigger('click');
+                // });
                 
             } else {
                 swal("Update Fail", "Company data update fail.", "error");

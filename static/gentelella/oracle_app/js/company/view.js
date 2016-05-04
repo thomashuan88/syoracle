@@ -1,4 +1,3 @@
-
 oracle_app.company.view.scripts = function() {
 
     var thiscontent = $('#oracle_app_company_view_html');

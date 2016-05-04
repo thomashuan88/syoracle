@@ -4,7 +4,7 @@
  * 扩展 Controller 类
  */
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
-require APPPATH . '/libraries/REST_Controller.php';
+require APPPATH . 'libraries/REST_Controller.php';
 
 class MY_Controller extends CI_Controller
 {
