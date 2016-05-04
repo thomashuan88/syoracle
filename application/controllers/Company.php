@@ -42,14 +42,18 @@ class Company extends MY_Controller {
 
         $prefix_data = $this->Company_model->get_prefix();
         $prefixlist = '';
-        foreach ($prefix_data as $val) {
-            if (!empty($company_list_search['search_prefix'])) {
-                $prefixlist .= '<option selected>'.$val['prefix'].'</option>';
-            } else {
-                $prefixlist .= '<option>'.$val['prefix'].'</option>';
-            }
+        if (!empty($prefix_data)) {
             
+            foreach ($prefix_data as $val) {
+                if (!empty($company_list_search['search_prefix'])) {
+                    $prefixlist .= '<option selected>'.$val['prefix'].'</option>';
+                } else {
+                    $prefixlist .= '<option>'.$val['prefix'].'</option>';
+                }
+                
+            }            
         }
+
 
         $view_data['prefixlist'] = $prefixlist;
 
