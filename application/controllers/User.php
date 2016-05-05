@@ -29,7 +29,7 @@ class User extends MY_Controller {
     }
 
     public function index() {
-         $this->load->view('pagenofound');
+         $this->load->view('Pagenofound');
     }
 
     public function view() {
@@ -53,7 +53,7 @@ class User extends MY_Controller {
 
         // $view_data['prefixlist'] = $prefixlist;
 
-        $this->load->view('user/view', $view_data);
+        $this->load->view('user/View', $view_data);
     }
 
     public function add() {
@@ -61,7 +61,7 @@ class User extends MY_Controller {
             "path" => "company_add",
             "title" => "Add Company"
         );
-        $this->load->view('company/add', $view_data);
+        $this->load->view('company/Add', $view_data);
     }
 
     public function edit() {
@@ -69,6 +69,6 @@ class User extends MY_Controller {
             "path" => "company_edit",
             "title" => "Edit Company"
         );
-        $this->load->view('company/add', $view_data);
+        $this->load->view('company/Add', $view_data);
     }
 }

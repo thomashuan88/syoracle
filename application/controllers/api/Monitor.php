@@ -70,6 +70,7 @@ class Monitor extends MY_REST_Controller {
             $this->response($error, 400);  
         }  
 
+        ob_start();
         echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">';
         foreach ($result as $key => $val) {
             $in = '';
@@ -105,6 +106,12 @@ class Monitor extends MY_REST_Controller {
             echo $tr.'</tbody></table></div></div></div>';
         }
         echo '</div>';
+        $output = ob_get_contents();
+        ob_end_clean();
+        echo json_encode([
+            "status" => "success",
+            "html" => $output
+        ]);
     }
 
     public function head_beat_refresh_get($cid=0)

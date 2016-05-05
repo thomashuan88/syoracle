@@ -37,7 +37,7 @@ class Monitor extends MY_Controller {
     }
 
     public function index() {
-         $this->load->view('pagenofound');
+         $this->load->view('Pagenofound');
     }
 
     public function head_beat() {
@@ -70,14 +70,14 @@ class Monitor extends MY_Controller {
                 }
                 $block_data = [];
                 if ($response['state'] != 'fulfilled') {
-                    $error = $response['reason']->getHandlerContext();
+                    $error = $response['reason']->getHandlerContext(); 
                     // output inactive
                     $block_data['status'] = 'inactive';
                     $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
                     $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
                     $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
                     $block_data['error_msg'] = $error['error'];
-                    $block .= $this->load->view("monitor/head_beat_block", $block_data, true);
+                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
             
                     continue;
                 }
@@ -106,7 +106,7 @@ class Monitor extends MY_Controller {
                     $block_data['game_balance'] = $result->game_balance->start;
                     // $block_data = array_merge($result, $block_data);
 
-                    $block .= $this->load->view("monitor/head_beat_block", $block_data, true);                    
+                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);                    
                 } else {
                     $block_data['status'] = 'active';
                     $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
@@ -114,13 +114,13 @@ class Monitor extends MY_Controller {
                     $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
                     $block_data['error_msg'] = "Wrong URL";
                     $block_data['status'] = "inactive";
-                    $block .= $this->load->view("monitor/head_beat_block", $block_data, true);
+                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
                 }
 
 
                 
             }
-            $this->load->view('monitor/head_beat', array("head_beat_blocks" => $block));
+            $this->load->view('monitor/Head_beat', array("head_beat_blocks" => $block));
         })->wait();
 
 
@@ -159,7 +159,7 @@ class Monitor extends MY_Controller {
 
         $view_data['tabs'] = $tabs;
         $view_data['contents'] = $contents;
-        $this->load->view('monitor/database', $view_data);
+        $this->load->view('monitor/Database', $view_data);
     }
 
     private function database_struct($cid=0) {
@@ -255,7 +255,7 @@ class Monitor extends MY_Controller {
 
         $view_data['tabs'] = $tabs;
         $view_data['contents'] = $contents;
-        $this->load->view('monitor/redis', $view_data);
+        $this->load->view('monitor/Redis', $view_data);
     }
 
     private function redis_cache($cid=0) {

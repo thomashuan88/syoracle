@@ -75,7 +75,7 @@ class Home extends MY_Controller {
 		$this->viewdata['more_css'] = $this->more_jscss_toString($more_css, 'css');
 		$this->viewdata['more_js'] = $this->more_jscss_toString($more_js, 'js');
 		$this->viewdata['body_attr'] = 'class="nav-md"';
-		$this->viewdata['viewpage'] = 'main';
+		$this->viewdata['viewpage'] = 'Main';
 		$this->viewdata['content_main'] = $this->load->view($this->viewdata['viewpage'],$login_data, true);
 	}
 
@@ -89,7 +89,7 @@ class Home extends MY_Controller {
 
 		$this->viewdata['more_css'] = $this->more_jscss_toString($more_css, 'css');
 		$this->viewdata['more_js'] = '';
-		$this->viewdata['viewpage'] = 'login/login';
+		$this->viewdata['viewpage'] = 'login/Login';
 		$this->viewdata['content_main'] = $this->load->view($this->viewdata['viewpage'], $login_data, true);
 		
 	}

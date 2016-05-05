@@ -10,6 +10,6 @@ class Page_no_found extends CI_Controller
 
     public function index() {
         $this->include_path = base_url('static/gentelella')."/"; // tamplate folder
-        $this->load->view('pagenofound');
+        $this->load->view('Pagenofound');
     }
 }
