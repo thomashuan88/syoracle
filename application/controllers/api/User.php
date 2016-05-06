@@ -29,6 +29,11 @@ class User extends MY_REST_Controller {
         $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         $this->load->model('User_model');
+        $this->usergroup = [
+            "1" => "root",
+            "2" => "Super User",
+            "3" => "Normal User"
+        ];
     }
 
 
@@ -64,14 +69,13 @@ class User extends MY_REST_Controller {
 
     private function list_search() {
         $search_items = array(
-            "search_companyname" => $this->input->get("search_companyname", true),
-            "search_createtime" => $this->input->get("search_createtime", true),
-            "search_prefix" => $this->input->get("search_prefix", true)
+            "search_username" => $this->input->get("search_username", true),
+            "search_createtime" => $this->input->get("search_createtime", true)
         );
-        $this->session->set_userdata("company_list_search", $search_items);
+        $this->session->set_userdata("user_list_search", $search_items);
 
         $cond = array( "where"=>array(), "like"=>array());
-        if (!empty($search_items['search_companyname'])) $cond['like']['companyname'] = $search_items['search_companyname'];
+        if (!empty($search_items['search_username'])) $cond['like']['username'] = $search_items['search_username'];
         if (!empty($search_items['search_createtime'])) {
             $createtime = explode(" - ", $search_items['search_createtime']);
             $sdate = strtotime($createtime[0].' 00:00:00');
@@ -81,7 +85,6 @@ class User extends MY_REST_Controller {
                 "createtime <=" => $edate
             );
         }
-        if (!empty($search_items['search_prefix'])) $cond['where']['prefix'] = $search_items['search_prefix'];
 
         return $cond;
     }
@@ -104,19 +107,24 @@ class User extends MY_REST_Controller {
             $this->response(["error"=>"Unauthorized Access"], 404);
         }
         $data = [
-            "companyname" => $post['companyname'],
-            "description" => $post['description'],
-            "prefix" => $post['prefix'],
-            "joburl" => $post['joburl'],
+            "username" => $post['username'],
+            "email" => $post['email'],
+            "usergroup" => $post['usergroup'],
+            "usergroup_name" => $this->usergroup[$post['usergroup']],
             "updatetime" => time(),
             "updateby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
-        ];        
-        $result = $this->Company_model->update($data, array("id"=>$post['id']));
+        ];      
+
+        if (!empty($post['password'])) {
+            $data['password'] = md5($post['password']);
+        }  
+
+        $result = $this->User_model->update($data, array("id"=>$post['id']));
         if ($result) {
             $this->response(["status"=>"success"], 200);
         } else {
-            $this->response(["status"=>"error", "sql"=>$this->Company_model->db_write->last_query()], 200);
+            $this->response(["status"=>"error", "sql"=>$this->User_model->db_write->last_query()], 200);
         }
     }
 
@@ -128,41 +136,42 @@ class User extends MY_REST_Controller {
         }
 
         $data = [
-            "companyname" => $post['companyname'],
-            "description" => $post['description'],
-            "prefix" => $post['prefix'],
-            "joburl" => $post['joburl'],
+            "username" => $post['username'],
+            "email" => $post['email'],
+            "usergroup" => $post['usergroup'],
+            "password" =>  md5($post['password']),
+            "usergroup_name" => $this->usergroup[$post['usergroup']],
             "createtime" => time(),
             "createby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
-        ];
-            
-        $result = $this->Company_model->insert($data);
+        ];      
+
+        $result = $this->User_model->insert($data);
         if ($result) {
             $this->response(["status"=>"success"], 200);
         } else {
-            $this->response(["status"=>"error", "sql"=>$this->Company_model->db_write->last_query()], 200);
+            $this->response(["status"=>"error", "sql"=>$this->User_model->db_write->last_query()], 200);
         }
     }
 
     public function username_get() {
-        $companyname = $this->input->get("companyname", true);
+        $username = $this->input->get("username", true);
         $currentid = $this->input->get("currentid", true);
 
-        if (empty($companyname)) {
+        if (empty($username)) {
              $this->response(["error"=>"Unauthorized Access"], 404);
         }
-        $data = $this->Company_model->get_one(array("companyname"=>$companyname));
+        $data = $this->User_model->get_one(array("username"=>$username));
         if (!empty($currentid)) {
             if (!empty($data) && $data['id'] != $currentid) {
-                $this->response(["error"=>"Company Name Already Exist"], 404);
+                $this->response(["error"=>"User Name Already Exist"], 404);
             } 
             if ($data['status'] == 2 && $data['id'] != $currentid) {
-                $this->response(["error"=>"Company Name Inactive"], 404);
+                $this->response(["error"=>"User Name Inactive"], 404);
             }                           
         } else {
             if (!empty($data)) {
-                $this->response(["error"=>"Company Name Already Exist"], 404);
+                $this->response(["error"=>"User Name Already Exist"], 404);
             }  
                     
         }

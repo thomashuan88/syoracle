@@ -1,57 +1,57 @@
-oracle_app.company.edit.scripts = function() {
+oracle_app.user.edit.scripts = function() {
     
-    var oracle_app_company_edit_form = $('#oracle_app_company_edit_form');
+    var oracle_app_user_edit_form = $('#oracle_app_user_edit_form');
     
-    if (oracle_app.company.edit.row_data) {
-        var row_data = oracle_app.company.edit.row_data;
-        oracle_app_company_edit_form.find('input[name=id]').val(row_data.id);
-        oracle_app_company_edit_form.find('input[name=companyname]').val(row_data.companyname);
-        oracle_app_company_edit_form.find('textarea[name=description]').val(row_data.description);
-        oracle_app_company_edit_form.find('input[name=prefix]').val(row_data.prefix);
-        oracle_app_company_edit_form.find('input[name=joburl]').val(row_data.joburl);
+    if (oracle_app.user.edit.row_data) {
+        var row_data = oracle_app.user.edit.row_data;
+        oracle_app_user_edit_form.find('input[name=id]').val(row_data.id);
+        oracle_app_user_edit_form.find('input[name=username]').val(row_data.username);
+        oracle_app_user_edit_form.find('input[name=email]').val(row_data.email);
+        oracle_app_user_edit_form.find('input[name=password]').val(row_data.password);
+        oracle_app_user_edit_form.find('select[name=usergroup]').val(row_data.usergroup);
         if (row_data.status == 'active') {
-            oracle_app_company_edit_form.find('#status_active').iCheck('check');
+            oracle_app_user_edit_form.find('#status_active').iCheck('check');
         } else {
-            oracle_app_company_edit_form.find('#status_inactive').iCheck('check');
+            oracle_app_user_edit_form.find('#status_inactive').iCheck('check');
         }
     }
 
-    window.Parsley.addAsyncValidator('unique_companyname', function(xhr) {
-        window.ParsleyUI.removeError(this,'errorCompanyname');
+    window.Parsley.addAsyncValidator('unique_username', function(xhr) {
+        window.ParsleyUI.removeError(this,'errorUsername');
         if(xhr.status == '200') {
             return 200;
         }
         if(xhr.status == '404') {
             response = $.parseJSON(xhr.responseText);
-            window.ParsleyUI.addError(this,'errorCompanyname',response.error);        
+            window.ParsleyUI.addError(this,'errorUsername',response.error);        
         }
-    }, oracle_app.baseurl + 'api/company/companyname?currentid='+row_data.id);
+    }, oracle_app.baseurl + 'api/user/username?currentid='+row_data.id);
 
-    oracle_app_company_edit_form.find('input.flat').iCheck({
+    oracle_app_user_edit_form.find('input.flat').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-    oracle_app_company_edit_form.find('input[name=status]').on('ifChecked', function(event){
+    oracle_app_user_edit_form.find('input[name=status]').on('ifChecked', function(event){
         $(this).val('active');
     });
-    oracle_app_company_edit_form.find('input[name=status]').on('ifUnchecked', function(event){
+    oracle_app_user_edit_form.find('input[name=status]').on('ifUnchecked', function(event){
         $(this).val('inactive');
     });
 
-    oracle_app_company_edit_form.parsley();
-    oracle_app_company_edit_form.on('field:validated', function() {
+    oracle_app_user_edit_form.parsley();
+    oracle_app_user_edit_form.on('field:validated', function() {
         window.ParsleyUI.removeError(this,'remote');
     });
 
-    var add_company_comfirm = false;
-    oracle_app_company_edit_form.submit(function() {
+    var add_comfirm = false;
+    oracle_app_user_edit_form.submit(function() {
         
         var post_data = {
             id: $(this).find('input[name=id]').val(),
-            companyname: $(this).find('input[name=companyname]').val(),
-            description: $(this).find('textarea[name=description]').val(),
-            prefix: $(this).find('input[name=prefix]').val(),
-            joburl: $(this).find('input[name=joburl]').val(),
+            username: $(this).find('input[name=username]').val(),
+            email: $(this).find('input[name=email]').val(),
+            password: $(this).find('input[name=password]').val(),
+            usergroup: $(this).find('select[name=usergroup]').val(),
             status: $(this).find('input[name=status]').val()
         };
         // check same or not
@@ -61,12 +61,12 @@ oracle_app.company.edit.scripts = function() {
         }
 
         if (update_same) {
-            swal("Update Fail", "Company data no change.", "error");
+            swal("Update Fail", "User data no change.", "error");
             return false;
         }
 
         var ok = $('.parsley-error').length === 0;
-        if (ok && !add_company_comfirm) {
+        if (ok && !add_comfirm) {
             swal({
                 title: "Save Company Information",
                 text: "Confirm to save this information?",
@@ -76,29 +76,19 @@ oracle_app.company.edit.scripts = function() {
                 closeOnConfirm: true
             },
             function() {
-                add_company_comfirm = true;
-                oracle_app_company_edit_form.submit();
+                add_comfirm = true;
+                oracle_app_user_edit_form.submit();
             });
             return false;
         } else {
-            add_company_comfirm = false;
+            add_comfirm = false;
         } 
 
-        $.post(oracle_app.baseurl + 'api/company/update', post_data, function(data){
+        $.post(oracle_app.baseurl + 'api/user/update', post_data, function(data){
             if (data.status == 'success') {
-                swal({
-                    title: "Update Success",
-                    text: "Company data updated.",
-                    type: "success",
-                    showCancelButton: false,
-                    closeOnConfirm: true
-                },
-                function() {
-                    $(".side-menu a[xhref='company/view']").trigger('click');
-                });
-                
+                $(".side-menu a[xhref='user/view']").trigger('click');
             } else {
-                swal("Update Fail", "Company data update fail.", "error");
+                swal("Update Fail", "User data update fail.", "error");
             }
         }, 'json');
  

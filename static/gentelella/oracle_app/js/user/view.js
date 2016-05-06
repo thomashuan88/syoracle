@@ -1,4 +1,3 @@
-
 oracle_app.user.view.scripts = function() {
 
     var thiscontent = $('#oracle_app_user_view_html');
@@ -22,6 +21,12 @@ oracle_app.user.view.scripts = function() {
             type: 'string'
         }, {
             name: 'email',
+            type: 'string'
+        }, {
+            name: 'password',
+            type: 'string'
+        }, {
+            name: 'usergroup',
             type: 'string'
         }, {
             name: 'usergroup_name',
@@ -146,7 +151,7 @@ oracle_app.user.view.scripts = function() {
 
         dataadapter = new $.jqx.dataAdapter(source, {
             formatData: function(data) {
-                data.search_companyname = searchform.find('input[name=username]').val();
+                data.search_username = searchform.find('input[name=username]').val();
                 data.search_createtime = searchform.find('input[name=createtime]').val();
                 return data;
             }

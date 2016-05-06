@@ -58,17 +58,17 @@ class User extends MY_Controller {
 
     public function add() {
         $view_data = array(
-            "path" => "company_add",
-            "title" => "Add Company"
+            "path" => "user_add",
+            "title" => "Add User"
         );
-        $this->load->view('company/Add', $view_data);
+        $this->load->view('user/Add', $view_data);
     }
 
     public function edit() {
         $view_data = array(
-            "path" => "company_edit",
-            "title" => "Edit Company"
+            "path" => "user_edit",
+            "title" => "Edit User"
         );
-        $this->load->view('company/Add', $view_data);
+        $this->load->view('user/Add', $view_data);
     }
 }

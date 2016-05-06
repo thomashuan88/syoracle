@@ -26,31 +26,34 @@
                 <form id="oracle_app_<?php echo $path; ?>_form" class="form-horizontal form-label-left">
                     <input type="hidden" name="id" />
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companyname">Company Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companyname">User Name <span class="required">*</span>
                         </label>
                         <div class="col-md-5 col-sm-6 col-xs-12">
-                            <input type="text" id="companyname" name="companyname" required="required" data-parsley-remote data-parsley-type="alphanum" data-parsley-remote-validator="unique_companyname" data-parsley-remote-message="" data-parsley-trigger="change" class="form-control col-md-7 col-xs-12" >
+                            <input type="text" id="username" name="username" required="required" data-parsley-remote data-parsley-type="alphanum" data-parsley-remote-validator="unique_username" data-parsley-remote-message="" data-parsley-trigger="change" class="form-control col-md-7 col-xs-12" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description 
-                        </label>
-
-                        <div class="col-md-5 col-sm-6 col-xs-12">
-                            <textarea class="form-control" name="description" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="prefix" class="control-label col-md-3 col-sm-3 col-xs-12">Prefix <span class="required">*</span></label>
+                        <label for="password" class="control-label col-md-3 col-sm-3 col-xs-12">Password <span class="required">*</span></label>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                            <input id="prefix" class="form-control col-md-1 col-xs-12" data-parsley-trigger="focusout" required="required" type="text" name="prefix">
+                            <input id="password" class="form-control col-md-1 col-xs-12" data-parsley-trigger="focusout" required="required" type="password" name="password">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="joburl">Job URL <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
                         </label>
                         <div class="col-md-5 col-sm-6 col-xs-12">
-                            <input type="text" id="joburl" data-parsley-type="url" data-parsley-trigger="focusout" name="joburl" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="email" id="email" data-parsley-type="url" data-parsley-trigger="focusout" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">User Group <span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                            <select class="form-control" name="usergroup" required="required">
+                                <option value="">-- Select Group --</option>
+                                <option value="1">root</option>
+                                <option value="2">Super User</option>
+                                <option value="3">Normal User</option>
+                            </select>
                         </div>
                     </div>
 

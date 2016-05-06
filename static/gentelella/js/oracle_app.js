@@ -129,6 +129,42 @@ $(function() {
                 "#menuWrappergridmenujqxgrid"
             ]
 
+        },
+        add: {
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/user/add.js"
+            ],
+            loadcss: [
+                "css/editor/external/google-code-prettify/prettify.css",
+                "css/editor/index.css",
+                "css/select/select2.min.css",
+                "css/switchery/switchery.min.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+        },
+        edit: {
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/user/edit.js"
+            ],
+            loadcss: [
+                "css/editor/external/google-code-prettify/prettify.css",
+                "css/editor/index.css",
+                "css/select/select2.min.css",
+                "css/switchery/switchery.min.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
         }
     };
     oracle_app.monitor = {
