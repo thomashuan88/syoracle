@@ -3,7 +3,7 @@
 class Company_model extends MY_Model {
     
     public $table_name = 'company'; 
-    public $fields = '`id`,  `companyname`,  `description`,  `prefix`,  `joburl`,  `createtime`,  `updatetime`,  `createby`,  `updateby`,  `status`';
+    public $fields = '`id`,  `companyname`,  `description`,  `prefix`,  `joburl`, `secure_key`, `createtime`,  `updatetime`,  `createby`,  `updateby`,  `status`';
 
     public function __construct()
     {

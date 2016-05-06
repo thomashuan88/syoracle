@@ -36,6 +36,11 @@ oracle_app.company.add.scripts = function() {
         window.ParsleyUI.removeError(this,'remote');
     });
 
+    oracle_app_company_add_form.find('button:reset').click(function(){
+        $(".side-menu a[xhref='company/view']").trigger('click');
+        return false;
+    });
+
 
     // oracle_app_company_add_form.find('.btn').on('click', function() {
     //     oracle_app_company_add_form.parsley().validate();

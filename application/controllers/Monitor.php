@@ -9,21 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Monitor extends MY_Controller {
 
-    /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     *      http://example.com/index.php/welcome
-     *  - or -
-     *      http://example.com/index.php/welcome/index
-     *  - or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see http://codeigniter.com/user_guide/general/urls.html
-     */
 
     public $page_type;
     
@@ -287,48 +272,35 @@ class Monitor extends MY_Controller {
 
         $token = JWT::encode($this->database_token, $data['secure_key']);
 
-        $res_webcache = $client->get($data['joburl'].$this->redis_webcache, ["headers"=>["Authorization"=>$token]]);
-        $res_session = $client->get($data['joburl'].$this->redis_session, ["headers"=>["Authorization"=>$token]]);
-        $res_agent = $client->get($data['joburl'].$this->redis_agent, ["headers"=>["Authorization"=>$token]]);
-        $res_job = $client->get($data['joburl'].$this->redis_job, ["headers"=>["Authorization"=>$token]]);
-
-        $result = '';
-        $result .= '<div class="accordion" role="tablist" aria-multiselectable="true">';
-        foreach ($res as $key => $val) {
-            $in = '';
-            if ($key == 0) {
-                $in = ' in';
-            }
-            $result .= '<div class="panel">
-                    <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
-                        <h4 class="panel-title">'.$val['tableName'].'</h4>
-                    </a>
-                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
-                        <div class="panel-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Field</th>
-                                        <th>Type</th>
-                                        <th>Collation</th>
-                                        <th>Null</th>
-                                        <th>Key</th>
-                                        <th>Default</th>
-                                        <th>Extra</th>
-                                        <th>Comment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                ';
-            $tr = '';
-            foreach ($val['tableFields'] as $k2 => $v2) {
-                $tr .= '<tr><td>'.$v2['Field'].'</td><td>'.$v2['Type'].'</td><td>'.$v2['Collation'].'</td><td>'.$v2['Null'].'</td><td>'.$v2['Key'].'</td><td>'.$v2['Default'].'</td><td>'.$v2['Extra'].'</td><td>'.$v2['Comment'].'</td></tr>';
-            }
-
-            $result .= $tr.'</tbody></table></div></div></div>';
+        $res_webcache = json_decode($client->get($data['joburl'].$this->redis_webcache, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_session = json_decode($client->get($data['joburl'].$this->redis_session, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_agent = json_decode($client->get($data['joburl'].$this->redis_agent, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_job = json_decode($client->get($data['joburl'].$this->redis_job, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        if (empty($res_webcache)) {
+            return '<span style="color:red">no redis show!</span>';
         }
-        $result .= '</div>';
 
+
+        return '<div class="accordion" role="tablist" aria-multiselectable="true">'.$this->render_panel($res_webcache,'webcache','Web Cache', 'in').$this->render_panel($res_session, 'session','Session').$this->render_panel($res_agent,'agent','Agent').$this->render_panel($res_job,'job','Job').'</div>';
+    }
+
+    private function render_panel($res=array(),$name='', $title='', $in = "") {
+        $result = '';
+        $result .= '<div class="panel">
+                <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
+                    <h4 class="panel-title">'.$title.'</h4>
+                </a>
+                <div id="'.$name.'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$name.'_head">
+                    <div class="panel-body">
+                        <table class="table table-bordered fixcontent">
+                            <tbody>
+                    ';        
+
+        foreach ($res as $key => $val) {
+            $result .= '<tr><td><strong>'.$key.'</strong></td></tr>';
+            $result .= '<tr><td><pre>'.htmlentities(json_encode($val, JSON_PRETTY_PRINT)).'</pre></td></tr>';
+        }
+        $result .= "</tbody></table></div></div></div>";
         return $result;
     }
 

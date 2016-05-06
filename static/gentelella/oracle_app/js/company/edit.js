@@ -8,6 +8,7 @@ oracle_app.company.edit.scripts = function() {
         oracle_app_company_edit_form.find('input[name=companyname]').val(row_data.companyname);
         oracle_app_company_edit_form.find('textarea[name=description]').val(row_data.description);
         oracle_app_company_edit_form.find('input[name=prefix]').val(row_data.prefix);
+        oracle_app_company_edit_form.find('input[name=secure_key]').val(row_data.secure_key);
         oracle_app_company_edit_form.find('input[name=joburl]').val(row_data.joburl);
         if (row_data.status == 'active') {
             oracle_app_company_edit_form.find('#status_active').iCheck('check');
@@ -41,6 +42,11 @@ oracle_app.company.edit.scripts = function() {
     oracle_app_company_edit_form.parsley();
     oracle_app_company_edit_form.on('field:validated', function() {
         window.ParsleyUI.removeError(this,'remote');
+    });
+
+    oracle_app_company_edit_form.find('button:reset').click(function(){
+        $(".side-menu a[xhref='company/view']").trigger('click');
+        return false;
     });
 
     var add_company_comfirm = false;

@@ -29,6 +29,9 @@ oracle_app.company.view.scripts = function() {
             name: 'joburl',
             type: 'string'
         }, {
+            name: 'secure_key',
+            type: 'string'
+        }, {
             name: 'createtime',
             type: 'string'
         }, {

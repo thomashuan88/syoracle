@@ -51,7 +51,6 @@ class Company extends MY_REST_Controller {
 
         $data = $this->Company_model->get_company_list($startRow, $get['pagesize'], array($get['sortdatafield'], $get['sortorder']), $search_cond);
 
-
         $data['data'] = $this->format_records($data['data']);
 
         $result = [[
@@ -131,6 +130,7 @@ class Company extends MY_REST_Controller {
             "companyname" => $post['companyname'],
             "description" => $post['description'],
             "prefix" => $post['prefix'],
+            "secure_key" => $post['secure_key'],
             "joburl" => $post['joburl'],
             "createtime" => time(),
             "createby" => $this->userinfo['username'],

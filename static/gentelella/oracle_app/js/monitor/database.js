@@ -11,6 +11,7 @@ oracle_app.monitor.database.scripts = function() {
             url: oracle_app.baseurl + 'api/monitor/database_struct/' + cid,
             dataType: 'json',
             success: function(data) {
+                // console.log(data);
                 if (data.status == 'success') {
                     $(href, thiscontent).html(data.html);            
                 }

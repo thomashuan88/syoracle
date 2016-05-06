@@ -165,6 +165,23 @@ $(function() {
                 "#menuWrappergridmenujqxgrid"
             ]
 
+        },
+        redis: { 
+            cache_nav_content: {},
+            loadscripts: [
+                "oracle_app/js/monitor/redis.js"
+            ],
+            loadcss: [
+                "jqwidgets/styles/jqx.base.css",
+                "jqwidgets/styles/jqx.classic.css"
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+
         }
     };
 
