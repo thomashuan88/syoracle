@@ -11,11 +11,11 @@
                 <!-- menu prile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <!-- <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img"> -->
+                        <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <span style="float:left">Welcome,</span>
-                        <h2><span class="oracle_app_userinfo_username"></span></h2>
+                        <span >Welcome,</span>
+                        <h2 class="oracle_app_userinfo_username"></h2>
                     </div>
                 </div>
                 <!-- /menu prile quick info -->
@@ -23,6 +23,7 @@
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
+
                          <ul class="nav side-menu">
                             <li><a><i class="fa fa-gears"></i> Admin <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: none">
@@ -31,13 +32,13 @@
                                     <li><a href="#" xhref="user/add" class="orcle_ajaxload">Add User</a>
                                     </li>
                                 </ul>
-                            </li>           
+                            </li>
                             <li><a><i class="fa fa-home"></i> Company Management <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="company/view" class="orcle_ajaxload">View Company</a>
                                     </li>
-                                    <li><a href="#" xhref="company/add" class="orcle_ajaxload">Add Company</a>
-                                    </li>
+                                    <!-- <li><a href="#" xhref="company/add" class="orcle_ajaxload">Add Company</a>
+                                    </li> -->
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-edit"></i> Monitors <span class="fa fa-chevron-down"></span></a>
@@ -55,7 +56,7 @@
                 </div>
                 <!-- /sidebar menu -->
                 <!-- /menu footer buttons -->
-                <div class="sidebar-footer hidden-small">
+                <!-- <div class="sidebar-footer hidden-small">
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </a>
@@ -68,7 +69,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="Logout">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
-                </div>
+                </div> -->
                 <!-- /menu footer buttons -->
             </div>
         </div>
@@ -82,11 +83,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img src="<?php echo $this->include_path; ?>images/img.jpg">
                                 <span class="oracle_app_userinfo_username"></span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                                <li><a href="javascript:;">  Profile</a>
+                                <!-- <li><a href="javascript:;">  Profile</a>
                                 </li>
                                 <li>
                                     <a href="javascript:;">
@@ -96,12 +98,12 @@
                                 </li>
                                 <li>
                                     <a href="javascript:;">Help</a>
-                                </li>
+                                </li> -->
                                 <li><a href="<?php echo $this->base_url; ?>logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                 </li>
                             </ul>
                         </li>
-                        <li role="presentation" class="dropdown">
+                        <!-- <li role="presentation" class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
                                 <span class="badge bg-green">6</span>
@@ -172,7 +174,7 @@
                                     </div>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav>
             </div>
@@ -180,13 +182,12 @@
         <!-- /top navigation -->
         <!-- page content -->
         <div class="right_col" role="main">
-
-            <div id="nav_content"></div>
+            <div id="nav_content">
+            </div>
             <!-- footer content -->
             <footer>
                 <div class="copyright-info">
-                    <p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-                    </p>
+                    <p class="pull-right">© 2016 Oracle. All Rights Reserved.</p>
                 </div>
                 <div class="clearfix"></div>
             </footer>
