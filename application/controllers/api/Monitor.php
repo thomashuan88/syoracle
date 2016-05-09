@@ -34,6 +34,81 @@ class Monitor extends MY_REST_Controller {
         $this->load->model('Company_model');
     }
 
+
+    public function redis_get($cid=0) {
+        $this->redis_webcache = "/oracle/cache/webcache";
+        $this->redis_session = "/oracle/cache/session";
+        $this->redis_agent = "/oracle/cache/agent";
+        $this->redis_job = "/oracle/cache/job";
+        $this->database_token = array(
+            "iss" => "Redis",
+            "aud" => "syoracle",
+            "iat" => time()
+        );
+        $error = array(
+            "status" => "error"
+        );
+
+        if (empty($cid)) {
+            $error['msg'] = "Unauthorized Usage!";
+            $this->response($error, 400);
+        }    
+        $client = new Client();
+
+        $data = $this->Company_model->get_one(array("id"=>$cid));
+
+        if (empty($data)) {
+            $error['msg'] = "Unauthorized Usage!";
+            $this->response($error, 400);            
+        }
+
+        $token = JWT::encode($this->database_token, $data['secure_key']);
+
+        $res_webcache = json_decode($client->get($data['joburl'].$this->redis_webcache, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_session = json_decode($client->get($data['joburl'].$this->redis_session, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_agent = json_decode($client->get($data['joburl'].$this->redis_agent, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        $res_job = json_decode($client->get($data['joburl'].$this->redis_job, ["headers"=>["Authorization"=>$token]])->getBody(), true);
+        if (empty($res_webcache)) {
+            $error['msg'] = "no redis show!";
+            $this->response($error, 400);  
+        }
+        ob_start();
+        echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="false">'.$this->render_panel($res_webcache,'webcache','Web Cache', 'in').$this->render_panel($res_session, 'session','Session').$this->render_panel($res_agent,'agent','Agent').$this->render_panel($res_job,'job','Job').'</div>';        
+        $output = ob_get_contents();
+        ob_end_clean();
+        echo json_encode([
+            "status" => "success",
+            "html" => $output
+        ]);
+
+    }
+
+    private function render_panel($res=array(),$name='', $title='', $in = "") {
+        $result = '';
+        $result .= '<div class="panel">
+                <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
+                    <h4 class="panel-title">'.$title.'</h4>
+                </a>
+                <div id="'.$name.'_collap" class="panel-collapse collapse '.$in.'" role="tabpanel" aria-labelledby="'.$name.'_head">
+                    <div class="panel-body">
+                    ';        
+        $result .= '<div class="accordion" id="'.$name.'_accordion" aria-multiselectable="true">';
+        foreach ($res as $key => $val) {
+            $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
+            $result .= '<div class="panel inner_accordion">
+                    <a style="border:1px solid #ddd" class="panel-heading" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
+                        <h4 class="panel-title"><strong>'.$key.'</strong></h4>
+                    </a>
+                    <div id="'.$keyname.'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$keyname.'_head">
+                        <div class="panel-body fixcontent" style="border:1px solid #ddd; border-top:0">
+                            <pre>'.htmlentities(json_encode($val, JSON_PRETTY_PRINT)).'</pre>
+                        </div>
+                    </div></div>';   
+        }
+        $result .= '</div>';
+        $result .= "</div></div></div>";
+        return $result;
+    }
     public function database_struct_get($cid=0) {
         $this->database_url = "/oracle/dbstructure";
         $this->database_token = array(
@@ -71,7 +146,7 @@ class Monitor extends MY_REST_Controller {
         }  
 
         ob_start();
-        echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">';
+        echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="false">';
         foreach ($result as $key => $val) {
             $in = '';
             if ($key == 0) {

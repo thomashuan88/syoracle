@@ -27,6 +27,38 @@ oracle_app.monitor.database.scripts = function() {
                
             }
         });
-    })
+    });
+
+    var searchform = thiscontent.find('form.list_search_form');
+
+    searchform.submit(function() {
+
+        var companyname = $('input[name=companyname]', searchform).val();
+        if (companyname != "") {
+            $.ajax({
+                type: "GET",
+                url: oracle_app.baseurl + 'monitor/database/' + companyname,
+                dataType: 'html',
+                success: function(data) {
+                    // console.log(data);
+                    $('#nav_content').html(data); 
+                    oracle_app.monitor.database.scripts();           
+                }
+            });
+        } else {
+            $.ajax({
+                type: "GET",
+                url: oracle_app.baseurl + 'monitor/database',
+                dataType: 'html',
+                success: function(data) {
+                    // console.log(data);
+                    $('#nav_content').html(data);
+                    oracle_app.monitor.database.scripts();  
+                }
+            });            
+        }
+
+        return false;
+    });
 };
 

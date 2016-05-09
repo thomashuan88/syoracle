@@ -1,5 +1,5 @@
 oracle_app.monitor.head_beat.scripts = function() {
-
+    var thiscontent = $('#oracle_app_monitor_head_beat_view');
     var refresh_btn = $('.oracle_app_monitor_head_beat_refresh_btn');
 
     refresh_btn.click(function() {
@@ -23,6 +23,38 @@ oracle_app.monitor.head_beat.scripts = function() {
             }
         });
 
+    });
+
+    var searchform = thiscontent.find('form.list_search_form');
+
+    searchform.submit(function() {
+
+        var companyname = $('input[name=companyname]', searchform).val();
+        if (companyname != "") {
+            $.ajax({
+                type: "GET",
+                url: oracle_app.baseurl + 'monitor/head_beat/' + companyname,
+                dataType: 'html',
+                success: function(data) {
+                    // console.log(data);
+                    $('#nav_content').html(data); 
+                    oracle_app.monitor.head_beat.scripts();           
+                }
+            });
+        } else {
+            $.ajax({
+                type: "GET",
+                url: oracle_app.baseurl + 'monitor/head_beat',
+                dataType: 'html',
+                success: function(data) {
+                    // console.log(data);
+                    $('#nav_content').html(data);
+                    oracle_app.monitor.head_beat.scripts();  
+                }
+            });            
+        }
+
+        return false;
     });
 };
 
