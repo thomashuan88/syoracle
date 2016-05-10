@@ -28,8 +28,6 @@
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="user/view" class="orcle_ajaxload">View User</a>
                                     </li>
-                                    <li><a href="#" xhref="user/add" class="orcle_ajaxload">Add User</a>
-                                    </li>
                                     <li><a href="#" xhref="user/changepassword" class="orcle_ajaxload">Change Passwore</a>
                                     </li>
 
