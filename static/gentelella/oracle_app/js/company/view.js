@@ -117,7 +117,8 @@ oracle_app.company.view.scripts = function() {
     });
 
     thiscontent.find('#oracle_app_company_view_add_btn').click(function(){
-        $(".side-menu a[xhref='company/add']").trigger('click');
+        // $(".side-menu a[xhref='company/add']").trigger('click');
+        oracle_app.load_module_content('company/add');
         return false;
     });
     thiscontent.find('#oracle_app_company_view_edit_btn').click(function(){

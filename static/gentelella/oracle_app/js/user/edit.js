@@ -43,6 +43,11 @@ oracle_app.user.edit.scripts = function() {
         window.ParsleyUI.removeError(this,'remote');
     });
 
+    oracle_app_user_edit_form.find('button:reset').click(function(){
+        $(".side-menu a[xhref='user/view']").trigger('click');
+        return false;
+    });
+
     var add_comfirm = false;
     oracle_app_user_edit_form.submit(function() {
         
@@ -68,7 +73,7 @@ oracle_app.user.edit.scripts = function() {
         var ok = $('.parsley-error').length === 0;
         if (ok && !add_comfirm) {
             swal({
-                title: "Save Company Information",
+                title: "Save User Information",
                 text: "Confirm to save this information?",
                 type: "warning",
                 showCancelButton: true,

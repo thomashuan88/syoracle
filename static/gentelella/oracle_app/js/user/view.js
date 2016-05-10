@@ -120,7 +120,8 @@ oracle_app.user.view.scripts = function() {
     });
 
     thiscontent.find('#oracle_app_user_view_add_btn').click(function(){
-        $(".side-menu a[xhref='user/add']").trigger('click');
+        // $(".side-menu a[xhref='user/add']").trigger('click');
+        oracle_app.load_module_content('user/add');
         return false;
     });
     thiscontent.find('#oracle_app_user_view_edit_btn').click(function(){
@@ -131,7 +132,7 @@ oracle_app.user.view.scripts = function() {
             if (!selectedRowData) {
                 swal("You haven't select a row", "", "error");
             } else {
-                oracle_app.company.view.row_edit = selectedRowData;
+                oracle_app.user.view.row_edit = selectedRowData;
                 oracle_app.nav_row_edit_link({
                     path: "user/edit",
                     row_data: selectedRowData
