@@ -53,3 +53,10 @@ body.nav-sm .navbar.nav_title a img {
 .jqx-position-relative {
     z-index: 1;
 }
+
+a.inner-head {
+    padding: 6px !important;
+}
+a.inner-head * {
+    font-size: 12px;
+}

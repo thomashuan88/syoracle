@@ -24,7 +24,7 @@
     </div>
     <div class="clearfix"></div>
     <br />
-    <?php echo $head_beat_blocks; ?>
+    <?php echo empty($head_beat_blocks)?'<span style="color:red">No Record found.</span>':$head_beat_blocks; ?>
     <div class="clearfix"></div>
     <br /></br />
 </div>

@@ -94,7 +94,7 @@ class Monitor extends MY_REST_Controller {
 
         $result = '';
         $result .= '<div class="panel">
-                <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
+                <a class="panel-heading inner-head" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
                     <h4 class="panel-title">'.$title.'</h4>
                 </a>
                 <div id="'.$name.'_collap" class="panel-collapse collapse '.$in.'" role="tabpanel" aria-labelledby="'.$name.'_head">

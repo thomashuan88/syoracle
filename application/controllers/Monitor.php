@@ -141,15 +141,16 @@ class Monitor extends MY_Controller {
         $data = $this->Company_model->get_all();
         $tabs = '';
         $contents = '';
-        foreach ($data as $key => $val) {
-            if ($key == 0) {
-                $tabs .= '<li class="active"><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
-                $contents .= '<div class="tab-pane active" id="tabcontent">'.$this->database_struct($val['id']).'</div>';
-            } else {
-                $tabs .= '<li><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
-            }
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 0) {
+                    $tabs .= '<li class="active"><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
+                    $contents .= '<div class="tab-pane active" id="tabcontent">'.$this->database_struct($val['id']).'</div>';
+                } else {
+                    $tabs .= '<li><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
+                }
+            }            
         }
-
 
         $view_data['tabs'] = $tabs;
         $view_data['contents'] = $contents;
@@ -250,13 +251,15 @@ class Monitor extends MY_Controller {
         $data = $this->Company_model->get_all();
         $tabs = '';
         $contents = '';
-        foreach ($data as $key => $val) {
-            if ($key == 0) {
-                $tabs .= '<li class="active"><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
-                $contents .= '<div class="tab-pane active" id="tabcontent">'.$this->redis_cache($val['id']).'</div>';
-            } else {
-                $tabs .= '<li><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
-            }
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if ($key == 0) {
+                    $tabs .= '<li class="active"><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
+                    $contents .= '<div class="tab-pane active" id="tabcontent">'.$this->redis_cache($val['id']).'</div>';
+                } else {
+                    $tabs .= '<li><a href="#tabcontent" data-toggle="tab" cid="'.$val['id'].'" class="companytab">'.$val['companyname'].'</a></li>';
+                }
+            }            
         }
 
         $view_data['tabs'] = $tabs;
@@ -329,7 +332,7 @@ class Monitor extends MY_Controller {
             }
             $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
             $rediskeys .= '<div class="panel inner_accordion">
-                    <a style="border:1px solid #ddd" class="panel-heading" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
+                    <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
                     </a>
                     <div id="'.$keyname.'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$keyname.'_head">

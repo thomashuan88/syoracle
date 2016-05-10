@@ -30,6 +30,11 @@
     </div>
     <div class="clearfix"></div>
     <br />
+    <?php if (empty($tabs)):?>
+    <div class="col-xs-12">
+        <span style="color:red">No Record found.</span>
+    </div>
+    <?php else: ?>
     <div class="col-xs-3">
         <!-- required for floating -->
         <!-- Nav tabs -->
@@ -43,5 +48,6 @@
             <?php echo $contents; ?>
         </div>
     </div>
+    <?php endif;?>
     <div class="clearfix"></div>    
 </div>
