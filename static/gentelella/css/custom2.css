@@ -1,15 +1,14 @@
 footer {
     background: #fff;
     padding: 0 20px 0;
-    margin-left: 230px;
-    /*height: 35px;
-    padding: 10px 20px 0;
-    margin: 0 -17px;
-    position: fixed;
+    /*margin-left: 230px;*/
+    height: 35px;
+    /*padding: 10px 20px 0;*/
+    /*margin: 0 -17px;*/
+    /*position: fixed;*/
     left: 0;
     bottom: 0;
-    margin-left: 230px;*/
-    width: calc(100% - 230px);
+    /*width: calc(100% - 230px);*/
 }
 
 .list_search_form .list_label_first {

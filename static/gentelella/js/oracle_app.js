@@ -56,15 +56,16 @@ $(function() {
         username: appinfo.attr('username')
     }
 
-    oracle_app.company = { 
-        view:{ 
+    oracle_app.company = {
+        view:{
             cache_nav_content: {},
             loadscripts: [
                 "oracle_app/js/company/view.js"
             ],
             loadcss: [
                 "jqwidgets/styles/jqx.base.css",
-                "jqwidgets/styles/jqx.classic.css"
+                "jqwidgets/styles/jqx.classic.css",
+                "jqwidgets/styles/jqx.customgrid.css"
             ],
             el_remove: [
                 "#ascrail2000",
@@ -113,13 +114,31 @@ $(function() {
     };
 
     oracle_app.user = {
-        view:{ 
+
+        changepassword:{
+            cache_nav_content: {},
+            loadscripts: [
+
+            ],
+            loadcss: [
+
+            ],
+            el_remove: [
+                "#ascrail2000",
+                "#ascrail2000-hr",
+                "#listBoxgridpagerlistjqxgrid",
+                "#menuWrappergridmenujqxgrid"
+            ]
+
+        },
+        view:{
             cache_nav_content: {},
             loadscripts: [
                 "oracle_app/js/user/view.js"
             ],
             loadcss: [
                 "jqwidgets/styles/jqx.base.css",
+                "jqwidgets/styles/jqx.customgrid.css",
                 "jqwidgets/styles/jqx.classic.css"
             ],
             el_remove: [
@@ -168,7 +187,7 @@ $(function() {
         }
     };
     oracle_app.monitor = {
-        head_beat:{ 
+        head_beat:{
             cache_nav_content: {},
             loadscripts: [
                 "oracle_app/js/monitor/head_beat.js"
@@ -185,7 +204,7 @@ $(function() {
             ]
 
         },
-        database: { 
+        database: {
             cache_nav_content: {},
             loadscripts: [
                 "oracle_app/js/monitor/database.js"
@@ -202,7 +221,7 @@ $(function() {
             ]
 
         },
-        redis: { 
+        redis: {
             cache_nav_content: {},
             loadscripts: [
                 "oracle_app/js/monitor/redis.js"
@@ -224,8 +243,8 @@ $(function() {
 
     $('.oracle_app_userinfo_username').html(oracle_app.userinfo.username);
 
-    
-    //     $(".side-menu a[xhref='" + window.location.hash.replace(/^#\//,'') + "']").trigger('click');      
+
+    //     $(".side-menu a[xhref='" + window.location.hash.replace(/^#\//,'') + "']").trigger('click');
     // }
 
     if (window.location.hash != "") {
@@ -316,10 +335,10 @@ $(function() {
         ajax_load_arr.push(oracle_app.load_content);
         // console.log(ajax_load_arr);
         var allitem = 0;
-        var okitem = 0;          
+        var okitem = 0;
         var interval_id = setInterval(function() {
-           
-            for (var x in ajax_load_arr) { 
+
+            for (var x in ajax_load_arr) {
                 if (ajax_load_arr[x].statusText == 'OK') {
                     okitem++;
                 }
@@ -338,13 +357,13 @@ $(function() {
                         if ($.isFunction(oracle_app[controller[0]][controller[1]].scripts)) {
                             oracle_app[controller[0]][controller[1]].scripts();
                             clearInterval(scriptloaded);
-                        } 
+                        }
                     },100);
-                    
+
                     oracle_app[controller[0]][controller[1]].cache_nav_content = $('#oracle_app_'+controller[0]+'_'+controller[1]+'_html');
-                   
+
                 } else {
-                    if (res.status == 'error') { 
+                    if (res.status == 'error') {
                         // show model then jump to login
                         swal({
                           title: "Warning!",
@@ -361,7 +380,7 @@ $(function() {
                 }
             }
             allitem = 0;
-            okitem = 0;              
+            okitem = 0;
         }, 100);
 
     }
@@ -372,7 +391,7 @@ $(function() {
         oracle_app.load_module_content(obj.path);
     };
 
-    oracle_app.nav_link = function(obj) { 
+    oracle_app.nav_link = function(obj) {
         var href = $(obj).attr('xhref');
         $(obj).parent().siblings().removeClass('current-page');
         $(obj).parent().addClass('current-page');
@@ -386,7 +405,6 @@ $(function() {
         oracle_app.nav_link(this);
         return false;
     });
-    
 
 });
 
@@ -403,9 +421,9 @@ $.getMultiScripts = function(arr, path) {
 $.load_ajax_arr = function(arr_first, arr_second, path, type, cache) {
     var _arr = []
     for(var x in arr_second) {
-        _arr.push($.ajax({ 
-            url: (path||"") + arr_second[x], 
-            dataType: type, 
+        _arr.push($.ajax({
+            url: (path||"") + arr_second[x],
+            dataType: type,
             cache:((cache=='cache')?true:false)
         }));
         // console.log(_arr[x]);

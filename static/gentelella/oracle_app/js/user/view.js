@@ -76,7 +76,7 @@ oracle_app.user.view.scripts = function() {
         }
         return defaultHtml;
     };
-    
+
     var colmodel = [
         { text: 'User Id', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
         { text: 'User Name', datafield: 'username', width: '15%', cellsrenderer: cellsrenderer },
@@ -89,15 +89,17 @@ oracle_app.user.view.scripts = function() {
         { text: 'Update By', datafield: 'updateby', width: '10%', cellsrenderer: cellsrenderer },
         { text: 'Status', datafield: 'status', width: '5%', cellsrenderer: cellsrenderer }
     ];
-    
+
     var jqxgrid = $("#oracle_app_user_view_jqxgrid", thiscontent);
     var dataadapter = new $.jqx.dataAdapter(source);
     jqxgrid.jqxGrid({
         source: dataadapter,
-        theme : 'classic',
+        theme : 'customgrid',
         width: '100%',
-        // autoheight: true,
-        height: '100%',
+        autoheight: true,
+        //height: '100%',
+        pagesize: 10,
+        altrows: true,
         pageable: true,
         sortable: true,
         virtualmode: true,
@@ -164,8 +166,3 @@ oracle_app.user.view.scripts = function() {
     })
 
 };
-
-
-
-
-    
