@@ -233,10 +233,20 @@ class Monitor extends MY_Controller {
         return $result;
     }
 
-    public function redis($companyname='') {
-        if ($companyname != "") {
-            $this->Company_model->db_read->like("companyname", $companyname);
+    public function redis() {
+
+        $this->search_items = array(
+            "search_companyname" => $this->input->get("companyname", true),
+            "search_rediskey" => $this->input->get("rediskey", true)
+        );
+        $this->session->set_userdata("monitor_redis_search", $this->search_items);
+
+        $view_data['monitor_redis_search'] = $this->search_items;        
+
+        if (!empty($this->search_items['search_companyname'])) {
+            $this->Company_model->db_read->like("companyname", $this->search_items['search_companyname']);
         }
+
         $data = $this->Company_model->get_all();
         $tabs = '';
         $contents = '';
@@ -300,6 +310,7 @@ class Monitor extends MY_Controller {
     }
 
     private function render_panel($res=array(),$name='', $title='', $in = "") {
+        $get = $this->input->get();
         $result = '';
         $result .= '<div class="panel">
                 <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
@@ -309,9 +320,15 @@ class Monitor extends MY_Controller {
                     <div class="panel-body">
                     ';        
         $result .= '<div class="accordion" id="'.$name.'_accordion" aria-multiselectable="true">';
+        $rediskeys = "";
         foreach ($res as $key => $val) {
+            if (!empty($this->search_items['search_rediskey'])) {
+                if (false === strpos($key, $this->search_items['search_rediskey'])) {
+                    continue;
+                }
+            }
             $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
-            $result .= '<div class="panel inner_accordion">
+            $rediskeys .= '<div class="panel inner_accordion">
                     <a style="border:1px solid #ddd" class="panel-heading" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
                     </a>
@@ -321,7 +338,10 @@ class Monitor extends MY_Controller {
                         </div>
                     </div></div>';   
         }
-        $result .= '</div>';
+        if ($rediskeys == "") {
+            return "";
+        }
+        $result .= $rediskeys.'</div>';
         $result .= "</div></div></div>";
         return $result;
     }

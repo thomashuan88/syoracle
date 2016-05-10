@@ -32,31 +32,24 @@ oracle_app.monitor.redis.scripts = function() {
 
     searchform.submit(function() {
 
+        var url = oracle_app.baseurl + 'monitor/redis';
         var companyname = $('input[name=companyname]', searchform).val();
-        if (companyname != "") {
-            $.ajax({
-                type: "GET",
-                url: oracle_app.baseurl + 'monitor/redis/' + companyname,
-                dataType: 'html',
-                success: function(data) {
-                    // console.log(data);
-                    $('#nav_content').html(data); 
-                    oracle_app.monitor.redis.scripts();           
-                }
-            });
-        } else {
-            $.ajax({
-                type: "GET",
-                url: oracle_app.baseurl + 'monitor/redis',
-                dataType: 'html',
-                success: function(data) {
-                    // console.log(data);
-                    $('#nav_content').html(data);
-                    oracle_app.monitor.redis.scripts();  
-                }
-            });            
-        }
+        var rediskey = $('input[name=rediskey]', searchform).val();
+        var param = "";
 
+        if (companyname != "" || rediskey != "") {
+            param = "?companyname="+companyname+"&rediskey="+rediskey;
+        }
+        $.ajax({
+            type: "GET",
+            url: url + param,
+            dataType: 'html',
+            success: function(data) {
+                // console.log(data);
+                $('#nav_content').html(data);
+                oracle_app.monitor.redis.scripts();  
+            }
+        }); 
         return false;
     });
 };

@@ -11,7 +11,15 @@
                         <label class="list_label_first" for="companyname">Company Name : </label>
                         <div class="controls list_inputbox">
                             <div class="input-prepend input-group">
-                                <input type="text" style="width: 200px" name="companyname" class="form-control" value="" />
+                                <input type="text" style="width: 200px" name="companyname" class="form-control" value="<?php echo empty($monitor_redis_search['search_companyname'])?'':$monitor_redis_search['search_companyname']; ?>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group group_box">
+                        <label class="list_label_first" for="rediskey">Key : </label>
+                        <div class="controls list_inputbox">
+                            <div class="input-prepend input-group">
+                                <input type="text" style="width: 200px" name="rediskey" class="form-control" value="<?php echo empty($monitor_redis_search['search_rediskey'])?'':$monitor_redis_search['search_rediskey']; ?>" />
                             </div>
                         </div>
                     </div>

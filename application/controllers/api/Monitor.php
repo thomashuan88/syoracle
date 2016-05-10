@@ -53,6 +53,13 @@ class Monitor extends MY_REST_Controller {
             $error['msg'] = "Unauthorized Usage!";
             $this->response($error, 400);
         }    
+        
+        if (!empty($this->session->userdata("monitor_redis_search"))) {
+            $this->search_items = $this->session->userdata("monitor_redis_search");
+        } else {
+            $this->search_items = array();
+        }
+
         $client = new Client();
 
         $data = $this->Company_model->get_one(array("id"=>$cid));
@@ -84,6 +91,7 @@ class Monitor extends MY_REST_Controller {
     }
 
     private function render_panel($res=array(),$name='', $title='', $in = "") {
+
         $result = '';
         $result .= '<div class="panel">
                 <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
@@ -93,9 +101,15 @@ class Monitor extends MY_REST_Controller {
                     <div class="panel-body">
                     ';        
         $result .= '<div class="accordion" id="'.$name.'_accordion" aria-multiselectable="true">';
+        $rediskeys = "";
         foreach ($res as $key => $val) {
+            if (!empty($this->search_items['search_rediskey'])) {
+                if (false === strpos($key, $this->search_items['search_rediskey'])) {
+                    continue;
+                }
+            }
             $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
-            $result .= '<div class="panel inner_accordion">
+            $rediskeys .= '<div class="panel inner_accordion">
                     <a style="border:1px solid #ddd" class="panel-heading" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
                     </a>
@@ -105,7 +119,10 @@ class Monitor extends MY_REST_Controller {
                         </div>
                     </div></div>';   
         }
-        $result .= '</div>';
+        if ($rediskeys == "") {
+            return "";
+        }
+        $result .= $rediskeys.'</div>';
         $result .= "</div></div></div>";
         return $result;
     }
