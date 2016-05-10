@@ -94,7 +94,7 @@ class Monitor extends MY_REST_Controller {
 
         $result = '';
         $result .= '<div class="panel">
-                <a class="panel-heading inner-head" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
+                <a class="panel-heading" role="tab" id="'.$name.'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$name.'_collap" aria-expanded="true" aria-controls="'.$name.'_collap">
                     <h4 class="panel-title">'.$title.'</h4>
                 </a>
                 <div id="'.$name.'_collap" class="panel-collapse collapse '.$in.'" role="tabpanel" aria-labelledby="'.$name.'_head">
@@ -110,7 +110,7 @@ class Monitor extends MY_REST_Controller {
             }
             $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
             $rediskeys .= '<div class="panel inner_accordion">
-                    <a style="border:1px solid #ddd" class="panel-heading" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
+                    <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
                     </a>
                     <div id="'.$keyname.'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$keyname.'_head">
