@@ -139,7 +139,7 @@ class User extends MY_REST_Controller {
             "username" => $post['username'],
             "email" => $post['email'],
             "usergroup" => $post['usergroup'],
-            "password" =>  md5($post['password']),
+            "password" =>  md5($post['password'].$this->config->item("hash_salt")),
             "usergroup_name" => $this->usergroup[$post['usergroup']],
             "createtime" => time(),
             "createby" => $this->userinfo['username'],
