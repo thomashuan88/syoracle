@@ -175,7 +175,7 @@ class Monitor extends MY_REST_Controller {
                     </a>
                     <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
                         <div class="panel-body">
-                            <table class="table table-bordered">
+                            <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                 <thead>
                                     <tr>
                                         <th>Field</th>
@@ -242,40 +242,40 @@ class Monitor extends MY_REST_Controller {
         $html =  '<table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td style="text-align: right;width:35%">Clear Gateway : </td>
-                            <td style="width:65%">'.$result['clear_gateway_accumulate_amount']['start'].'</td>
+                            <td style="text-align: right;width:50%">Clear Gateway : </td>
+                            <td style="width:50%">'.$result['clear_gateway_accumulate_amount']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Overdue Deposit : </td>
-                            <td style="width:65%">'.$result['handle_overdue_deposit']['start'].'</td>
+                            <td style="text-align: right;width:50%">Overdue Deposit : </td>
+                            <td style="width:50%">'.$result['handle_overdue_deposit']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Member Level Upgrade : </td>
-                            <td style="width:65%">'.$result['monthly_member_upgrade']['start'].'</td>
+                            <td style="text-align: right;width:50%">Member Level Upgrade : </td>
+                            <td style="width:50%">'.$result['monthly_member_upgrade']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Member Level Pre Upgrade : </td>
-                            <td style="width:65%">'.$result['monthly_member_upgrade_pre']['start'].'</td>
+                            <td style="text-align: right;width:50%">Member Level Pre Upgrade : </td>
+                            <td style="width:50%">'.$result['monthly_member_upgrade_pre']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Reject Friend Referral : </td>
-                            <td style="width:65%">'.$result['event_reject_friend_referral']['start'].'</td>
+                            <td style="text-align: right;width:50%">Reject Friend Referral : </td>
+                            <td style="width:50%">'.$result['event_reject_friend_referral']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Agent Comm Pre : </td>
-                            <td style="width:65%">'.$result['monthly_agent_commission_send_pre']['start'].'</td>
+                            <td style="text-align: right;width:50%">Agent Comm Pre : </td>
+                            <td style="width:50%">'.$result['monthly_agent_commission_send_pre']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Agent Comm Sent : </td>
-                            <td style="width:65%">'.$result['monthly_agent_commission_send']['start'].'</td>
+                            <td style="text-align: right;width:50%">Agent Comm Sent : </td>
+                            <td style="width:50%">'.$result['monthly_agent_commission_send']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Monthly Agent Suspend : </td>
-                            <td style="width:65%">'.$result['monthly_agent_suspend']['start'].'</td>
+                            <td style="text-align: right;width:50%">Monthly Agent Suspend : </td>
+                            <td style="width:50%">'.$result['monthly_agent_suspend']['start'].'</td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:35%">Game Balance : </td>
-                            <td style="width:65%">'.$result['game_balance']['start'].'</td>
+                            <td style="text-align: right;width:50%">Game Balance : </td>
+                            <td style="width:50%">'.$result['game_balance']['start'].'</td>
                         </tr>
                     </tbody>
                 </table>';

@@ -207,7 +207,7 @@ class Monitor extends MY_Controller {
                     </a>
                     <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
                         <div class="panel-body">
-                            <table class="table table-bordered">
+                            <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                 <thead>
                                     <tr>
                                         <th>Field</th>
