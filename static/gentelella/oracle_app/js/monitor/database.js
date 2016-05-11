@@ -33,31 +33,24 @@ oracle_app.monitor.database.scripts = function() {
 
     searchform.submit(function() {
 
+        var url = oracle_app.baseurl + 'monitor/database';
         var companyname = $('input[name=companyname]', searchform).val();
-        if (companyname != "") {
-            $.ajax({
-                type: "GET",
-                url: oracle_app.baseurl + 'monitor/database/' + companyname,
-                dataType: 'html',
-                success: function(data) {
-                    // console.log(data);
-                    $('#nav_content').html(data); 
-                    oracle_app.monitor.database.scripts();           
-                }
-            });
-        } else {
-            $.ajax({
-                type: "GET",
-                url: oracle_app.baseurl + 'monitor/database',
-                dataType: 'html',
-                success: function(data) {
-                    // console.log(data);
-                    $('#nav_content').html(data);
-                    oracle_app.monitor.database.scripts();  
-                }
-            });            
-        }
+        var tablename = $('input[name=tablename]', searchform).val();
+        var param = "";
 
+        if (companyname != "" || tablename != "") {
+            param = "?companyname="+companyname+"&tablename="+tablename;
+        }
+        $.ajax({
+            type: "GET",
+            url: url + param,
+            dataType: 'html',
+            success: function(data) {
+                // console.log(data);
+                $('#nav_content').html(data);
+                oracle_app.monitor.database.scripts();  
+            }
+        }); 
         return false;
     });
 };

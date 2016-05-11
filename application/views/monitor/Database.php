@@ -11,11 +11,18 @@
                         <label class="list_label_first" for="companyname">Company Name : </label>
                         <div class="controls list_inputbox">
                             <div class="input-prepend input-group">
-                                <input type="text" style="width: 200px" name="companyname" class="form-control" value="" />
+                                <input type="text" style="width: 200px" name="companyname" class="form-control" value="<?php echo empty($monitor_database_search['search_companyname'])?'':$monitor_database_search['search_companyname']; ?>" />
                             </div>
                         </div>
                     </div>
-
+                    <div class="control-group group_box">
+                        <label class="list_label_first" for="tablename">Table Name : </label>
+                        <div class="controls list_inputbox">
+                            <div class="input-prepend input-group">
+                                <input type="text" style="width: 200px" name="tablename" class="form-control" value="<?php echo empty($monitor_database_search['search_tablename'])?'':$monitor_database_search['search_tablename']; ?>" />
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-success search_btn" type="submit">Search</button>
             </form>
         </p>

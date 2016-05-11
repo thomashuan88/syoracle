@@ -135,9 +135,18 @@ class Monitor extends MY_Controller {
     }
 
     public function database($companyname='') {
-        if ($companyname != "") {
-            $this->Company_model->db_read->like("companyname", $companyname);
+        $this->search_items = array(
+            "search_companyname" => $this->input->get("companyname", true),
+            "search_tablename" => $this->input->get("tablename", true)
+        );
+        $this->session->set_userdata("monitor_database_search", $this->search_items);
+
+        $view_data['monitor_database_search'] = $this->search_items;    
+
+        if (!empty($this->search_items['search_companyname'])) {
+            $this->Company_model->db_read->like("companyname", $this->search_items['search_companyname']);
         }
+
         $data = $this->Company_model->get_all();
         $tabs = '';
         $contents = '';
@@ -197,15 +206,16 @@ class Monitor extends MY_Controller {
         $result = '';
         $result .= '<div class="accordion" role="tablist" aria-multiselectable="true">';
         foreach ($res as $key => $val) {
-            $in = '';
-            if ($key == 0) {
-                $in = ' in';
+            if (!empty($this->search_items['search_tablename'])) {
+                if (false === strpos($val['tableName'], $this->search_items['search_tablename'])) {
+                    continue;
+                }
             }
             $result .= '<div class="panel">
                     <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
                         <h4 class="panel-title">'.$val['tableName'].'</h4>
                     </a>
-                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
+                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
                         <div class="panel-body">
                             <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                 <thead>

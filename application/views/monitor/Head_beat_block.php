@@ -19,40 +19,40 @@
 
                     <tbody>
                         <tr>
-                            <td style="text-align: right;width:40%">Clear Gateway : </td>
-                            <td style="width:60%"><?php echo $clear_gateway_accumulate_amount; ?></td>
+                            <td style="text-align: right;width:50%">Clear Gateway : </td>
+                            <td style="width:50%"><?php echo $clear_gateway_accumulate_amount; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Overdue Deposit : </td>
-                            <td style="width:60%"><?php echo $handle_overdue_deposit; ?></td>
+                            <td style="text-align: right;width:50%">Overdue Deposit : </td>
+                            <td style="width:50%"><?php echo $handle_overdue_deposit; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Member Level Upgrade : </td>
-                            <td style="width:60%"><?php echo $monthly_member_upgrade; ?></td>
+                            <td style="text-align: right;width:50%">Member Level Upgrade : </td>
+                            <td style="width:50%"><?php echo $monthly_member_upgrade; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Member Level Pre Upgrade : </td>
-                            <td style="width:60%"><?php echo $monthly_member_upgrade_pre; ?></td>
+                            <td style="text-align: right;width:50%">Member Level Pre Upgrade : </td>
+                            <td style="width:50%"><?php echo $monthly_member_upgrade_pre; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Reject Friend Referral : </td>
-                            <td style="width:60%"><?php echo $event_reject_friend_referral; ?></td>
+                            <td style="text-align: right;width:50%">Reject Friend Referral : </td>
+                            <td style="width:50%"><?php echo $event_reject_friend_referral; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Agent Comm Pre : </td>
-                            <td style="width:60%"><?php echo $monthly_agent_commission_send_pre; ?></td>
+                            <td style="text-align: right;width:50%">Agent Comm Pre : </td>
+                            <td style="width:50%"><?php echo $monthly_agent_commission_send_pre; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Agent Comm Sent : </td>
-                            <td style="width:60%"><?php echo $monthly_agent_commission_send; ?></td>
+                            <td style="text-align: right;width:50%">Agent Comm Sent : </td>
+                            <td style="width:50%"><?php echo $monthly_agent_commission_send; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Monthly Agent Suspend : </td>
-                            <td style="width:60%"><?php echo $monthly_agent_suspend; ?></td>
+                            <td style="text-align: right;width:50%">Monthly Agent Suspend : </td>
+                            <td style="width:50%"><?php echo $monthly_agent_suspend; ?></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;width:40%">Game Balance : </td>
-                            <td style="width:60%"><?php echo $game_balance; ?></td>
+                            <td style="text-align: right;width:50%">Game Balance : </td>
+                            <td style="width:50%"><?php echo $game_balance; ?></td>
                         </tr>
                     </tbody>
                 </table>

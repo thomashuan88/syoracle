@@ -141,6 +141,13 @@ class Monitor extends MY_REST_Controller {
             $error['msg'] = "Unauthorized Usage!";
             $this->response($error, 200);
         }    
+
+        if (!empty($this->session->userdata("monitor_database_search"))) {
+            $this->search_items = $this->session->userdata("monitor_database_search");
+        } else {
+            $this->search_items = array();
+        }
+
         $client = new Client();
 
         $data = $this->Company_model->get_one(array("id"=>$cid));
@@ -165,15 +172,16 @@ class Monitor extends MY_REST_Controller {
         ob_start();
         echo '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="false">';
         foreach ($result as $key => $val) {
-            $in = '';
-            if ($key == 0) {
-                $in = ' in';
+            if (!empty($this->search_items['search_tablename'])) {
+                if (false === strpos($val['tableName'], $this->search_items['search_tablename'])) {
+                    continue;
+                }
             }
             echo '<div class="panel">
                     <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
                         <h4 class="panel-title">'.$val['tableName'].'</h4>
                     </a>
-                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse'.$in.'" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
+                    <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">
                         <div class="panel-body">
                             <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                 <thead>
