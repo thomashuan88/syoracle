@@ -14,8 +14,8 @@
                         <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <span style="float:left">Welcome,</span>
-                        <h2><span class="oracle_app_userinfo_username"></span></h2>
+                        <span >Welcome,</span>
+                        <h2 class="oracle_app_userinfo_username"></h2>
                     </div>
                 </div>
                 <!-- /menu prile quick info -->
@@ -28,7 +28,7 @@
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="user/view" class="orcle_ajaxload">View User</a>
                                     </li>
-                                    <li><a href="#" xhref="user/changepassword" class="orcle_ajaxload">Change Passwore</a>
+                                    <li><a href="#" xhref="user/add" class="orcle_ajaxload">Add User</a>
                                     </li>
 
                                 </ul>
@@ -54,7 +54,7 @@
                 </div>
                 <!-- /sidebar menu -->
                 <!-- /menu footer buttons -->
-                <div class="sidebar-footer hidden-small">
+                <!-- <div class="sidebar-footer hidden-small">
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </a>
@@ -67,7 +67,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="Logout">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
-                </div>
+                </div> -->
                 <!-- /menu footer buttons -->
             </div>
         </div>
@@ -86,12 +86,13 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-
+                                <li><a href="#" xhref="user/changepassword" class="orcle_ajaxload">Change Password</a>
+                                </li>
                                 <li><a href="<?php echo $this->base_url; ?>logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                 </li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </nav>
             </div>
@@ -99,21 +100,27 @@
         <!-- /top navigation -->
         <!-- page content -->
         <div class="right_col" role="main">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div id="nav_content"></div>
+              </div>
+          </div>
 
-            <div id="nav_content"></div>
             <!-- footer content -->
             <footer>
                 <div class="copyright-info">
-                    <p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                    <p class="pull-right">© 2016 Oracle. All Rights Reserved<a href="#"></a>
                     </p>
                 </div>
                 <div class="clearfix"></div>
             </footer>
             <!-- /footer content -->
+
         </div>
         <!-- /page content -->
     </div>
 </div>
+
 <div id="custom_notifications" class="custom-notifications dsp_none">
     <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
     </ul>

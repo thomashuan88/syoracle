@@ -118,10 +118,13 @@ $(function() {
         changepassword:{
             cache_nav_content: {},
             loadscripts: [
-
+                "oracle_app/js/user/changepassword.js"
             ],
             loadcss: [
-
+                "css/editor/external/google-code-prettify/prettify.css",
+                "css/editor/index.css",
+                "css/select/select2.min.css",
+                "css/switchery/switchery.min.css"
             ],
             el_remove: [
                 "#ascrail2000",
