@@ -92,7 +92,7 @@ class User extends MY_REST_Controller {
     private function format_records($records=array()) {
         $result = array();
         foreach ($records as $key => $val) {
-            $val['status'] = ($val['status'] == '1')?'active':'inactive'; 
+            $val['status'] = ($val['status'] == '1')?'active':'inactive';
             $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s', $val['createtime']):'';
             $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s', $val['updatetime']):'';
             $val['last_logintime'] = ($val['last_logintime'] > 0)?date('Y-m-d h:i:s', $val['last_logintime']):'';
@@ -114,11 +114,11 @@ class User extends MY_REST_Controller {
             "updatetime" => time(),
             "updateby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
-        ];      
+        ];
 
         if (!empty($post['password'])) {
             $data['password'] = md5($post['password']);
-        }  
+        }
 
         $result = $this->User_model->update($data, array("id"=>$post['id']));
         if ($result) {
@@ -144,7 +144,7 @@ class User extends MY_REST_Controller {
             "createtime" => time(),
             "createby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
-        ];      
+        ];
 
         $result = $this->User_model->insert($data);
         if ($result) {
@@ -165,18 +165,63 @@ class User extends MY_REST_Controller {
         if (!empty($currentid)) {
             if (!empty($data) && $data['id'] != $currentid) {
                 $this->response(["error"=>"User Name Already Exist"], 404);
-            } 
+            }
             if ($data['status'] == 2 && $data['id'] != $currentid) {
                 $this->response(["error"=>"User Name Inactive"], 404);
-            }                           
+            }
         } else {
             if (!empty($data)) {
                 $this->response(["error"=>"User Name Already Exist"], 404);
-            }  
-                    
+            }
+
         }
 
         $this->response([], 200);
     }
+
+    public function passwordcheck_get() {
+        $oldpassword = $this->input->get("oldpassword", true);
+        $username = $this->input->get("username", true);
+
+
+        if (empty($username)) {
+             $this->response(["error"=>"Unauthorized Access"], 404);
+        }
+
+        $userinfo = $this->User_model->get_one(
+        	array(
+        		"username" => $username,
+        		"password" => md5($oldpassword.$this->config->item('hash_salt'))
+        	)
+        );
+
+        if (empty($userinfo)) {
+        	$this->response(["error"=>"Invalid Password"], 404);
+        }
+
+        $this->response([], 200);
+    }
+
+    public function passwordupdate_post() {
+        $post = $this->input->post();
+        error_log(print_r($post,true));
+        if (empty($post)) {
+            $this->response(["error"=>"Unauthorized Access"], 404);
+        }
+        $data = [
+        ];
+
+        if (!empty($post['password'])) {
+            $data['password'] = md5($post['password'].$this->config->item("hash_salt"));
+        }
+
+        $result = $this->User_model->update($data, array("username"=>$post['username']));
+        if ($result) {
+            $this->response(["status"=>"success"], 200);
+        } else {
+            $this->response(["status"=>"error", "sql"=>$this->User_model->db_write->last_query()], 200);
+        }
+    }
+
 
 }

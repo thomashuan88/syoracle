@@ -1,3 +1,5 @@
+
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -20,7 +22,7 @@ class User extends MY_Controller {
      */
 
     public $page_type;
-    
+
     public function __construct() {
         parent::__construct();
         $this->page_type = 'ajax';
@@ -33,7 +35,7 @@ class User extends MY_Controller {
     }
 
     public function view() {
-        
+
         $view_data = array();
         $user_list_search = $this->session->userdata("user_list_search");
         if (!empty($user_list_search)) {
@@ -48,12 +50,20 @@ class User extends MY_Controller {
         //     } else {
         //         $prefixlist .= '<option>'.$val['prefix'].'</option>';
         //     }
-            
+
         // }
 
         // $view_data['prefixlist'] = $prefixlist;
 
         $this->load->view('user/View', $view_data);
+    }
+
+    public function changepassword() {
+        $view_data = array(
+            "path" => "user_changepassword",
+            "title" => "Change Password"
+        );
+        $this->load->view('user/changepassword', $view_data);
     }
 
     public function add() {

@@ -27,9 +27,9 @@ body.nav-sm .navbar.nav_title a i {
     margin: 13px 0 0 3px;
 }
 
-.site_title i {
+.site_title img {
     border: 1px solid #EAEAEA;
-    padding: 5px 6px;
+    /*padding: 5px 6px;*/
     border-radius: 50%;
 }
 
@@ -773,7 +773,7 @@ li.current-page a {
     text-overflow: ellipsis;
     overflow: hidden;
     font-weight: 400;
-    font-size: 22px;
+    font-size: 25px;
     width: 100%;
     color: #ECF0F1 !important;
     margin-left: 0 !important;
@@ -2008,10 +2008,10 @@ a.user-profile {
 }
 
 .user-profile img {
-    width: 29px;
-    height: 29px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 3px;
 }
 
 ul.top_profiles {

@@ -5,6 +5,18 @@
     -webkit-border-top-left-radius: 4px;
     border-top-left-radius: 4px;
 }
+/*#pageroracle_app_company_view_jqxgrid{
+    background-color: transparent;
+    background-image: none;
+    color: #807D7D;
+    border-color: #C6C2C2;
+}*/
+.jqx-grid-pager-customgrid{
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #807D7D !important;
+    border-color: #C6C2C2 !important;
+}
 /*top-right rounded Corners*/
 .jqx-rc-tr-customgrid {
     -moz-border-radius-topright: 4px;
@@ -99,7 +111,7 @@
     *zoom: 1;
     color: #333333;
     background-color: #ffffff;
-    border-color: #cccccc;
+    border-color: transparent;
 }
 
 .jqx-combobox-multi-item-customgrid {
@@ -979,7 +991,7 @@ input[type="password"].jqx-input-customgrid:-ms-input-placeholder, input[type="p
 }
 .jqx-widget-customgrid .jqx-grid-cell-sort-customgrid, .jqx-widget-customgrid .jqx-grid-cell-filter-customgrid, .jqx-widget-customgrid .jqx-grid-cell-pinned-customgrid, .jqx-grid-cell-sort-customgrid, .jqx-grid-cell-filter-customgrid, .jqx-grid-cell-pinned-customgrid
 {
-  /*background-color: #E5E5E5;*/
+  background-color: #E5E5E5;
   color: #73879C;
   text-shadow: none;
 }
@@ -995,19 +1007,30 @@ input[type="password"].jqx-input-customgrid:-ms-input-placeholder, input[type="p
 }
 .jqx-fill-state-pressed-customgrid, .jqx-widget-customgrid .jqx-grid-cell-selected-customgrid
 {
-  background-color: #D6CFCF;
-  background-image: -moz-linear-gradient(top, #D6CFCF, #DDDBDB);
+  /*background-color: #D6CFCF;*/
+  /*background-image: -moz-linear-gradient(top, #D6CFCF, #DDDBDB);
   background-image: -ms-linear-gradient(top, #D6CFCF, #DDDBDB);
   background-image: -o-linear-gradient(top, #D6CFCF, #DDDBDB);
   background-image: -webkit-gradient(linear, center top, center bottom, from(#D6CFCF), to(#DDDBDB));
   background-image: -webkit-linear-gradient(top, #D6CFCF, #DDDBDB);
   background-image: linear-gradient(top, #D6CFCF, #DDDBDB);
-  background-image: linear-gradient(to bottom, #D6CFCF, #DDDBDB);
+  background-image: linear-gradient(to bottom, #D6CFCF, #DDDBDB);*/
   -moz-background-clip: padding;
   background-clip: padding-box;
   -webkit-background-clip: padding-box;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
+.jqx-grid-pager-number-customgrid {
+    padding: 2px 5px;
+    text-decoration: none;
+    margin: 1px;
+    /*border: 1px solid transparent;*/
+     color: #333333 !important;
+    outline: none;
+    font-weight: normal !important;
+}
+
 .jqx-switchbutton-label-on-customgrid
 {
   background-color: #D6CFCF;
@@ -1490,15 +1513,15 @@ input[type="password"].jqx-input-customgrid:-ms-input-placeholder, input[type="p
 {
   color: #73879C !important;
   text-shadow: none;
-  border-color: #dddddd !important;
-  background-color: #E8F4F9 !important;
-  background-image: -moz-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -ms-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -o-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#E8F4F9), to(#E8F4F9)) !important;
-  background-image: -webkit-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(to bottom, #E8F4F9, #E8F4F9) !important;
+  border-color: #DDDBDB !important;
+  background-color: #DDDBDB !important;
+  background-image: -moz-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -ms-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -o-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#DDDBDB), to(#DDDBDB)) !important;
+  background-image: -webkit-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(to bottom, #DDDBDB, #DDDBDB) !important;
   -moz-background-clip: padding;
   background-clip: padding-box;
   -webkit-background-clip: padding-box;
@@ -1506,40 +1529,40 @@ input[type="password"].jqx-input-customgrid:-ms-input-placeholder, input[type="p
 }
 .jqx-slider-rangebar-customgrid
 {
-  background-color: #E8F4F9 !important;
+  background-color: #DDDBDB !important;
 }
 .jqx-progressbar-value-customgrid
 {
-  background-color: #E8F4F9 !important;
-  background-image: -moz-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -ms-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -o-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#E8F4F9), to(#E8F4F9)) !important;
-  background-image: -webkit-linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(top, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(to bottom, #E8F4F9, #E8F4F9) !important;
+  background-color: #DDDBDB !important;
+  background-image: -moz-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -ms-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -o-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#DDDBDB), to(#DDDBDB)) !important;
+  background-image: -webkit-linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(top, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(to bottom, #DDDBDB, #DDDBDB) !important;
   -moz-background-clip: padding;
   background-clip: padding-box;
   -webkit-background-clip: padding-box;
 }
 .jqx-progressbar-value-vertical-customgrid
 {
-  background-color: #E8F4F9 !important;
-  background-image: -moz-linear-gradient(left, #E8F4F9, #E8F4F9) !important;
-  background-image: -ms-linear-gradient(left, #E8F4F9, #E8F4F9) !important;
-  background-image: -o-linear-gradient(left, #E8F4F9, #E8F4F9) !important;
-  background-image: -webkit-gradient(linear, left top, right top, from(#E8F4F9), to(#E8F4F9)) !important;
-  background-image: -webkit-linear-gradient(left, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(left, #E8F4F9, #E8F4F9) !important;
-  background-image: linear-gradient(left right, #E8F4F9, #E8F4F9) !important;
+  background-color: #DDDBDB !important;
+  background-image: -moz-linear-gradient(left, #DDDBDB, #DDDBDB) !important;
+  background-image: -ms-linear-gradient(left, #DDDBDB, #DDDBDB) !important;
+  background-image: -o-linear-gradient(left, #DDDBDB, #DDDBDB) !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(#DDDBDB), to(#DDDBDB)) !important;
+  background-image: -webkit-linear-gradient(left, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(left, #DDDBDB, #DDDBDB) !important;
+  background-image: linear-gradient(left right, #DDDBDB, #DDDBDB) !important;
 }
 .jqx-splitter-collapse-button-horizontal-customgrid
 {
-  background-color: #E8F4F9 !important;
+  background-color: #DDDBDB !important;
 }
 .jqx-splitter-collapse-button-vertical-customgrid
 {
-  background-color: #E8F4F9 !important;
+  background-color: #DDDBDB !important;
 }
 .jqx-tabs-title-customgrid, .jqx-tabs-title-bottom-customgrid, .jqx-expander-header-customgrid
 {

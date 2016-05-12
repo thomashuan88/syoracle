@@ -1,14 +1,14 @@
 footer {
     background: #fff;
-    padding: 0 20px 0;
-    /*margin-left: 230px;*/
-    height: 35px;
-    /*padding: 10px 20px 0;*/
-    /*margin: 0 -17px;*/
-    /*position: fixed;*/
+    /*padding: 0 20px 0;*/
+    /*height: 35px;*/
+    padding: 10px 20px 0;
+    margin: 0 -17px;
+    position: fixed;
     left: 0;
     bottom: 0;
-    /*width: calc(100% - 230px);*/
+    margin-left: 230px;
+    width: calc(100% - 230px);
 }
 
 .list_search_form .list_label_first {
@@ -45,10 +45,10 @@ footer {
 
 
 body.nav-sm .navbar.nav_title a img {
-    margin-left: -20px !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    width: 147% !important;
+    margin-left: -1px !important;
+    /*margin-right: 0 !important;
+    margin-top: 0 !important;*/
+    width: 80% !important;
 }
 .jqx-position-relative {
     z-index: 1;

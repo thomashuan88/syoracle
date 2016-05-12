@@ -4,14 +4,14 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="/" class="site_title">
-                    <img src="<?php echo $this->include_path; ?>images/ee_logo_small_2.png" style="width: 80%;margin-right: -55px;margin-left: -50px;margin-top: 5px;" />
-                     <span style="color:#F0C493;">Oracle</span></a>
+                    <img src="<?php echo $this->include_path; ?>images/ee_logo_small_3.png" class="img-circle" style="width: 20%; margin-left: 5px;" />
+                     <span>Oracle</span></a>
                 </div>
                 <div class="clearfix"></div>
                 <!-- menu prile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle profile_img">
+                        <img src="<?php echo $this->include_path; ?>images/avatar.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span >Welcome,</span>
@@ -81,7 +81,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php echo $this->include_path; ?>images/img.jpg" alt="..." class="img-circle">
+                                <img src="<?php echo $this->include_path; ?>images/avatar.png" alt="..." class="img-circle">
                                 <span class="oracle_app_userinfo_username"></span>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
