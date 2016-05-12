@@ -108,7 +108,8 @@ class Monitor extends MY_REST_Controller {
                     continue;
                 }
             }
-            $keyname = md5($key);
+            $keyname = md5($name.$key);
+            $redis_content = htmlspecialchars(json_encode($val, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             $rediskeys .= '<div class="panel inner_accordion">
                     <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="head_'.$keyname.'" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#collap_'.$keyname.'" aria-expanded="true" aria-controls="collap_'.$keyname.'">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
@@ -118,9 +119,9 @@ class Monitor extends MY_REST_Controller {
                             <button class="btn btn-primary redis-copy-to-btn" data-clipboard-action="copy" data-clipboard-target="#copy_'.$keyname.'">
                                     Cut to clipboard
                             </button>
-                            <textarea class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.htmlspecialchars(json_encode($val, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)).'</textarea>
+                            <textarea rows="'.(substr_count($redis_content, "\n")+8).'" class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.$redis_content.'</textarea>
                         </div>
-                    </div></div>';   
+                    </div></div>';    
         }
         if ($rediskeys == "") {
             return "";
@@ -217,7 +218,7 @@ class Monitor extends MY_REST_Controller {
         ]);
     }
 
-    public function head_beat_refresh_get($cid=0)
+    public function heart_beat_refresh_get($cid=0)
     {
         // $this->some_model->update_user( ... );
         $this->head_beat_url = "/oracle/heartbeat";

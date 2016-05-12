@@ -190,10 +190,10 @@ $(function() {
         }
     };
     oracle_app.monitor = {
-        head_beat:{
+        heart_beat:{
             cache_nav_content: {},
             loadscripts: [
-                "oracle_app/js/monitor/head_beat.js"
+                "oracle_app/js/monitor/heart_beat.js"
             ],
             loadcss: [
                 "jqwidgets/styles/jqx.base.css",

@@ -25,7 +25,7 @@ class Monitor extends MY_Controller {
          $this->load->view('Pagenofound');
     }
 
-    public function head_beat($companyname='') {
+    public function heart_beat($companyname='') {
 
         $this->head_beat_url = "/oracle/heartbeat";
         $this->head_beat_status = "";
@@ -59,14 +59,14 @@ class Monitor extends MY_Controller {
                 }
                 $block_data = [];
                 if ($response['state'] != 'fulfilled') {
-                    $error = $response['reason']->getHandlerContext(); 
-                    // output inactive
-                    $block_data['status'] = 'inactive';
-                    $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
-                    $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
-                    $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
-                    $block_data['error_msg'] = $error['error'];
-                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
+                    // $error = $response['reason']->getHandlerContext(); 
+                    // // output inactive
+                    // $block_data['status'] = 'inactive';
+                    // $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
+                    // $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
+                    // $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
+                    // $block_data['error_msg'] = $error['error'];
+                    // $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
             
                     continue;
                 }
@@ -319,7 +319,7 @@ class Monitor extends MY_Controller {
         }
 
 
-        return '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="false">'.$this->render_panel($res_webcache,'webcache','Web Cache', 'in').$this->render_panel($res_session, 'session','Session').$this->render_panel($res_agent,'agent','Agent').$this->render_panel($res_job,'job','Job').'</div>';
+        return '<div class="accordion" id="accordion" role="tablist" aria-multiselectable="false">'.$this->render_panel($res_webcache,'webcache','Web Cache').$this->render_panel($res_session, 'session','Session').$this->render_panel($res_agent,'agent','Agent').$this->render_panel($res_job,'job','Job').'</div>';
     }
 
     private function render_panel($res=array(),$name='', $title='', $in = "") {
@@ -340,7 +340,9 @@ class Monitor extends MY_Controller {
                     continue;
                 }
             }
-            $keyname = md5($key);
+            $keyname = md5($name.$key);
+
+            $redis_content = htmlspecialchars(json_encode($val, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
             $rediskeys .= '<div class="panel inner_accordion">
                     <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="head_'.$keyname.'" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#collap_'.$keyname.'" aria-expanded="true" aria-controls="collap_'.$keyname.'">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
@@ -350,7 +352,7 @@ class Monitor extends MY_Controller {
                             <button class="btn btn-primary redis-copy-to-btn" data-clipboard-action="copy" data-clipboard-target="#copy_'.$keyname.'">
                                     Cut to clipboard
                             </button>
-                            <textarea class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.htmlspecialchars(json_encode($val, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)).'</textarea>
+                            <textarea rows="'.(substr_count($redis_content, "\n")+8).'" class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.$redis_content.'</textarea>
                         </div>
                     </div></div>';   
         }

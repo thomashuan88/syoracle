@@ -41,7 +41,7 @@
                             </li>
                             <li><a><i class="fa fa-edit"></i> Monitors <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: none">
-                                    <li><a href="#" xhref="monitor/head_beat" class="orcle_ajaxload">Head Beat</a>
+                                    <li><a href="#" xhref="monitor/heart_beat" class="orcle_ajaxload">Heart Beat</a>
                                     </li>
                                     <li><a href="#" xhref="monitor/database" class="orcle_ajaxload">Database</a>
                                     </li>

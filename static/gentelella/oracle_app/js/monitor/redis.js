@@ -13,12 +13,12 @@ oracle_app.monitor.redis.scripts = function() {
                 // console.log(data);
                 if (data.status == 'success') {
                     $(href, thiscontent).html(data.html); 
-                    thiscontent.find('textarea').each(function(){
-                        var panel = $(this).closest('.panel-collapse');
-                        panel.addClass('in');
-                        $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
-                        panel.removeClass('in');
-                    });
+                    // thiscontent.find('textarea').each(function(){
+                    //     var panel = $(this).closest('.panel-collapse');
+                    //     panel.addClass('in');
+                    //     $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
+                    //     panel.removeClass('in');
+                    // });
                 }
             },
             error: function(data) {
@@ -67,12 +67,12 @@ oracle_app.monitor.redis.scripts = function() {
     // });
 
 
-    thiscontent.find('textarea').each(function(){
-        var panel = $(this).closest('.panel-collapse');
-        panel.addClass('in');
-        $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
-        panel.removeClass('in');
-    });
+    // thiscontent.find('textarea').each(function(){
+    //     var panel = $(this).closest('.panel-collapse');
+    //     panel.addClass('in');
+    //     $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
+    //     panel.removeClass('in');
+    // });
 
 };
 
