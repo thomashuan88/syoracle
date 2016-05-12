@@ -65,7 +65,8 @@ class Company extends MY_REST_Controller {
         $search_items = array(
             "search_companyname" => $this->input->get("search_companyname", true),
             "search_createtime" => $this->input->get("search_createtime", true),
-            "search_prefix" => $this->input->get("search_prefix", true)
+            "search_prefix" => $this->input->get("search_prefix", true),
+            "search_status" => $this->input->get("search_status", true)
         );
         $this->session->set_userdata("company_list_search", $search_items);
 
@@ -81,6 +82,7 @@ class Company extends MY_REST_Controller {
             );
         }
         if (!empty($search_items['search_prefix'])) $cond['where']['prefix'] = $search_items['search_prefix'];
+        if (!empty($search_items['search_status'])) $cond['where']['status'] = $search_items['search_status'];
 
         return $cond;
     }

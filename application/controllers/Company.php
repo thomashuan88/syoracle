@@ -53,9 +53,22 @@ class Company extends MY_Controller {
                 
             }            
         }
-
-
         $view_data['prefixlist'] = $prefixlist;
+
+        $status_data = $this->Company_model->get_status();
+        $statuslist = '';
+        if (!empty($status_data)) {
+            
+            foreach ($status_data as $val) {
+                if (!empty($company_list_search['search_status'])) {
+                    $statuslist .= '<option selected value="'.$val['val'].'">'.$val['status'].'</option>';
+                } else {
+                    $statuslist .= '<option value="'.$val['val'].'">'.$val['status'].'</option>';
+                }
+                
+            }            
+        }
+        $view_data['statuslist'] = $statuslist;
 
         $this->load->view('company/View', $view_data);
     }

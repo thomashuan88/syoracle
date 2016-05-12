@@ -46,6 +46,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
+                        <div class="control-group group_box">
+                            <label class="list_label" for="status">Status : </label>
+                            <div class="controls list_inputbox">
+                                <div class="input-prepend input-group">
+                                    <select name="status" class="form-control">
+                                        <option value="">-- Select Status --</option>
+                                        <?php echo $statuslist; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <button class="btn btn-success search_btn" type="submit">Search</button>
                     </fieldset>
                 </form>

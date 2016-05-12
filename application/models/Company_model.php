@@ -46,7 +46,20 @@ class Company_model extends MY_Model {
         $this->db_read->select('prefix');
         return $this->get_all();
     }
-
+    public function get_status() {
+        $this->db_read->group_by("status");
+        $this->db_read->select('status');
+        $data = $this->get_all();
+        $result = array();
+        foreach($data as $key => $val) {
+            if ($val['status'] == 1) {
+                $result[] = array('status'=>'Active', 'val' => $val['status']);
+            } else {
+                $result[] = array('status'=>'Inactive', 'val' => $val['status']);
+            }
+        }
+        return $result;
+    }
     // 
 
 }

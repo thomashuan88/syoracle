@@ -58,7 +58,7 @@ oracle_app.company.view.scripts = function() {
             $("#oracle_app_company_view_jqxgrid").jqxGrid('updatebounddata', 'sort');
         },
         sortcolumn: 'createtime',
-        sortdirection: 'asc'
+        sortdirection: 'desc'
 
     };
 
@@ -154,6 +154,7 @@ oracle_app.company.view.scripts = function() {
                 data.search_companyname = searchform.find('input[name=companyname]').val();
                 data.search_createtime = searchform.find('input[name=createtime]').val();
                 data.search_prefix = searchform.find('select[name=prefix]').val();
+                data.search_status = searchform.find('select[name=status]').val();
                 return data;
             }
         });
