@@ -12,7 +12,13 @@ oracle_app.monitor.redis.scripts = function() {
             success: function(data) {
                 // console.log(data);
                 if (data.status == 'success') {
-                    $(href, thiscontent).html(data.html);            
+                    $(href, thiscontent).html(data.html); 
+                    thiscontent.find('textarea').each(function(){
+                        var panel = $(this).closest('.panel-collapse');
+                        panel.addClass('in');
+                        $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
+                        panel.removeClass('in');
+                    });
                 }
             },
             error: function(data) {
