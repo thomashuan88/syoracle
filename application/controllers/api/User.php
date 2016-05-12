@@ -117,7 +117,7 @@ class User extends MY_REST_Controller {
         ];
 
         if (!empty($post['password'])) {
-            $data['password'] = md5($post['password']);
+            $data['password'] = md5($post['password'].$this->config->item("hash_salt"));
         }
 
         $result = $this->User_model->update($data, array("id"=>$post['id']));
