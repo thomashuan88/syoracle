@@ -38,6 +38,7 @@ class Home extends MY_Controller {
 			"js/progressbar/bootstrap-progressbar.min.js",
 			"js/nicescroll/jquery.nicescroll.min.js",
             "js/icheck/icheck.min.js",
+            "js/clipboard.min.js",
 			"js/custom.js",
             "js/oracle_app.js",
             "jqwidgets/jqxcore.js",

@@ -340,14 +340,17 @@ class Monitor extends MY_Controller {
                     continue;
                 }
             }
-            $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
+            $keyname = md5($key);
             $rediskeys .= '<div class="panel inner_accordion">
-                    <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
+                    <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="head_'.$keyname.'" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#collap_'.$keyname.'" aria-expanded="true" aria-controls="collap_'.$keyname.'">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
                     </a>
-                    <div id="'.$keyname.'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$keyname.'_head">
-                        <div class="panel-body fixcontent" style="border:1px solid #ddd; border-top:0">
-                            <pre>'.htmlentities(json_encode($val, JSON_PRETTY_PRINT)).'</pre>
+                    <div id="collap_'.$keyname.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_'.$keyname.'">
+                    <div class="panel-body fixcontent" style="border:1px solid #ddd; border-top:0">
+                            <button class="btn btn-primary redis-copy-to-btn" data-clipboard-action="copy" data-clipboard-target="#copy_'.$keyname.'">
+                                    Cut to clipboard
+                            </button>
+                            <textarea class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.htmlspecialchars(json_encode($val, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)).'</textarea>
                         </div>
                     </div></div>';   
         }

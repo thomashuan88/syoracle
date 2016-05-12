@@ -11,6 +11,7 @@ footer {
     width: calc(100% - 230px);
 }
 
+
 .list_search_form .list_label_first {
     padding: 8px;
     float: left;
@@ -59,4 +60,10 @@ a.inner-head {
 }
 a.inner-head * {
     font-size: 12px;
+}
+
+.accordion .panel-heading {
+    padding:9px;
+    padding-top: 12px;
+    padding-left: 12px;
 }

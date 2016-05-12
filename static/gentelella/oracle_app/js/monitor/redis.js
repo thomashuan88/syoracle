@@ -52,5 +52,21 @@ oracle_app.monitor.redis.scripts = function() {
         }); 
         return false;
     });
+
+    var clipboard = new Clipboard('.redis-copy-to-btn');
+
+    // thiscontent.find('textarea').keyup(function(){
+    //     this.style.height = "1px";
+    //     this.style.height = (25+this.scrollHeight)+"px";
+    // });
+
+
+    thiscontent.find('textarea').each(function(){
+        var panel = $(this).closest('.panel-collapse');
+        panel.addClass('in');
+        $(this).css({'height':'auto','overflow-y':'hidden'}).height($(this)[0].scrollHeight);
+        panel.removeClass('in');
+    });
+
 };
 

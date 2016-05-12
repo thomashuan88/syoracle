@@ -108,7 +108,7 @@ class Monitor extends MY_REST_Controller {
                     continue;
                 }
             }
-            $keyname = preg_replace('/[^a-z0-9]/i', '_', $key);
+            $keyname = md5($key);
             $rediskeys .= '<div class="panel inner_accordion">
                     <a style="border:1px solid #ddd" class="panel-heading inner-head" role="tab" id="'.$keyname.'_head" data-toggle="collapse" data-parent="#'.$name.'_accordion" href="#'.$keyname.'_collap" aria-expanded="true" aria-controls="'.$keyname.'_collap">
                         <h4 class="panel-title"><strong>'.$key.'</strong></h4>
