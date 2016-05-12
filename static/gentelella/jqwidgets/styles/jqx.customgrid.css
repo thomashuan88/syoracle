@@ -991,7 +991,7 @@ input[type="password"].jqx-input-customgrid:-ms-input-placeholder, input[type="p
 }
 .jqx-widget-customgrid .jqx-grid-cell-sort-customgrid, .jqx-widget-customgrid .jqx-grid-cell-filter-customgrid, .jqx-widget-customgrid .jqx-grid-cell-pinned-customgrid, .jqx-grid-cell-sort-customgrid, .jqx-grid-cell-filter-customgrid, .jqx-grid-cell-pinned-customgrid
 {
-  background-color: #E5E5E5;
+  /*background-color: #E5E5E5;*/
   color: #73879C;
   text-shadow: none;
 }

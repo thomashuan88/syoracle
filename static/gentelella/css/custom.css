@@ -771,7 +771,7 @@ li.current-page a {
 
 .site_title {
     text-overflow: ellipsis;
-    overflow: hidden;
+    /*overflow: hidden;*/
     font-weight: 400;
     font-size: 25px;
     width: 100%;

@@ -24,3 +24,10 @@ $hook['post_controller'][] = array(
     'filename' => 'Layout.php',
     'filepath' => 'hooks'
 );
+
+$hook['post_controller_constructor'][] = array(
+    'class'    => 'Log',
+    'function' => 'create_log',
+    'filename' => 'Log.php',
+    'filepath' => 'hooks'
+);
