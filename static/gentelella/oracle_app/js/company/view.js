@@ -75,8 +75,8 @@ oracle_app.company.view.scripts = function() {
     };
 
     var colmodel = [
-        { text: 'Company Id', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
-        { text: 'Company Name', datafield: 'companyname', width: '15%', cellsrenderer: cellsrenderer },
+        { text: 'Id', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
+        { text: 'Name', datafield: 'companyname', width: '15%', cellsrenderer: cellsrenderer },
         { text: 'Description', datafield: 'description', width: '20%', cellsrenderer: cellsrenderer },
         { text: 'Prefix', datafield: 'prefix', width: '5%', cellsrenderer: cellsrenderer },
         { text: 'Job URL', datafield: 'joburl', width: '20%', cellsrenderer: cellsrenderer },

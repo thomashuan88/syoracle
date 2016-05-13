@@ -78,11 +78,11 @@ oracle_app.user.view.scripts = function() {
     };
 
     var colmodel = [
-        { text: 'User Id', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
-        { text: 'User Name', datafield: 'username', width: '15%', cellsrenderer: cellsrenderer },
+        { text: 'ID', datafield: 'id', width: '5%', cellsrenderer: cellsrenderer },
+        { text: 'UserName', datafield: 'username', width: '15%', cellsrenderer: cellsrenderer },
         { text: 'Email', datafield: 'email', width: '20%', cellsrenderer: cellsrenderer },
         { text: 'Group', datafield: 'usergroup_name', width: '5%', cellsrenderer: cellsrenderer },
-        { text: 'Last Login Time', datafield: 'last_logintime', width: '10%', cellsrenderer: cellsrenderer },
+        { text: 'Last Login', datafield: 'last_logintime', width: '10%', cellsrenderer: cellsrenderer },
         { text: 'Created Time', datafield: 'createtime', width: '10%', cellsrenderer: cellsrenderer },
         { text: 'Created By', datafield: 'createby', width: '10%', cellsrenderer: cellsrenderer },
         { text: 'Update Time', datafield: 'updatetime', width: '10%', cellsrenderer: cellsrenderer },

@@ -24,10 +24,10 @@ oracle_app.user.changepassword.scripts = function() {
     });
 
 
-    oracle_app_user_changepassword_form.find('button:reset').click(function(){
-        $(".side-menu a[xhref='user/view']").trigger('click');
-        return false;
-    });
+    // oracle_app_user_changepassword_form.find('button:reset').click(function(){
+    //     $(".side-menu a[xhref='user/view']").trigger('click');
+    //     return false;
+    // });
 
     oracle_app_user_changepassword_form.find('.btn').on('click', function() {
         oracle_app_user_changepassword_form.parsley().validate();
@@ -62,9 +62,12 @@ oracle_app.user.changepassword.scripts = function() {
 
         $.post(oracle_app.baseurl + 'api/user/passwordupdate', post_data, function(data){
             if (data.status == 'success') {
-                $(".side-menu a[xhref='user/view']").trigger('click');
+                swal("Password Change", "Successfully Change Password.", "");
+
+                $(".top_nav a[xhref='user/changepassword']").trigger('click');
+
             } else {
-                swal("Saved Fail", "Company data saved fail.", "error");
+                swal("Password Change", "Change Password Fail.", "error");
             }
         }, 'json');
 

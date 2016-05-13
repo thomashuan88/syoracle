@@ -94,10 +94,10 @@ class User extends MY_REST_Controller {
     private function format_records($records=array()) {
         $result = array();
         foreach ($records as $key => $val) {
-            $val['status'] = ($val['status'] == '1')?'active':'inactive';
-            $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s', $val['createtime']):'';
-            $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s', $val['updatetime']):'';
-            $val['last_logintime'] = ($val['last_logintime'] > 0)?date('Y-m-d h:i:s', $val['last_logintime']):'';
+            $val['status'] = ($val['status'] == '1')?'<span class="label label-success">active</span>':'<span class="label label-fail">inactive</span>';
+            $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s a', $val['createtime']):'';
+            $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s a', $val['updatetime']):'';
+            $val['last_logintime'] = ($val['last_logintime'] > 0)?date('Y-m-d h:i:s a', $val['last_logintime']):'';
             $result[$key] = $val;
         }
         return $result;

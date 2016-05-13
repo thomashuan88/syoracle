@@ -11,7 +11,12 @@ footer {
     width: calc(100% - 230px);
 }
 
-
+.label-success {
+    background-color: #5cb85c;
+}
+.label-fail {
+    background-color: #d9534f;
+}
 .list_search_form .list_label_first {
     padding: 8px;
     float: left;

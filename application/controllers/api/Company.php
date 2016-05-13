@@ -90,9 +90,9 @@ class Company extends MY_REST_Controller {
     private function format_records($records=array()) {
         $result = array();
         foreach ($records as $key => $val) {
-            $val['status'] = ($val['status'] == '1')?'active':'inactive'; 
-            $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s', $val['createtime']):'';
-            $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s', $val['updatetime']):'';
+            $val['status'] = ($val['status'] == '1')?'<span class="label label-success">active</span>':'<span class="label label-fail">inactive</span>';
+            $val['createtime'] = ($val['createtime'] > 0)?date('Y-m-d h:i:s a', $val['createtime']):'';
+            $val['updatetime'] = ($val['updatetime'] > 0)?date('Y-m-d h:i:s a', $val['updatetime']):'';
             $result[$key] = $val;
         }
         return $result;
@@ -112,7 +112,7 @@ class Company extends MY_REST_Controller {
             "updatetime" => time(),
             "updateby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
-        ];        
+        ];
         $result = $this->Company_model->update($data, array("id"=>$post['id']));
         if ($result) {
             $this->response(["status"=>"success"], 200);
@@ -138,7 +138,7 @@ class Company extends MY_REST_Controller {
             "createby" => $this->userinfo['username'],
             "status" => ($post['status'] == 'active')?'1':'2'
         ];
-            
+
         $result = $this->Company_model->insert($data);
         if ($result) {
             $this->response(["status"=>"success"], 200);
@@ -158,15 +158,15 @@ class Company extends MY_REST_Controller {
         if (!empty($currentid)) {
             if (!empty($data) && $data['id'] != $currentid) {
                 $this->response(["error"=>"Company Name Already Exist"], 404);
-            } 
+            }
             if ($data['status'] == 2 && $data['id'] != $currentid) {
                 $this->response(["error"=>"Company Name Inactive"], 404);
-            }                           
+            }
         } else {
             if (!empty($data)) {
                 $this->response(["error"=>"Company Name Already Exist"], 404);
-            }  
-                    
+            }
+
         }
 
         $this->response([], 200);
