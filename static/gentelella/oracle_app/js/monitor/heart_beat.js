@@ -5,18 +5,20 @@ oracle_app.monitor.heart_beat.scripts = function() {
     refresh_btn.click(function() {
         var cid = $(this).attr('cid');
         var title = $(this).closest('div.x_title');
-
+        title.find('.loading_img img').show();
         $.ajax({
             type: "GET",
             url: oracle_app.baseurl + 'api/monitor/heart_beat_refresh/' + cid,
             dataType: 'json',
             global: false,
             success: function(data) {
-                title.siblings('div.x_content').html(data.html);                
+                title.siblings('div.x_content').html(data.html);   
+                title.find('.loading_img img').hide();             
             },
             error: function(data) {
                 var message = $.parseJSON(data.responseText);
-                title.siblings('div.x_content').html('<span style="color:red">'+message.error.message.replace(/\(.*\)/,'')+'</span>');                
+                title.siblings('div.x_content').html('<span style="color:red">'+message.error.message.replace(/\(.*\)/,'')+'</span>');   
+                title.find('.loading_img img').hide();             
             }
         });
 

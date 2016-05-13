@@ -2,7 +2,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><?php echo $companyname; ?> <small><?php // echo $head_beat_status; ?></small></h2>
+                <h2><?php echo $companyname; ?> <span class="loading_img"><img src="<?php echo $this->include_path; ?>images/loading2.gif" style="display:none;opacity: 0.6;filter: alpha(opacit=60);" /></span><small><?php // echo $head_beat_status; ?></small></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li class="current-page"><a href="#" class="oracle_app_monitor_heart_beat_refresh_btn" cid="<?php echo $cid; ?>"><i class="fa fa-refresh"></i> Refresh</a>
                     </li>
