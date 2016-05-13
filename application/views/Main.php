@@ -28,9 +28,6 @@
                                 <ul class="nav child_menu" style="display: none">
                                     <li><a href="#" xhref="user/view" class="orcle_ajaxload">View User</a>
                                     </li>
-                                    <li><a href="#" xhref="user/add" class="orcle_ajaxload">Add User</a>
-                                    </li>
-
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-home"></i> Company Management <span class="fa fa-chevron-down"></span></a>

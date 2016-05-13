@@ -117,7 +117,7 @@ class Monitor extends MY_REST_Controller {
                     <div id="collap_'.$keyname.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_'.$keyname.'">
                     <div class="panel-body fixcontent" style="border:1px solid #ddd; border-top:0">
                             <button class="btn btn-primary redis-copy-to-btn" data-clipboard-action="copy" data-clipboard-target="#copy_'.$keyname.'">
-                                    Cut to clipboard
+                                    Copy to clipboard
                             </button>
                             <textarea rows="'.(substr_count($redis_content, "\n")+8).'" class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.$redis_content.'</textarea>
                         </div>
@@ -251,46 +251,16 @@ class Monitor extends MY_REST_Controller {
 
         $result = json_decode($response->getBody(), true);
 
-        $html =  '<table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <td style="text-align: right;width:50%">Clear Gateway : </td>
-                            <td style="width:50%">'.$result['clear_gateway_accumulate_amount']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Overdue Deposit : </td>
-                            <td style="width:50%">'.$result['handle_overdue_deposit']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Member Level Upgrade : </td>
-                            <td style="width:50%">'.$result['monthly_member_upgrade']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Member Level Pre Upgrade : </td>
-                            <td style="width:50%">'.$result['monthly_member_upgrade_pre']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Reject Friend Referral : </td>
-                            <td style="width:50%">'.$result['event_reject_friend_referral']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Agent Comm Pre : </td>
-                            <td style="width:50%">'.$result['monthly_agent_commission_send_pre']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Agent Comm Sent : </td>
-                            <td style="width:50%">'.$result['monthly_agent_commission_send']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Monthly Agent Suspend : </td>
-                            <td style="width:50%">'.$result['monthly_agent_suspend']['start'].'</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;width:50%">Game Balance : </td>
-                            <td style="width:50%">'.$result['game_balance']['start'].'</td>
-                        </tr>
-                    </tbody>
-                </table>';
+        if (empty($result)) {
+            $error['msg'] = "Wrong URL.";
+            $this->response($error, 200);  
+        }
+
+        $html = "";
+
+        $html .= $this->load->view('monitor/Heart_beat_refresh', array("heart_beat"=>$result, "companyname"=>$data['companyname']), true);
+
+
         $this->response(["status"=>"success", "html"=>$html], 200);
 
     }

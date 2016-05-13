@@ -86,6 +86,8 @@ class User extends MY_REST_Controller {
             );
         }
 
+        $cond['where'] = array_merge($cond['where'], array("username !="=>$this->userinfo['username']));
+
         return $cond;
     }
 

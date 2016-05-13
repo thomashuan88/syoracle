@@ -54,19 +54,19 @@ class Monitor extends MY_Controller {
             $result = [];
             foreach ($responses as $key => $response) {
 
-                if ($key % 2 == 0) {
-                    $block .= '<div class="clearfix"></div>';
-                }
+                // if ($key % 2 == 0) {
+                //     $block .= '<div class="clearfix"></div>';
+                // }
                 $block_data = [];
                 if ($response['state'] != 'fulfilled') {
-                    // $error = $response['reason']->getHandlerContext(); 
-                    // // output inactive
-                    // $block_data['status'] = 'inactive';
-                    // $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
-                    // $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
-                    // $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
-                    // $block_data['error_msg'] = $error['error'];
-                    // $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
+                    $error = $response['reason']->getHandlerContext(); 
+                    // output inactive
+                    $block_data['status'] = 'inactive';
+                    $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
+                    $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
+                    $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
+                    $block_data['error_msg'] = $error['error'];
+                    $block .= $this->load->view("monitor/Heart_beat_block", $block_data, true);
             
                     continue;
                 }
@@ -77,33 +77,23 @@ class Monitor extends MY_Controller {
                 $output = ob_get_contents();
 
                 ob_end_clean();
-                $result = json_decode($output);
+                $result = json_decode($output, true);
 
                 if (!empty($result)) {
                     $block_data['status'] = 'active';
                     $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
                     $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
                     $block_data['head_beat_status'] = '<i class="fa fa-check-square" style="color:green"></i> Active';
-                    $block_data['clear_gateway_accumulate_amount'] = $result->clear_gateway_accumulate_amount->start;
-                    $block_data['handle_overdue_deposit'] = $result->handle_overdue_deposit->start;
-                    $block_data['monthly_member_upgrade'] = $result->monthly_member_upgrade->start;
-                    $block_data['monthly_member_upgrade_pre'] = $result->monthly_member_upgrade_pre->start;
-                    $block_data['event_reject_friend_referral'] = $result->event_reject_friend_referral->start;
-                    $block_data['monthly_agent_commission_send_pre'] = $result->monthly_agent_commission_send_pre->start;
-                    $block_data['monthly_agent_commission_send'] = $result->monthly_agent_commission_send->start;
-                    $block_data['monthly_agent_suspend'] = $result->monthly_agent_suspend->start;
-                    $block_data['game_balance'] = $result->game_balance->start;
-                    // $block_data = array_merge($result, $block_data);
+                    $block_data['heart_beat'] = $result;
 
-                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);                    
+                    $block .= $this->load->view("monitor/Heart_beat_block", $block_data, true);                    
                 } else {
-                    $block_data['status'] = 'active';
                     $block_data['companyname'] = $this->head_beat_urls[$key]['companyname'];
                     $block_data['cid'] = $this->head_beat_urls[$key]['cid'];
                     $block_data['head_beat_status'] = '<i class="fa fa-minus-square" style="color:red"></i> Inactive';
                     $block_data['error_msg'] = "Wrong URL";
                     $block_data['status'] = "inactive";
-                    $block .= $this->load->view("monitor/Head_beat_block", $block_data, true);
+                    $block .= $this->load->view("monitor/Heart_beat_block", $block_data, true);
                 }
 
 
@@ -118,7 +108,7 @@ class Monitor extends MY_Controller {
     private function gen_head_beat_urls() {
         // get all company
         $result = array();
-        $data = $this->Company_model->get_all();
+        $data = $this->Company_model->get_all(array("status"=>"1"));
         if (empty($data)) {
             return $result;
         }
@@ -147,7 +137,7 @@ class Monitor extends MY_Controller {
             $this->Company_model->db_read->like("companyname", $this->search_items['search_companyname']);
         }
 
-        $data = $this->Company_model->get_all();
+        $data = $this->Company_model->get_all(array("status"=>"1"));
         $tabs = '';
         $contents = '';
         if (!empty($data)) {
@@ -258,7 +248,7 @@ class Monitor extends MY_Controller {
             $this->Company_model->db_read->like("companyname", $this->search_items['search_companyname']);
         }
 
-        $data = $this->Company_model->get_all();
+        $data = $this->Company_model->get_all(array("status"=>"1"));
         $tabs = '';
         $contents = '';
         if (!empty($data)) {
@@ -350,7 +340,7 @@ class Monitor extends MY_Controller {
                     <div id="collap_'.$keyname.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="head_'.$keyname.'">
                     <div class="panel-body fixcontent" style="border:1px solid #ddd; border-top:0">
                             <button class="btn btn-primary redis-copy-to-btn" data-clipboard-action="copy" data-clipboard-target="#copy_'.$keyname.'">
-                                    Cut to clipboard
+                                    Copy to clipboard
                             </button>
                             <textarea rows="'.(substr_count($redis_content, "\n")+8).'" class="form-control" id="copy_'.$keyname.'" style="width:100%;">'.$redis_content.'</textarea>
                         </div>

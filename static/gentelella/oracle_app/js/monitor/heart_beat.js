@@ -5,7 +5,6 @@ oracle_app.monitor.heart_beat.scripts = function() {
     refresh_btn.click(function() {
         var cid = $(this).attr('cid');
         var title = $(this).closest('div.x_title');
-        var small = title.find('h2 small');
 
         $.ajax({
             type: "GET",
@@ -13,12 +12,10 @@ oracle_app.monitor.heart_beat.scripts = function() {
             dataType: 'json',
             global: false,
             success: function(data) {
-                small.html('<i class="fa fa-check-square" style="color:green"></i> Active');
                 title.siblings('div.x_content').html(data.html);                
             },
             error: function(data) {
                 var message = $.parseJSON(data.responseText);
-                small.html('<i class="fa fa-minus-square" style="color:red"></i> Inactive');
                 title.siblings('div.x_content').html('<span style="color:red">'+message.error.message.replace(/\(.*\)/,'')+'</span>');                
             }
         });

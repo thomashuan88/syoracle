@@ -1,4 +1,4 @@
-<div id="oracle_app_monitor_head_beat_view">
+<div id="oracle_app_monitor_head_beat_view" style="background-color:white;margin-top:12px;padding:10px;padding-bottom:20px; margin-bottom:30px">
     <div class="page-title">
         <div class="x_title">
             <h2>Head Beat</h2>

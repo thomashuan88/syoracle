@@ -1,4 +1,4 @@
-<div id="oracle_app_monitor_database_view">
+<div id="oracle_app_monitor_database_view"  style="background-color:white;margin-top:12px;padding:10px;padding-bottom:20px; margin-bottom:30px">
     <div class="x_title">
         <h2>Database</h2>
         <div class="clearfix"></div>
@@ -29,24 +29,26 @@
     </div>
     <div class="clearfix"></div>
     <br />
-    <?php if (empty($tabs)):?>
-    <div class="col-xs-12">
-        <span style="color:red">No Record found.</span>
-    </div>
-    <?php else: ?>
-    <div class="col-xs-3">
-        <!-- required for floating -->
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs tabs-left">
-            <?php echo $tabs; ?>
-        </ul>
-    </div>
-    <div class="col-xs-9">
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <?php echo $contents; ?>
+    <div style="background-color:#eee;padding-top:10px;padding-right:10px;padding-bottom:10px;">
+        <?php if (empty($tabs)):?>
+        <div class="col-xs-12">
+            <span style="color:red">No Record found.</span>
         </div>
+        <?php else: ?>
+        <div class="col-xs-3" style="padding-right:0">
+            <!-- required for floating -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs tabs-left">
+                <?php echo $tabs; ?>
+            </ul>
+        </div>
+        <div class="col-xs-9" style="padding-right:0px;padding-left:0;background-color:white;margin-top:2px;">
+            <!-- Tab panes -->
+            <div class="tab-content" style="padding:10px;">
+                <?php echo $contents; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="clearfix"></div>    
     </div>
-    <?php endif; ?>
-    <div class="clearfix"></div>    
 </div>
