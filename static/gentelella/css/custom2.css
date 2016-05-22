@@ -78,3 +78,8 @@ a.inner-head * {
     padding-top: 12px;
     padding-left: 12px;
 }
+
+#answer_form * {
+    float:left;
+}
+

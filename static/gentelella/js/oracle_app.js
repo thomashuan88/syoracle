@@ -306,6 +306,10 @@ $(function() {
     });
 
     oracle_app.load_module_content = function(href) {
+        if (oracle_app.check_database_expire) {
+            clearInterval(oracle_app.check_database_expire);
+            delete oracle_app.check_database_expire;
+        }
 
         var controller = href.split("/");
 

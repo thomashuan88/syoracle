@@ -50,10 +50,18 @@ class Acl {
             } else {
                 redirect('login');
             }
-        } else {
-            $this->CI->userinfo = $userinfo;
-            return;
         }
+
+        $this->CI->userinfo = $userinfo;
+
+        $database_expire = $this->CI->predis->get('database_expire');
+        if (!empty($database_expire)) {
+            $database_interval_check = $this->CI->uri->segment(3);
+            if ($database_interval_check != 'database_interval_check') {
+                $this->CI->predis->set('database_expire','yes', 120);
+            }
+        }
+        return;
 
         $user = $this->CI->config->item('jwt_token');
         if(empty($user)) {

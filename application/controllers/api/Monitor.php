@@ -218,6 +218,27 @@ class Monitor extends MY_REST_Controller {
         ]);
     }
 
+    public function database_interval_check_get() {
+        $database_expire = $this->predis->get("database_expire");
+        if (empty($database_expire)) {
+            $this->response(array("status"=>"error"), 200);
+        } else {
+            $this->response(array("status"=>"success"), 200);
+        }
+    }
+
+    public function database_check_answer_get() {
+        $answer = $this->input->get('answer', true);
+
+        $database_answer = $this->session->userdata('database_answer');
+
+        if ($answer == $database_answer) {
+            $this->predis->set('database_expire','yes', 120);
+            $this->response(array("status"=>"success"), 200);
+        } else {
+            $this->response(array("status"=>"error"), 200);
+        }
+    }
     public function heart_beat_refresh_get($cid=0)
     {
         // $this->some_model->update_user( ... );

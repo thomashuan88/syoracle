@@ -124,7 +124,24 @@ class Monitor extends MY_Controller {
         return $result;
     }
 
-    public function database($companyname='') {
+    private function database_access() {
+        $database_expire = $this->predis->get('database_expire');
+        if (empty($database_expire)) {
+            $r1 = rand(1,10);
+            $r2 = rand(1,10);
+            $r3 = rand(1,10);
+
+            $answer = $r1 + $r2 + $r3 + 80;
+            $this->session->set_userdata('database_answer', $answer);
+
+            $view_data['question'] = $r1.' + '.$r2.' + '.$r3;
+            echo $this->load->view('monitor/Database_question', $view_data, true);
+            exit;
+        }
+    }
+
+    public function database() {
+        $this->database_access();
         $this->search_items = array(
             "search_companyname" => $this->input->get("companyname", true),
             "search_tablename" => $this->input->get("tablename", true)
@@ -194,7 +211,7 @@ class Monitor extends MY_Controller {
             return '<span style="color:red">Wrong URL</span>';
         }
         $result = '';
-        $result .= '<div class="accordion" role="tablist" aria-multiselectable="true">';
+        $result .= '<div class="accordion" id="accordion_database" role="tablist" aria-multiselectable="true">';
         foreach ($res as $key => $val) {
             if (!empty($this->search_items['search_tablename'])) {
                 if (false === strpos($val['tableName'], $this->search_items['search_tablename'])) {
@@ -202,7 +219,7 @@ class Monitor extends MY_Controller {
                 }
             }
             $result .= '<div class="panel">
-                    <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
+                    <a class="panel-heading" role="tab" id="'.$val['tableName'].'_head" data-toggle="collapse" data-parent="#accordion_database" href="#'.$val['tableName'].'_collap" aria-expanded="true" aria-controls="'.$val['tableName'].'_collap">
                         <h4 class="panel-title">'.$val['tableName'].'</h4>
                     </a>
                     <div id="'.$val['tableName'].'_collap" class="panel-collapse collapse" role="tabpanel" aria-labelledby="'.$val['tableName'].'_head">

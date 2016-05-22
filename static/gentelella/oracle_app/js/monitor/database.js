@@ -53,5 +53,23 @@ oracle_app.monitor.database.scripts = function() {
         }); 
         return false;
     });
+
+    oracle_app.check_database_expire = setInterval(function(){
+        // check if database expire
+        var url = oracle_app.baseurl + 'api/monitor/database_interval_check';
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                if (data.status == 'error') {
+                    clearInterval(oracle_app.check_database_expire);
+                    delete oracle_app.check_database_expire;
+                    oracle_app.load_module_content('monitor/database');
+                }
+            }
+        });
+    }, 123*1000);
 };
 
