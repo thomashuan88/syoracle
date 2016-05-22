@@ -30,7 +30,7 @@
                             <div class="controls list_inputbox">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" style="width: 200px" name="createtime" class="form-control" value="<?php echo empty($company_list_search['search_createtime'])?'':$company_list_search['search_createtime']; ?>" />
+                                    <input type="text" style="width: 200px" name="createtime" class="form-control" valuex="<?php echo empty($company_list_search['search_createtime'])?'':$company_list_search['search_createtime']; ?>" />
                                 </div>
                             </div>
                         </div>

@@ -6,10 +6,17 @@ oracle_app.company.view.scripts = function() {
         locale: {
           format: 'YYYY-MM-DD'
         },
+        "autoApply": true,
+        "autoUpdateInput": true,
         "opens": "left"
     }).on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
-    });
+    }).on('show.daterangepicker', function(ev, picker) {
+        var valuex = $(this).attr('valuex');
+        if (valuex) {
+            $(this).val(valuex);
+        }
+    }).val('');
 
     var source = {
         datatype: "json",
